@@ -61,14 +61,6 @@
             text-align: center;
             padding-top: 15px;
         }
-        .card-meta {
-            display: flex;
-            justify-content: space-around;
-            color: #666;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
         .card-title {
             font-size: 1.5rem;
             color: #222;
@@ -136,11 +128,11 @@
                 Apri Mappa
             </button>
             <div class="action-buttons-secondary">
-                <button class="action-button-secondary" id="startQrButton" onclick="window.location.href='scan.html'">
+                <button class="action-button-secondary" id="startQrButton" onclick="navigaA('scan')">
                     <i class="bi bi-upc-scan"></i>
                     <span>Scansiona QR</span>
                 </button>
-                <button class="action-button-secondary" id="reportButton" onclick="window.location.href='segnala.html'">
+                <button class="action-button-secondary" id="reportButton" onclick="navigaA('segnala')">
                     <i class="bi bi-flag"></i>
                     <span>Segnala</span>
                 </button>
@@ -149,21 +141,25 @@
     </div>
 
     <script>
-        // Bottone Avvia percorso
+        // Gestione corretta della navigazione per il bottone Mappa
         document.getElementById('startMapButton').addEventListener('click', () => {
-            window.location.href = 'mappa.html';
+            navigaA('mappa');
         });
 
-        // Collega ogni card del carosello alla pagina tappa corrispondente
+        // Gestione click sulle card del carosello
         const cards = Array.from(document.querySelectorAll('.card'));
         cards.forEach(card => {
             card.addEventListener('click', () => {
                 const page = card.getAttribute('data-page');
                 if (page) {
-                    window.location.href = page;
+                    // Estrae il nome pulito della pagina rimuovendo l'estensione .html se presente
+                    const nomePulito = page.replace('.html', '');
+                    navigaA(nomePulito);
                 }
             });
         });
+
+        // Effetto ingrandimento dinamico al centro del carosello
         const carousel = document.querySelector('.carousel');
         if (carousel) {
             carousel.addEventListener('scroll', () => {
@@ -188,13 +184,22 @@
         <p>Collaborazioni: IIS Romani, Persona Ambiente, Comune di Casalmaggiore</p>
     </footer>
 
-
     <script>
-      // Funzione globale JavaScript per cambiare pagina su Google Apps Script
+      /**
+       * Gestore universale della navigazione.
+       * Rileva automaticamente se l'applicazione sta girando su Google Apps Script 
+       * o come sito statico (es. GitHub Pages) e reindirizza all'URL corretto.
+       */
       function navigaA(nomePagina) {
-        google.script.run.withSuccessHandler(function(url) {
-          window.top.location.href = url + '?p=' + nomePagina;
-        }).getScriptUrl();
+        if (typeof google !== 'undefined' && google.script && google.script.run) {
+          // Ambiente Google Apps Script
+          google.script.run.withSuccessHandler(function(url) {
+            window.top.location.href = url + '?p=' + nomePagina;
+          }).getScriptUrl();
+        } else {
+          // Ambiente GitHub Pages / Locale statico
+          window.location.href = nomePagina + '.html';
+        }
       }
     </script>
 </body>
