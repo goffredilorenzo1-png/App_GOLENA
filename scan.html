@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
@@ -305,7 +305,7 @@
                 </svg>
             </div>
             <h1 class="title">Accesso alla Fotocamera</h1>
-            <p class="description">Per scansionare i QR code delle tappe, abbiamo bisogno di accedere alla fotocamera.</p>
+            <p class="description">Per aprire le pagine web delle tappe, abbiamo bisogno di accedere alla fotocamera.</p>
             
             <button class="btn-green" id="btn-consent">Consenti Accesso</button>
             <button class="btn-link" id="btn-cancel-permission">Torna Indietro</button>
@@ -336,7 +336,7 @@
                     <div class="qr-icon" id="status-icon">
                         <i class="bi bi-qr-code"></i>
                     </div>
-                    <p class="scan-text" id="status-text">Inquadra il QR code posizionato sulla tappa</p>
+                    <p class="scan-text" id="status-text">Inquadra il QR code posizionato sulla tappa per aprire la pagina</p>
                 </div>
             </div>
 
@@ -345,9 +345,6 @@
     </div>
 
     <script>
-        // ⚠️ INSERISCI QUI L'URL COPIATO DA GOOGLE APPS SCRIPT AL PASSO 1
-        const GOOGLE_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxjb6a_LPdNMjSAuWYQdI01lY6nj1OIyuMVOruMOqGvXJ2Hfw6njpsgOMng1rKgNHtBuA/exec";
-
         const screenPermission = document.getElementById('screen-permission');
         const screenScanner = document.getElementById('screen-scanner');
         const btnConsent = document.getElementById('btn-consent');
@@ -376,9 +373,8 @@
                 { facingMode: "environment" }, 
                 config,
                 (decodedText, decodedResult) => {
-                    // Esegui la registrazione solo se non sta già elaborando un codice precedente
                     if (!isProcessing) {
-                        inviaDatiAlFoglio(decodedText);
+                        gestisciQrScansionato(decodedText);
                     }
                 },
                 (errorMessage) => {
@@ -391,14 +387,9 @@
             });
         }
 
-        function inviaDatiAlFoglio(valoreQr) {
+        function gestisciQrScansionato(valoreQr) {
             isProcessing = true;
             
-            // Cambia l'interfaccia visiva (Effetto Caricamento)
-            statusText.innerText = "Invio in corso a Google Sheets...";
-            statusIcon.innerHTML = '<i class="bi bi-cloud-arrow-up-fill" style="color: #ffeeba;"></i>';
-            corners.forEach(c => c.style.borderColor = "#ffeeba");
-
             // Feedback sonoro (Bip)
             try {
                 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -408,40 +399,46 @@
                 o.start(); o.stop(audioCtx.currentTime + 0.1);
             } catch(e) {}
 
-            // Chiamata asincrona CORS-friendly verso Google Apps Script
-            fetch(GOOGLE_WEB_APP_URL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ qr: valoreQr })
-            })
-            .then(() => {
-                // Successo visivo (Mirino diventa verde brillante)
-                statusText.innerText = "Registrato! Tappa completata.";
-                statusIcon.innerHTML = '<i class="bi bi-check-circle-fill" style="color: #28a745;"></i>';
+            // Pulizia del testo per evitare spazi bianchi accidentali
+            const urlDestinazione = valoreQr.trim();
+
+            // Controllo se il testo scansionato è effettivamente un URL valido
+            if (urlDestinazione.startsWith('http://') || urlDestinazione.startsWith('https://')) {
+                
+                // Feedback visivo di successo prima del reindirizzamento
+                statusText.innerText = "Apertura pagina in corso...";
+                statusIcon.innerHTML = '<i class="bi bi-box-arrow-up-right" style="color: #28a745;"></i>';
                 corners.forEach(c => c.style.borderColor = "#28a745");
 
-                // Pausa di 3 secondi prima di riprendere la scansione
-                setTimeout(() => {
-                    statusText.innerText = "Inquadra il QR code posizionato sulla tappa";
-                    statusIcon.innerHTML = '<i class="bi bi-qr-code"></i>';
-                    corners.forEach(c => c.style.borderColor = "#81c028");
-                    isProcessing = false;
-                }, 3000);
-            })
-            .catch((errore) => {
-                console.error(errore);
-                statusText.innerText = "Errore di connessione. Riprova.";
+                // Ferma la fotocamera prima di cambiare pagina (buona norma per non lasciare la cam attiva)
+                if (html5QrCode && html5QrCode.isScanning) {
+                    html5QrCode.stop().then(() => {
+                        // Apre la pagina nello stesso tab della web app
+                        window.location.href = urlDestinazione;
+                    }).catch(() => {
+                        window.location.href = urlDestinazione;
+                    });
+                } else {
+                    window.location.href = urlDestinazione;
+                }
+
+            } else {
+                // Se il QR non contiene un link valido, mostra un errore temporaneo
+                statusText.innerText = "Il codice non contiene un link valido.";
                 statusIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill" style="color: #dc3545;"></i>';
                 corners.forEach(c => c.style.borderColor = "#dc3545");
                 
+                // Opzionale: mostra cosa c'era scritto dentro
+                console.log("Contenuto QR non supportato:", urlDestinazione);
+
+                // Ripristina lo scanner dopo 3 secondi
                 setTimeout(() => {
-                    statusText.innerText = "Inquadra il QR code posizionato sulla tappa";
+                    statusText.innerText = "Inquadra il QR code posizionato sulla tappa per aprire la pagina";
                     statusIcon.innerHTML = '<i class="bi bi-qr-code"></i>';
                     corners.forEach(c => c.style.borderColor = "#81c028");
                     isProcessing = false;
                 }, 3000);
-            });
+            }
         }
 
         function stopScanner() {
