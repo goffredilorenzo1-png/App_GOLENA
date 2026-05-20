@@ -68,7 +68,7 @@
             font-size: 26px;
             font-weight: 700;
             color: #ffffff;
-            opacity: 0.35; 
+            opacity: 0.35;
             margin-bottom: 16px;
         }
 
@@ -114,7 +114,7 @@
         /* SCHERMATA 2: INTERFACCIA VIDEO (A TUTTO SCHERMO)     */
         /* ---------------------------------------------------- */
         #screen-scanner {
-            display: none; 
+            display: none;
             flex-direction: column;
             height: 100%;
             width: 100%;
@@ -143,8 +143,7 @@
             object-fit: cover !important;
         }
 
-        /* COMPLETA RIMOZIONE DEL LAYOUT STRUTTURALE DELLA LIBRERIA NATIVA */
-        #reader #reader__scan_region, 
+        #reader #reader__scan_region,
         #reader__scan_region fieldset,
         #reader__scan_region div,
         #qr-shaded-region {
@@ -155,10 +154,9 @@
         }
         #reader img { display: none !important; }
 
-        /* HEADER FLUTTUANTE SOPRA IL VIDEO */
         .floating-header {
             position: absolute;
-            top: 28px; 
+            top: 28px;
             left: 0;
             width: 100%;
             height: 50px;
@@ -201,9 +199,6 @@
             text-shadow: 0px 1px 4px rgba(0, 0, 0, 0.6);
         }
 
-        /* ---------------------------------------------------- */
-        /* OVERLAY GRAFICO (MIRINO TRASPARENTE CON ANGOLI VERDI)*/
-        /* ---------------------------------------------------- */
         .scanner-overlay {
             position: absolute;
             top: 0;
@@ -361,8 +356,7 @@
             screenPermission.style.display = 'none';
             screenScanner.style.display = 'flex';
 
-            html5QrCode = new Html5Qrcode("reader");
-            
+            html5QrCode = new Html5Qrcode('reader');
             const config = { 
                 fps: 25, 
                 qrbox: { width: 250, height: 250 },
@@ -370,7 +364,7 @@
             };
 
             html5QrCode.start(
-                { facingMode: "environment" }, 
+                { facingMode: 'environment' }, 
                 config,
                 (decodedText, decodedResult) => {
                     if (!isProcessing) {
@@ -381,16 +375,14 @@
                     // Silenzioso
                 }
             ).catch((err) => {
-                console.error("Errore fotocamera:", err);
-                alert("Impossibile accedere alla fotocamera.");
+                console.error('Errore fotocamera:', err);
+                alert('Impossibile accedere alla fotocamera.');
                 stopScanner();
             });
         }
 
         function gestisciQrScansionato(valoreQr) {
             isProcessing = true;
-            
-            // Feedback sonoro (Bip)
             try {
                 let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 let o = audioCtx.createOscillator();
@@ -399,21 +391,14 @@
                 o.start(); o.stop(audioCtx.currentTime + 0.1);
             } catch(e) {}
 
-            // Pulizia del testo per evitare spazi bianchi accidentali
             const urlDestinazione = valoreQr.trim();
-
-            // Controllo se il testo scansionato è effettivamente un URL valido
             if (urlDestinazione.startsWith('http://') || urlDestinazione.startsWith('https://')) {
-                
-                // Feedback visivo di successo prima del reindirizzamento
-                statusText.innerText = "Apertura pagina in corso...";
+                statusText.innerText = 'Apertura pagina in corso...';
                 statusIcon.innerHTML = '<i class="bi bi-box-arrow-up-right" style="color: #28a745;"></i>';
-                corners.forEach(c => c.style.borderColor = "#28a745");
+                corners.forEach(c => c.style.borderColor = '#28a745');
 
-                // Ferma la fotocamera prima di cambiare pagina (buona norma per non lasciare la cam attiva)
                 if (html5QrCode && html5QrCode.isScanning) {
                     html5QrCode.stop().then(() => {
-                        // Apre la pagina nello stesso tab della web app
                         window.location.href = urlDestinazione;
                     }).catch(() => {
                         window.location.href = urlDestinazione;
@@ -421,21 +406,15 @@
                 } else {
                     window.location.href = urlDestinazione;
                 }
-
             } else {
-                // Se il QR non contiene un link valido, mostra un errore temporaneo
-                statusText.innerText = "Il codice non contiene un link valido.";
+                statusText.innerText = 'Il codice non contiene un link valido.';
                 statusIcon.innerHTML = '<i class="bi bi-exclamation-triangle-fill" style="color: #dc3545;"></i>';
-                corners.forEach(c => c.style.borderColor = "#dc3545");
-                
-                // Opzionale: mostra cosa c'era scritto dentro
-                console.log("Contenuto QR non supportato:", urlDestinazione);
-
-                // Ripristina lo scanner dopo 3 secondi
+                corners.forEach(c => c.style.borderColor = '#dc3545');
+                console.log('Contenuto QR non supportato:', urlDestinazione);
                 setTimeout(() => {
-                    statusText.innerText = "Inquadra il QR code posizionato sulla tappa per aprire la pagina";
+                    statusText.innerText = 'Inquadra il QR code posizionato sulla tappa per aprire la pagina';
                     statusIcon.innerHTML = '<i class="bi bi-qr-code"></i>';
-                    corners.forEach(c => c.style.borderColor = "#81c028");
+                    corners.forEach(c => c.style.borderColor = '#81c028');
                     isProcessing = false;
                 }, 3000);
             }
@@ -456,11 +435,11 @@
         btnConsent.addEventListener('click', startScanner);
         btnBackAction.addEventListener('click', () => {
             stopScanner();
-            window.location.href = 'index.html';
+            window.location.href = 'indexDef.html';
         });
         
         btnCancelPermission.addEventListener('click', () => {
-            window.location.href = 'index.html';
+            window.location.href = 'indexDef.html';
         });
     </script>
 </body>
