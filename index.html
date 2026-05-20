@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Scanner su GitHub</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; text-align: center; margin: 0; padding: 20px; background: #f0f2f5; }
+    #canvas { width: 100%; max-width: 400px; border-radius: 12px; background: #000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+    #output { margin-top: 15px; padding: 12px; border-radius: 8px; font-weight: bold; display: none; max-width: 400px; margin-left: auto; margin-right: auto; }
+    .loading { background: #ffeeba; color: #856404; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+    button { background: #28a745; color: white; border: none; padding: 14px 28px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+  <h2>QR Code Scanner Live</h2>
+  <p style="color: #666;">Ospitato in sicurezza su GitHub Pages</p>
+  
+  <button id="start-btn" onclick="attivaFotocamera()">Attiva Fotocamera</button>
+  <br>
+  <canvas id="canvas" hidden></canvas>
+  <div id="output"></div>
+
+  <script>
+    // ⚠️ SOSTITUISCI QUESTO URL CON IL TUO URL DI GOOGLE APPS SCRIPT (COPIATO AL PASSO 1)
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwfvNuJAgum03UzwCL2i2uTNHcGiCXZKNELPYrTT2GIwa8TViafZWiZqaAymgVRtnm7sA/exec";
+
+    const video = document.createElement("video");
+    const canvasElement = document.getElementById("canvas");
+    const canvas = canvasElement.getContext("2d");
+    const outputDiv = document.getElementById("output");
+    const startBtn = document.getElementById("start-btn");
+    let scanning = false;
+
+    function mostraStato(testo, classe) {
+      outputDiv.innerText = testo;
+      outputDiv.className = classe;
+      outputDiv.style.display = "block";
+    }
+
+    async function attivaFotocamera() {
+      startBtn.style.display = "none";
+      mostraStato("Inizializzazione fotocamera...", "loading");
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: "environment" } 
+        });
+        
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true); 
+        video.play();
+        scanning = true;
+        canvasElement.hidden = false;
+        outputDiv.style.display = "none";
+        requestAnimationFrame(tick);
+      } catch (err) {
+        startBtn.style.display = "inline-block";
+        mostraStato("Errore fotocamera. Assicurati di aver dato i permessi.", "error");
+      }
+    }
+
+    function tick() {
+      if (!scanning) return;
+
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        canvasElement.height = video.videoHeight;
+        canvasElement.width = video.videoWidth;
+        canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
+        
+        var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
+        var code = jsQR(imageData.data, imageData.width, imageData.height, { inversionAttempts: "dontInvert" });
+        
+        if (code && code.data !== "") {
+          scanning = false; 
+          invioDatiAlFoglio(code.data);
+          return;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function invioDatiAlFoglio(valoreQr) {
+      mostraStato("QR Rilevato! Invio a Google Sheets...", "loading");
+      
+      // Inviamo i dati a Google tramite una richiesta POST (CORS-friendly)
+      fetch(WEB_APP_URL, {
+        method: "POST",
+        mode: "no-cors", // Evita i blocchi cross-origin dei browser
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ qr: valoreQr })
+      })
+      .then(() => {
+        mostraStato("Registrato con successo: " + valoreQr, "success");
+        setTimeout(() => {
+          scanning = true;
+          outputDiv.style.display = "none";
+          requestAnimationFrame(tick);
+        }, 3000);
+      })
+      .catch((errore) => {
+        mostraStato("Errore di invio: " + errore, "error");
+        setTimeout(() => { scanning = true; requestAnimationFrame(tick); }, 3000);
+      });
+    }
+  </script>
+</body>
+</html>
