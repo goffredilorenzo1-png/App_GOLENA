@@ -539,11 +539,12 @@
     /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
     .bottom-sheet {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
-      max-height: 100vh;
+      /* Altezza massima: quasi tutto lo schermo, sicura per tutti i device */
+      height: calc(100dvh - 44px);
+      max-height: calc(100dvh - 44px);
       background: white;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
@@ -556,12 +557,22 @@
   
       display: flex;
       flex-direction: column;
+      /* Previene overflow del contenuto */
+      overflow: hidden;
+    }
+
+    /* Assicura che sheet-content non vada oltre */
+    .bottom-sheet .sheet-content {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
 /* Barra superiore per il trascinamento */
 .sheet-header {
   height: 180px;
-  background-image: url('img/010.jpg');
+  background-image: url('IMG/010.jpg');
   background-size: cover;
   background-position: center;
   padding: 14px;
@@ -606,8 +617,11 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
   overflow-y: auto;
   flex: 1;
+  min-height: 0;
+  -webkit-overflow-scrolling: touch;
 }
 
 .sheet-hero {
@@ -816,7 +830,7 @@
     </div>
 
       <div class="hero1">
-        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -1054,28 +1068,57 @@
       return `${excerpt.slice(0, lastSpace)}...`;
     }
 
+    function getSheetPeekHeight() {
+      // Altezza visibile quando il sheet è "chiuso" (peek): 
+      // mostra header + audio controls = circa 240px, ma cappata al 45% della viewport
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      return Math.min(240, Math.floor(vh * 0.42));
+    }
+
+    function getSheetHalfOffset() {
+      // In stato "half": mostra circa il 55% della viewport
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      // Il sheet ha altezza = vh - 44px; offset per mostrare 55% di vh
+      const sheetHeight = vh - 44;
+      const visibleTarget = Math.floor(vh * 0.55);
+      return Math.max(0, sheetHeight - visibleTarget);
+    }
+
     function updateSheetState(state) {
       currentStatus = state;
       const previewText = document.querySelector('.preview-text');
       const fullText = document.querySelector('.full-text');
 
       if (state === 'closed') {
-        bottomSheet.style.transform = 'translateY(calc(100% - 240px))';
+        const peekHeight = getSheetPeekHeight();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const sheetHeight = vh - 44;
+        const offset = sheetHeight - peekHeight;
+        bottomSheet.style.transform = `translateY(${offset}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'half') {
-        bottomSheet.style.transform = 'translateY(50%)';
+        const offset = getSheetHalfOffset();
+        bottomSheet.style.transform = `translateY(${offset}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'full') {
-        bottomSheet.style.transform = 'translateY(0%)';
+        bottomSheet.style.transform = 'translateY(0px)';
         readMoreBtn.classList.add('hidden');
         previewText.classList.add('hidden');
         fullText.classList.add('visible');
       }
     }
+
+    // Ricalcola posizione al resize/orientamento
+    window.addEventListener('resize', () => {
+      updateSheetState(currentStatus || 'closed');
+    });
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => updateSheetState(currentStatus || 'closed'), 200);
+    });
 
     function setSheetContent(t) {
       currentTappa = t;
@@ -1086,7 +1129,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
