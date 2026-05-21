@@ -21,21 +21,24 @@
       background:#f2f2f7;
       display:flex;
       justify-content:center;
-      padding:20px;
+      padding: clamp(10px, 3vw, 24px);
       color:#111;
+      min-height: 100vh;
     }
 
     .phone{
-      width:390px;
+      width: min(100%, 760px);
+      max-width: 760px;
+      min-width: 320px;
       min-height:100vh;
       background:#f2f2f7;
       position: relative;
     }
 
     .title{
-      font-size:38px;
+      font-size: clamp(28px, 5vw, 38px);
       font-weight:600;
-      line-height:1;
+      line-height:1.05;
       margin-bottom:22px;
       padding:10px 10px 0 10px;
     }
@@ -98,15 +101,19 @@
     /* Stili per i dati del percorso */
     .path-info {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      gap: 10px;
       margin-top: 16px;
       padding-top: 14px;
       border-top: 1px solid #f2f2f7;
     }
 
     .info-block {
-      flex: 1;
+      flex: 1 1 120px;
+      min-width: 100px;
       text-align: center;
+      padding: 8px 0;
     }
 
     .info-block:not(:last-child) {
@@ -135,7 +142,8 @@
       box-shadow:
         0 2px 8px rgba(0,0,0,0.04),
         0 0 1px rgba(0,0,0,0.06);
-      height:260px;
+      min-height:260px;
+      height: min(36vh, 340px);
       background:#ffffff;
       transition: all 0.3s ease;
     }
@@ -220,18 +228,21 @@
     /* Bottoni e riga */
     .row{
       display:flex;
+      flex-wrap: wrap;
       gap:12px;
       margin-bottom:14px;
     }
 
     .small-card{
-      flex:1;
+      flex:1 1 150px;
+      min-width: 140px;
       height:90px;
       background:#ffffff;
       border-radius:18px;
       display:flex;
       align-items:center;
       justify-content:center;
+      text-align:center;
       font-weight:600;
       cursor:pointer;
       transition:0.2s;
@@ -260,7 +271,8 @@
     .carousel-wrapper {
       position: relative;
       width: 100%;
-      height: 220px;
+      min-height: 180px;
+      height: min(28vh, 240px);
       overflow: hidden;
     }
 
@@ -360,154 +372,438 @@
       color: #007aff;
     }
 
+    /* MEDIA QUERIES - RESPONSIVE DESIGN */
+    
+    /* Piccoli dispositivi (mobile, 320px - 480px) */
+    @media (max-width: 480px) {
+      body {
+        padding: 8px;
+      }
 
+      .title {
+        font-size: 26px;
+        margin-bottom: 14px;
+        padding: 8px 8px 0 8px;
+      }
 
-    /* Il pannello a riposo è sempre nascosto */
-.sheet {
-  background: #ffffff;
-  border-radius: 24px;
-  margin-bottom: 14px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04), 0 0 1px rgba(0,0,0,0.06);
-  overflow: hidden;
-  display: none; /* Nasconde di base */
+      .card, .card1, .carousel-card {
+        margin-bottom: 12px;
+        border-radius: 16px;
+      }
+
+      .hero1, .carousel-wrapper {
+        min-height: 150px;
+        height: 160px;
+      }
+
+      .sheet-hero {
+        height: 120px;
+      }
+
+      .hero2 p, .exp-desc {
+        font-size: 13px;
+      }
+
+      .path-info {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        padding-top: 10px;
+      }
+
+      .info-block {
+        border-right: none;
+        padding: 10px 4px;
+      }
+
+      .info-label {
+        font-size: 10px;
+      }
+
+      .info-data {
+        font-size: 13px;
+      }
+
+      .row {
+        flex-direction: column;
+      }
+
+      .small-card {
+        width: 100%;
+        min-width: auto;
+        height: 80px;
+        border-radius: 14px;
+      }
+
+      .sheet-title {
+        font-size: 18px;
+      }
+
+      .sheet-header, .sheet-body {
+        padding: 12px;
+      }
+
+      .arrow {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
+      }
+
+      .expand-btn {
+        width: 34px;
+        height: 34px;
+      }
+    }
+
+    /* Dispositivi medi (tablet, 481px - 768px) */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .phone {
+        max-width: 500px;
+      }
+
+      .title {
+        font-size: 32px;
+        margin-bottom: 18px;
+      }
+
+      .card, .card1, .carousel-card {
+        border-radius: 20px;
+      }
+
+      .hero1, .carousel-wrapper {
+        height: 200px;
+      }
+
+      .sheet-hero {
+        height: 140px;
+      }
+
+      .info-data {
+        font-size: 14px;
+      }
+
+      .small-card {
+        height: 85px;
+      }
+    }
+
+    /* Dispositivi grandi (tablet grande, desktop, 769px+) */
+    @media (min-width: 769px) {
+      .phone {
+        max-width: 600px;
+      }
+
+      .title {
+        font-size: 38px;
+      }
+
+      .hero1, .carousel-wrapper {
+        height: 240px;
+      }
+
+      .sheet-hero {
+        height: 180px;
+      }
+    }
+
+    /* Ottimizzazioni per schermi molto grandi (1200px+) */
+    @media (min-width: 1200px) {
+      body {
+        padding: 24px;
+      }
+
+      .phone {
+        max-width: 600px;
+      }
+    }
+
+    /* Ottimizzazioni orientamento landscape */
+    @media (max-height: 600px) and (orientation: landscape) {
+      .hero1, .carousel-wrapper, .mapCard {
+        height: 150px;
+      }
+
+      .title {
+        margin-bottom: 8px;
+      }
+
+      .card, .card1, .carousel-card {
+        margin-bottom: 8px;
+      }
+
+      .sheet-hero {
+        height: 100px;
+      }
+    }
+
+    /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
+    .bottom-sheet {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      max-height: 100vh;
+      background: white;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
+      z-index: 10001;
+  
+      /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  
+      display: flex;
+      flex-direction: column;
+    }
+
+/* Barra superiore per il trascinamento */
+.sheet-header {
+  height: 180px;
+  background-image: url('img/010.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  position: relative;
+  cursor: grab;
+  user-select: none;
+  border-bottom: 1px solid #efeff4;
+}
+.sheet-header:active {
+  cursor: grabbing;
 }
 
-/* REGOLA AGGIUNTA: Mostra il pannello SOLO quando mapCard ha la classe fullscreen */
-.mapCard.fullscreen + .sheet,
-.mapCard.fullscreen ~ .sheet {
-  display: block !important;
-  position: fixed;
-  bottom: 16px;
-  left: 16px;
+/* Trattino grigio per far capire il trascinamento */
+.drag-handle {
+  width: 40px;
+  height: 5px;
+  background-color: #c7c7cc;
+  border-radius: 3px;
+}
+
+/* Pulsante X di chiusura */
+.close-btn {
+  position: absolute;
   right: 16px;
-  z-index: 10000; /* Lo posiziona sopra la mappa a schermo intero */
-  margin-bottom: 0;
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  background: #e5e5ea;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #8e8e93;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-    .sheet-header {
-      padding: 16px;
-      position: relative;
-      border-bottom: 1px solid #f2f2f7;
-    }
+/* Area del contenuto interno */
+.sheet-content {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
 
-    .sheet-handle {
-      width: 36px;
-      height: 5px;
-      background: #e5e5ea;
-      border-radius: 2.5px;
-      margin: 0 auto 10px auto;
-    }
+.sheet-hero {
+  width: 100%;
+  min-height: 180px;
+  overflow: hidden;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
 
-    .sheet-num {
-      font-size: 11px;
-      font-weight: 600;
-      color: #007aff;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+.exp-desc {
+  color: #444;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 16px;
+}
 
-    .sheet-title {
-      font-size: 22px;
-      font-weight: 600;
-      margin-top: 2px;
-    }
+.preview-text {
+  display: inline;
+  margin-right: 4px;
+}
 
-    .sheet-hero {
-      height: 160px;
-      background-size: cover;
-      background-position: center;
-      background-color: #e5e5ea;
-    }
+.preview-text.hidden {
+  display: none;
+}
 
-    .sheet-body {
-      padding: 16px;
-    }
+.full-text {
+  display: none;
+}
 
-    .exp-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      color: #3a3a3c;
-      text-align: justify;
-    }
+.full-text.visible {
+  display: inline;
+}
 
-    .full-text {
-      display: none;
-    }
+.read-more-btn {
+  display: inline;
+  background: none;
+  border: none;
+  color: #007aff;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  margin-right: 0;
+}
 
-    .btn-read-more {
-      color: #007aff;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-block;
-      margin-top: 4px;
-      font-size: 14px;
-    }
+.read-more-btn:hover {
+  text-decoration: underline;
+}
 
-    /* Navigazione Tappe */
-    .sheet-nav {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid #f2f2f7;
-    }
+.read-more-btn.hidden {
+  display: none;
+}
 
-    .nav-btn {
-      background: #f2f2f7;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      color: #007aff;
-      cursor: pointer;
-    }
+.sheet-bottom-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
 
-    .nav-btn:disabled {
-      color: #aeaeb2;
-      cursor: not-allowed;
-    }
+.sheet-audio {
+  flex: 1 1 100%;
+  min-width: 220px;
+}
 
-    /* Player Audio integrato */
-    .audio-player {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: #f2f2f7;
-      padding: 12px;
-      border-radius: 16px;
-      margin-top: 14px;
-    }
+.audio-player {
+  width: 100%;
+}
 
-    .play-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #007aff;
-      border: none;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
+.audio-progress-wrapper {
+  width: 100%;
+  height: 8px;
+  background: #e5e5ea;
+  border-radius: 999px;
+  overflow: hidden;
+}
 
-    .audio-progress {
-      flex: 1;
-      height: 4px;
-      background: #d1d1d6;
-      border-radius: 2px;
-      position: relative;
-    }
+.audio-progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #007aff;
+  transition: width 0.1s linear;
+}
 
-    .audio-bar {
-      width: 0%;
-      height: 100%;
-      background: #007aff;
-      border-radius: 2px;
-    }
+.audio-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.sheet-nav.audio-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.nav-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  border: none;
+  background: #f2f2f7;
+  color: #111;
+  font-size: 22px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #007aff;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-btn:hover,
+.play-btn:hover {
+  background: #e5e5ea;
+}
+
+#sheetAudio {
+  display: none;
+}
+
+.nav-btn:hover {
+  background: #e5e5ea;
+}
+
+.sheet-hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  pointer-events: none;
+}
+
+.sheet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 14px;
+}
+
+.sheet-step {
+  font-size: 12px;
+  font-weight: 700;
+  color: #007aff;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+#infoTitle {
+  font-size: 1.25rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Pulsante Leggi di più */
+.read-more-btn {
+  display: inline;
+  background: none;
+  border: none;
+  color: #34c759;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  margin: 0;
+  white-space: nowrap;
+  text-decoration: none;
+}
   </style>
 </head>
 <body>
@@ -519,11 +815,9 @@
       Casalmaggiore
     </div>
 
-    <div class="card1">
       <div class="hero1">
         <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
-    </div>
     
     <div class="hero2">
         <p>Esplora l'area naturalistica della Golena del Po a Casalmaggiore. Un'oasi di biodiversità perfetta per passeggiate, birdwatching e cicloturismo immersi nella natura fluviale.</p>
@@ -555,30 +849,39 @@
       </div>
     </div>
 
-    <div class="sheet" id="sheet">
-      <div class="sheet-header">
-        <div class="sheet-handle"></div>
-        <div class="sheet-num" id="peekNum">TAPPA 01</div>
-        <div class="sheet-title" id="peekName">Titolo della Tappa</div>
+    <div id="bottomSheet" class="bottom-sheet">
+      <div class="sheet-header" id="sheetHeader">
+        <div class="drag-handle"></div>
+        <button class="close-btn" id="closeSheet">&times;</button>
       </div>
-      <div class="sheet-hero" id="peekHero"></div>
-      <div class="sheet-body">
-        <div class="exp-desc">
-          <span id="expDescPreview">Anteprima testo...</span>
-          <span class="full-text" id="expDescFull">Testo completo...</span>
-          <span class="btn-read-more" id="btnReadMore">Leggi di più</span>
+      <div class="sheet-content">
+        <div class="sheet-meta">
+          <div class="sheet-step" id="infoStep">Tappa 1</div>
+          <h2 id="infoTitle">Titolo della Tappa</h2>
         </div>
-
-        <div class="audio-player">
-          <button class="play-btn" id="btnPlayPause">▶</button>
-          <div class="audio-progress">
-            <div class="audio-bar" id="audioBar"></div>
+        <p class="exp-desc">
+          <span class="preview-text" id="infoPreview">Parte della descrizione per invogliare a continuare a leggere...</span>
+          <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
+          <span class="full-text" id="infoDescription">Descrizione dettagliata del punto d'interesse...</span>
+        </p>
+        <div class="sheet-bottom-row">
+          <div class="sheet-audio">
+            <div class="audio-player">
+              <div class="audio-progress-wrapper">
+                <div class="audio-progress-bar" id="audioProgressBar"></div>
+              </div>
+              <div class="audio-times">
+                <span id="audioCurrentTime">00:00</span>
+                <span id="audioRemainingTime">-00:00</span>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class="sheet-nav">
-          <button class="nav-btn" id="btnPrevTappa">← Precedente</button>
-          <button class="nav-btn" id="btnNextTappa">Successiva →</button>
+          <div class="sheet-nav audio-controls">
+            <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Ripeti o tappa precedente">‹</button>
+            <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
+            <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
+          </div>
+          <audio id="sheetAudio" preload="metadata"></audio>
         </div>
       </div>
     </div>
@@ -694,12 +997,22 @@
         if (targetState) {
             document.body.classList.add('fullscreen');
             mapContainer.classList.add('fullscreen');
+            setTimeout(() => { map.invalidateSize(); }, 300);
         } else {
-            document.body.classList.remove('fullscreen');
-            mapContainer.classList.remove('fullscreen');
-            map.closePopup(); 
+            const closeFullscreen = () => {
+                document.body.classList.remove('fullscreen');
+                mapContainer.classList.remove('fullscreen');
+                map.closePopup();
+                setTimeout(() => { map.invalidateSize(); }, 300);
+            };
+
+            if (typeof currentStatus !== 'undefined' && currentStatus !== 'closed') {
+                updateSheetState('closed');
+                setTimeout(closeFullscreen, 360);
+            } else {
+                closeFullscreen();
+            }
         }
-        setTimeout(() => { map.invalidateSize(); }, 300);
     }
 
     // Gestione bottone Fullscreen
@@ -710,86 +1023,155 @@
       toggleFullscreen();
     });
 
-    // Funzione per riempire e mostrare il pannello informativo della tappa (Modificata con taglio intelligente)
-    function fillSheet(t) {
-        // RIOCCUPATI SOLO DEL CONTENUTO - LA VISIBILITÀ È GESTITA DAL CSS FULLSCREEN
-        document.getElementById('peekNum').textContent = `TAPPA ${String(t.id).padStart(2, '0')}`;
-        document.getElementById('peekName').textContent = t.title;
-        
-        const imgUrl = `IMG/${String(t.id).padStart(3, '0')}.jpg`;
-        document.getElementById('peekHero').style.backgroundImage = `url('${imgUrl}'), url('https://picsum.photos/id/1018/390/160')`;
-        
-        document.getElementById('expDescFull').style.display = 'none';
-        
-        let cutoff = 75;
-        if (t.desc.length > cutoff) {
-            let spaceIndex = t.desc.indexOf(' ', cutoff);
-            if (spaceIndex === -1) spaceIndex = cutoff;
-            
-            document.getElementById('expDescPreview').textContent = t.desc.slice(0, spaceIndex) + '...';
-            document.getElementById('btnReadMore').style.display = 'inline'; 
-        } else {
-            document.getElementById('expDescPreview').textContent = t.desc;
-            document.getElementById('btnReadMore').style.display = 'none'; 
-        }
-        
-        document.getElementById('expDescFull').textContent = t.desc;
-        
-        document.getElementById('btnPrevTappa').disabled = (selIdx === 0);
-        document.getElementById('btnNextTappa').disabled = (selIdx === tappe.length - 1);
+    const bottomSheet = document.getElementById('bottomSheet');
+    const sheetHeader = document.getElementById('sheetHeader');
+    const closeSheet = document.getElementById('closeSheet');
+    const readMoreBtn = document.getElementById('readMoreBtn');
+    const infoStep = document.getElementById('infoStep');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoPreview = document.getElementById('infoPreview');
+    const infoDescription = document.getElementById('infoDescription');
+    const sheetAudio = document.getElementById('sheetAudio');
+    const audioProgressBar = document.getElementById('audioProgressBar');
+    const audioCurrentTime = document.getElementById('audioCurrentTime');
+    const audioRemainingTime = document.getElementById('audioRemainingTime');
+    const sheetPrevBtn = document.getElementById('sheetPrevBtn');
+    const sheetNextBtn = document.getElementById('sheetNextBtn');
+    const sheetPlayPauseBtn = document.getElementById('sheetPlayPauseBtn');
 
-        document.getElementById('audioBar').style.width = '0%';
-        document.getElementById('btnPlayPause').textContent = '▶';
+    let currentStatus = 'closed';
+    let currentTappa = null;
+
+    function getAudioPath(id) {
+      return encodeURI(`AUDIO/tappa ${id}.mp4`);
     }
 
-    // Seleziona una tappa specifica dell'array, centra la mappa e aggiorna la scheda
+    function getExcerpt(text, maxLength = 130) {
+      if (!text) return '';
+      if (text.length <= maxLength) return text;
+      const excerpt = text.slice(0, maxLength);
+      const lastSpace = excerpt.lastIndexOf(' ');
+      return `${excerpt.slice(0, lastSpace)}...`;
+    }
+
+    function updateSheetState(state) {
+      currentStatus = state;
+      const previewText = document.querySelector('.preview-text');
+      const fullText = document.querySelector('.full-text');
+
+      if (state === 'closed') {
+        bottomSheet.style.transform = 'translateY(calc(100% - 240px))';
+        readMoreBtn.classList.remove('hidden');
+        previewText.classList.remove('hidden');
+        fullText.classList.remove('visible');
+      } else if (state === 'half') {
+        bottomSheet.style.transform = 'translateY(50%)';
+        readMoreBtn.classList.remove('hidden');
+        previewText.classList.remove('hidden');
+        fullText.classList.remove('visible');
+      } else if (state === 'full') {
+        bottomSheet.style.transform = 'translateY(0%)';
+        readMoreBtn.classList.add('hidden');
+        previewText.classList.add('hidden');
+        fullText.classList.add('visible');
+      }
+    }
+
+    function setSheetContent(t) {
+      currentTappa = t;
+      infoStep.innerText = `Tappa ${t.id}`;
+      infoTitle.innerText = t.title;
+      const previewText = document.querySelector('.preview-text');
+      const fullText = document.querySelector('.full-text');
+      previewText.innerText = getExcerpt(t.desc, 140);
+      fullText.innerText = t.desc;
+      const photoNum = String(t.id).padStart(3, '0');
+      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
+      sheetAudio.src = getAudioPath(t.id);
+      sheetAudio.load();
+      audioCurrentTime.innerText = '00:00';
+      audioRemainingTime.innerText = '-00:00';
+      audioProgressBar.style.width = '0%';
+      sheetPlayPauseBtn.textContent = '▶';
+    }
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+
+    function updateAudioProgress() {
+      const duration = sheetAudio.duration || 0;
+      const current = sheetAudio.currentTime || 0;
+      const percent = duration ? (current / duration) * 100 : 0;
+      audioProgressBar.style.width = `${percent}%`;
+      audioCurrentTime.innerText = formatTime(current);
+      audioRemainingTime.innerText = `-${formatTime(Math.max(0, duration - current))}`;
+    }
+
     function selectTappa(index) {
-      if(index < 0 || index >= tappe.length) return;
+      if (index < 0 || index >= tappe.length) return;
       selIdx = index;
       const t = tappe[selIdx];
-      fillSheet(t);
+      setSheetContent(t);
       map.setView([t.lat, t.lng], 16);
     }
 
-    // Eventi pulsante "Leggi di più" nel pannello
-    document.getElementById('btnReadMore').addEventListener('click', function() {
-      document.getElementById('expDescPreview').textContent = '';
-      document.getElementById('expDescFull').style.display = 'inline';
-      this.style.display = 'none';
-    });
-
-    // Navigazione tappe interne alla scheda
-    document.getElementById('btnPrevTappa').addEventListener('click', () => {
-      selectTappa(selIdx - 1);
-    });
-    document.getElementById('btnNextTappa').addEventListener('click', () => {
-      selectTappa(selIdx + 1);
-    });
-
-    // Animazione fittizia Player Audio al clic
-    let audioInterval = null;
-    document.getElementById('btnPlayPause').addEventListener('click', function() {
-      const bar = document.getElementById('audioBar');
-      if (this.textContent === '▶') {
-        this.textContent = '⏸';
-        let pct = parseFloat(bar.style.width) || 0;
-        audioInterval = setInterval(() => {
-          pct += 1;
-          if (pct <= 100) {
-            bar.style.width = pct + '%';
-          } else {
-            clearInterval(audioInterval);
-            this.textContent = '▶';
-            bar.style.width = '0%';
-          }
-        }, 200);
-      } else {
-        this.textContent = '▶';
-        clearInterval(audioInterval);
+    readMoreBtn.addEventListener('click', () => {
+      if (currentStatus === 'half') {
+        updateSheetState('full');
+      } else if (currentStatus === 'full') {
+        updateSheetState('half');
       }
     });
 
-    // Generazione dei 18 segnaposti sulla mappa
+    sheetPrevBtn.addEventListener('click', () => {
+      if (sheetAudio.currentTime > 3) {
+        sheetAudio.currentTime = 0;
+        sheetAudio.play().catch(() => {});
+      } else {
+        const previous = (selIdx - 1 + tappe.length) % tappe.length;
+        selectTappa(previous);
+        updateSheetState('half');
+        setTimeout(() => sheetAudio.play().catch(() => {}), 150);
+      }
+    });
+
+    sheetNextBtn.addEventListener('click', () => {
+      const next = (selIdx + 1) % tappe.length;
+      selectTappa(next);
+      updateSheetState('half');
+      setTimeout(() => sheetAudio.play().catch(() => {}), 150);
+    });
+
+    sheetPlayPauseBtn.addEventListener('click', () => {
+      if (sheetAudio.paused) {
+        sheetAudio.play().catch(() => {});
+      } else {
+        sheetAudio.pause();
+      }
+    });
+
+    sheetAudio.addEventListener('loadedmetadata', () => {
+      updateAudioProgress();
+    });
+
+    sheetAudio.addEventListener('timeupdate', updateAudioProgress);
+    sheetAudio.addEventListener('play', () => {
+      sheetPlayPauseBtn.textContent = '❚❚';
+    });
+    sheetAudio.addEventListener('pause', () => {
+      sheetPlayPauseBtn.textContent = '▶';
+    });
+    sheetAudio.addEventListener('ended', () => {
+      sheetPlayPauseBtn.textContent = '▶';
+    });
+
+    closeSheet.addEventListener('click', () => {
+      updateSheetState('closed');
+    });
+
     tappe.forEach((tappa, idx) => {
       const customIcon = L.divIcon({
         className: 'custom-marker-icon',
@@ -798,24 +1180,18 @@
         iconAnchor: [12, 12]
       });
 
-      const marker = L.marker([tappa.lat, tappa.lng], { icon: customIcon }).addTo(map);      
-      const popupContent = `<b>Tappa ${tappa.id}: ${tappa.title}</b><br><div style="margin-top:5px; max-height:120px; overflow-y:auto;">${tappa.desc}</div>`;
-      marker.bindPopup(popupContent);
+      const marker = L.marker([tappa.lat, tappa.lng], { icon: customIcon }).addTo(map);
 
       marker.on('click', function(e) {
         const isFullscreen = mapContainer.classList.contains('fullscreen');
-        
-        // Collega il marker al foglio descrittivo inferiore
         selectTappa(idx);
-        
+        updateSheetState('half');
+
         if (!isFullscreen) {
           L.DomEvent.stopPropagation(e);
-          marker.closePopup(); 
           toggleFullscreen(true);
-          
           setTimeout(() => {
             map.setView([tappa.lat, tappa.lng], 16);
-            marker.openPopup();
           }, 350);
         } else {
           map.setView([tappa.lat, tappa.lng], 16);
@@ -823,13 +1199,12 @@
       });
     });
 
-    // Logica Carosello
     const track = document.getElementById('carouselTrack');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
     const counter = document.getElementById('carouselCounter');
     const dots = document.querySelectorAll('.dots-container .dot');
-    
+
     let currentIndex = 0;
     const totalSlides = 10;
     const slidesPerDot = totalSlides / dots.length;
@@ -839,7 +1214,6 @@
       if (counter) {
         counter.innerText = `Foto ${currentIndex + 1} di ${totalSlides}`;
       }
-      
       const activeDotIndex = Math.floor(currentIndex / slidesPerDot);
       dots.forEach((dot, index) => {
         dot.classList.toggle('active', index === activeDotIndex);
@@ -864,6 +1238,44 @@
     });
 
     updateCarousel();
+
+    let startY = 0;
+    let isDragging = false;
+
+    function onDragStart(e) {
+      startY = e.touches ? e.touches[0].clientY : e.clientY;
+      isDragging = true;
+    }
+
+    function onDragEnd(e) {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
+      const diffY = startY - endY;
+      const threshold = 50;
+
+      if (Math.abs(diffY) > threshold) {
+        if (diffY > 0) {
+          if (currentStatus === 'half') {
+            updateSheetState('full');
+          }
+        } else {
+          if (currentStatus === 'full') {
+            updateSheetState('half');
+          } else if (currentStatus === 'half') {
+            updateSheetState('closed');
+          }
+        }
+      }
+    }
+
+    if (sheetHeader) {
+      sheetHeader.addEventListener('touchstart', onDragStart, { passive: true });
+      sheetHeader.addEventListener('touchend', onDragEnd, { passive: true });
+      sheetHeader.addEventListener('mousedown', onDragStart);
+      sheetHeader.addEventListener('mouseup', onDragEnd);
+    }
   </script>
 </body>
 </html>
