@@ -816,7 +816,7 @@
     </div>
 
       <div class="hero1">
-        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -1091,7 +1091,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
