@@ -536,14 +536,18 @@
       }
     }
 
+    :root {
+      --window-height: 100vh;
+    }
+
     /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
     .bottom-sheet {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100vh;
-      max-height: 100vh;
+      height: var(--window-height);
+      max-height: var(--window-height);
       background: white;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
@@ -816,7 +820,7 @@
     </div>
 
       <div class="hero1">
-        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -1018,6 +1022,15 @@
     // Gestione bottone Fullscreen
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const mapContainer = document.getElementById('mapContainer');
+
+    function updateWindowHeight() {
+      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
+    }
+
+    window.addEventListener('resize', updateWindowHeight);
+    window.addEventListener('orientationchange', updateWindowHeight);
+    updateWindowHeight();
+
     fullscreenBtn.addEventListener('click', function(e) {
       e.stopPropagation();
       toggleFullscreen();
@@ -1091,7 +1104,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
