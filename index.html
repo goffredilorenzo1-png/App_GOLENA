@@ -565,7 +565,7 @@
 /* Barra superiore per il trascinamento */
 .sheet-header {
   height: 180px;
-  background-image: url('IMG/010.jpg');
+  background-image: url('img/010.jpg');
   background-size: cover;
   background-position: center;
   padding: 14px;
@@ -670,6 +670,115 @@
 .read-more-btn.hidden {
   display: none;
 }
+
+    /* Modal per Feedback (carica segnala.html) */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 11000;
+      padding: 20px;
+    }
+
+    .modal-overlay.visible {
+      display: flex;
+    }
+
+    /* Fullscreen modal variant */
+    .modal-overlay.fullscreen {
+      align-items: stretch;
+      padding: 0;
+    }
+
+    .modal-window.fullscreen {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      border-radius: 0;
+      padding: 20px;
+    }
+
+    #modalFrame {
+      width: 100%;
+      height: 80vh;
+      border: 0;
+      border-radius: 8px;
+      min-height: 320px;
+    }
+
+    .modal-window.fullscreen #modalFrame {
+      height: 100%;
+      border-radius: 0;
+    }
+    /* Two wide buttons aligned left and right */
+    .icon-row {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .icon-btn {
+      width: 48%;
+      height: 48px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      background: #ffffff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      cursor: pointer;
+      color: #111;
+      padding: 8px 12px;
+      box-sizing: border-box;
+    }
+
+    .icon-btn i {
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .icon-btn:active { transform: translateY(1px); }
+
+    /* Align icons inside each button: first to left, second to right */
+    .icon-row .icon-btn:first-child { justify-content: flex-start; padding-left: 14px; }
+    .icon-row .icon-btn:last-child { justify-content: flex-end; padding-right: 14px; }
+
+    .modal-window {
+      width: 100%;
+      max-width: 720px;
+      max-height: 90vh;
+      overflow: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      position: relative;
+      padding: 18px;
+    }
+
+    .modal-close {
+      position: absolute;
+      right: 12px;
+      top: 12px;
+      background: #f2f2f7;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
 
 .sheet-bottom-row {
   display: flex;
@@ -820,7 +929,7 @@
     </div>
 
       <div class="hero1">
-        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -890,13 +999,21 @@
       </div>
     </div>
 
-    <div class="row">
-      <a href="scanner.html" class="small-card glass" style="text-decoration:none;color:inherit;">
-        Scansiona QR
-      </a>
+    <div class="row icon-row" aria-label="Azioni">
+      <button id="scannerBtn" class="icon-btn glass" title="Scansiona QR" aria-label="Scansiona QR">
+        <i class="bi bi-upc-scan"></i>
+      </button>
 
-      <div class="small-card glass">
-        Feedback
+      <button id="feedbackBtn" class="icon-btn glass" title="Feedback" aria-label="Feedback">
+        <i class="bi bi-chat-dots"></i>
+      </button>
+    </div>
+
+    <!-- Modal overlay per Feedback (carica segnala.html) -->
+    <div id="modalOverlay" class="modal-overlay" role="dialog" aria-hidden="true">
+      <div class="modal-window" id="modalWindow">
+        <button id="modalClose" class="modal-close" aria-label="Chiudi">×</button>
+        <iframe id="modalFrame" src="" title="Segnala" style="width:100%;height:80vh;border:0;border-radius:8px;min-height:320px"></iframe>
       </div>
     </div>
 
@@ -906,16 +1023,16 @@
         <div class="arrow right" id="nextBtn">›</div>
 
         <div class="carousel-track" id="carouselTrack">
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1018/390/200" alt="Foto 1"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1016/390/200" alt="Foto 2"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1019/390/200" alt="Foto 3"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1022/390/200" alt="Foto 4"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1025/390/200" alt="Foto 5"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1035/390/200" alt="Foto 6"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1043/390/200" alt="Foto 7"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1044/390/200" alt="Foto 8"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1047/390/200" alt="Foto 9"></div>
-          <div class="carousel-slide"><img src="https://picsum.photos/id/1050/390/200" alt="Foto 10"></div>
+          <div class="carousel-slide"><img src="img\020.jpg" alt="Foto 1"></div>
+          <div class="carousel-slide"><img src="img\021.jpg" alt="Foto 2"></div>
+          <div class="carousel-slide"><img src="img\022.jpg" alt="Foto 3"></div>
+          <div class="carousel-slide"><img src="img\023.jpg" alt="Foto 4"></div>
+          <div class="carousel-slide"><img src="img\024.jpg" alt="Foto 5"></div>
+          <div class="carousel-slide"><img src="img\025.jpg" alt="Foto 6"></div>
+          <div class="carousel-slide"><img src="img\026.jpg" alt="Foto 7"></div>
+          <div class="carousel-slide"><img src="img\027.jpg" alt="Foto 8"></div>
+          <div class="carousel-slide"><img src="img\028.jpg" alt="Foto 9"></div>
+          <div class="carousel-slide"><img src="img\029.jpg" alt="Foto 10"></div>
         </div>
       </div>
 
@@ -1104,7 +1221,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
@@ -1279,6 +1396,40 @@
     }
 
     openTappaFromHash();
+    openTappaFromHash();
+
+    // Feedback modal handlers
+    const feedbackBtnEl = document.getElementById('feedbackBtn');
+    const scannerBtnEl = document.getElementById('scannerBtn');
+    const modalOverlayEl = document.getElementById('modalOverlay');
+    const modalFrameEl = document.getElementById('modalFrame');
+    const modalCloseEl = document.getElementById('modalClose');
+    const modalWindowEl = document.getElementById('modalWindow');
+
+    async function openFeedbackModal() {
+      if (!modalOverlayEl) return;
+      modalOverlayEl.classList.add('visible','fullscreen');
+      modalOverlayEl.setAttribute('aria-hidden', 'false');
+      if (modalWindowEl) modalWindowEl.classList.add('fullscreen');
+      // carica la pagina segnala.html nell'iframe (gli script interni verranno eseguiti)
+      if (modalFrameEl) {
+        modalFrameEl.src = 'segnala.html';
+      }
+    }
+
+    function closeFeedbackModal() {
+      if (!modalOverlayEl) return;
+      modalOverlayEl.classList.remove('visible','fullscreen');
+      modalOverlayEl.setAttribute('aria-hidden', 'true');
+      if (modalWindowEl) modalWindowEl.classList.remove('fullscreen');
+      if (modalFrameEl) modalFrameEl.src = 'about:blank';
+    }
+
+    if (feedbackBtnEl) feedbackBtnEl.addEventListener('click', openFeedbackModal);
+    if (scannerBtnEl) scannerBtnEl.addEventListener('click', () => { window.location.href = 'scanner.html'; });
+    if (modalCloseEl) modalCloseEl.addEventListener('click', closeFeedbackModal);
+    if (modalOverlayEl) modalOverlayEl.addEventListener('click', (e) => { if (e.target === modalOverlayEl) closeFeedbackModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeFeedbackModal(); });
 
     let startY = 0;
     let isDragging = false;
