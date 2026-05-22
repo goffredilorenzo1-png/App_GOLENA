@@ -566,7 +566,7 @@
 /* Barra superiore per il trascinamento */
 .sheet-header {
   height: 180px;
-  background-image: url('IMG/010.jpg');
+  background-image: url('img/010.jpg');
   background-size: cover;
   background-position: center;
   padding: 14px;
@@ -863,7 +863,7 @@
     </div>
 
       <div class="hero1">
-        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -950,16 +950,16 @@
         <div class="arrow right" id="nextBtn">›</div>
 
         <div class="carousel-track" id="carouselTrack">
-          <div class="carousel-slide"><img src="IMG\020.jpg" alt="Foto 1"></div>
-          <div class="carousel-slide"><img src="IMG\021.jpg" alt="Foto 2"></div>
-          <div class="carousel-slide"><img src="IMG\022.jpg" alt="Foto 3"></div>
-          <div class="carousel-slide"><img src="IMG\023.jpg" alt="Foto 4"></div>
-          <div class="carousel-slide"><img src="IMG\024.jpg" alt="Foto 5"></div>
-          <div class="carousel-slide"><img src="IMG\025.jpg" alt="Foto 6"></div>
-          <div class="carousel-slide"><img src="IMG\026.jpg" alt="Foto 7"></div>
-          <div class="carousel-slide"><img src="IMG\027.jpg" alt="Foto 8"></div>
-          <div class="carousel-slide"><img src="IMG\028.jpg" alt="Foto 9"></div>
-          <div class="carousel-slide"><img src="IMG\029.jpg" alt="Foto 10"></div>
+          <div class="carousel-slide"><img src="img\020.jpg" alt="Foto 1"></div>
+          <div class="carousel-slide"><img src="img\021.jpg" alt="Foto 2"></div>
+          <div class="carousel-slide"><img src="img\022.jpg" alt="Foto 3"></div>
+          <div class="carousel-slide"><img src="img\023.jpg" alt="Foto 4"></div>
+          <div class="carousel-slide"><img src="img\024.jpg" alt="Foto 5"></div>
+          <div class="carousel-slide"><img src="img\025.jpg" alt="Foto 6"></div>
+          <div class="carousel-slide"><img src="img\026.jpg" alt="Foto 7"></div>
+          <div class="carousel-slide"><img src="img\027.jpg" alt="Foto 8"></div>
+          <div class="carousel-slide"><img src="img\028.jpg" alt="Foto 9"></div>
+          <div class="carousel-slide"><img src="img\029.jpg" alt="Foto 10"></div>
         </div>
       </div>
 
@@ -1148,7 +1148,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
