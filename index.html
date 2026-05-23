@@ -555,7 +555,6 @@
       box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
       z-index: 10001;
       box-sizing: border-box;
-      padding-bottom: env(safe-area-inset-bottom, 16px);
   
       /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
       transform: translateY(100%);
@@ -613,7 +612,7 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
-  padding-bottom: calc(96px + env(safe-area-inset-bottom, 16px));
+  padding-bottom: 8px;
   overflow-y: auto;
   flex: 1;
 }
@@ -765,6 +764,16 @@
   margin-top: 4px;
 }
 
+/* Audio bar anchored to bottom of sheet in flexbox layout */
+.sheet-audio-sticky {
+  flex-shrink: 0;
+  background: #ffffff;
+  padding: 12px 20px;
+  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid #efeff4;
+  z-index: 10;
+}
+
 .nav-btn {
   width: 46px;
   height: 46px;
@@ -913,25 +922,26 @@
           <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
           <span class="full-text" id="infoDescription">Descrizione dettagliata del punto d'interesse...</span>
         </p>
-        <div class="sheet-bottom-row">
-          <div class="sheet-audio">
-            <div class="audio-player">
-              <div class="audio-progress-wrapper">
-                <div class="audio-progress-bar" id="audioProgressBar"></div>
-              </div>
-              <div class="audio-times">
-                <span id="audioCurrentTime">00:00</span>
-                <span id="audioRemainingTime">-00:00</span>
-              </div>
+      </div>
+      <!-- Sticky audio bar: always visible above browser toolbar -->
+      <div class="sheet-audio-sticky">
+        <div class="sheet-audio">
+          <div class="audio-player">
+            <div class="audio-progress-wrapper">
+              <div class="audio-progress-bar" id="audioProgressBar"></div>
+            </div>
+            <div class="audio-times">
+              <span id="audioCurrentTime">00:00</span>
+              <span id="audioRemainingTime">-00:00</span>
             </div>
           </div>
-          <div class="sheet-nav audio-controls">
-            <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Ripeti o tappa precedente">‹</button>
-            <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
-            <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
-          </div>
-          <audio id="sheetAudio" preload="metadata"></audio>
         </div>
+        <div class="sheet-nav audio-controls">
+          <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">‹</button>
+          <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
+          <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
+        </div>
+        <audio id="sheetAudio" preload="metadata"></audio>
       </div>
     </div>
 
@@ -1142,24 +1152,31 @@
     }
 
     function getMapCenterOffset() {
+      // Returns pixels to panBy(Y) — positive = shift marker UP into visible zone
+      const mapHeight = window.innerHeight;
       if (currentStatus === 'hidden' || currentStatus === 'full') {
         return 0;
       }
       if (currentStatus === 'closed') {
+        // Sheet covers 240px from bottom; visible area height = mapHeight - 240
+        // To center marker in visible area, shift map down by 120px (marker moves up)
         return 120;
       }
       if (currentStatus === 'half') {
-        return Math.round(window.innerHeight * 0.22);
+        // Sheet covers 50% of screen
+        return Math.round(mapHeight * 0.25);
       }
       return 0;
     }
 
     function focusMapOnTappa(t) {
       if (!t) return;
-      map.setView([t.lat, t.lng], 16);
       const offset = getMapCenterOffset();
+      // First setView centers the marker at map center, then panBy shifts the
+      // map DOWN so the marker visually moves UP into the area above the sheet
+      map.setView([t.lat, t.lng], 16, { animate: false });
       if (offset > 0) {
-        map.panBy([0, -offset], { animate: false });
+        map.panBy([0, offset], { animate: true, duration: 0.4 });
       }
     }
 
@@ -1237,13 +1254,11 @@
     sheetPrevBtn.addEventListener('click', () => {
       const previous = (selIdx - 1 + tappe.length) % tappe.length;
       selectTappa(previous);
-      updateSheetState('half');
     });
 
     sheetNextBtn.addEventListener('click', () => {
       const next = (selIdx + 1) % tappe.length;
       selectTappa(next);
-      updateSheetState('half');
     });
 
     sheetPlayPauseBtn.addEventListener('click', () => {
@@ -1286,17 +1301,20 @@
 
       marker.on('click', function(e) {
         const isFullscreen = mapContainer.classList.contains('fullscreen');
-        selectTappa(idx);
-        updateSheetState('half');
 
         if (!isFullscreen) {
           L.DomEvent.stopPropagation(e);
           toggleFullscreen(true);
+          // Set content & state first, then focus after fullscreen animation
+          setSheetContent(tappa);
+          updateSheetState('half');
+          selIdx = idx;
+          updateTappaHash(tappa.id);
           setTimeout(() => {
-            map.setView([tappa.lat, tappa.lng], 16);
-          }, 350);
+            focusMapOnTappa(tappa);
+          }, 380);
         } else {
-          map.setView([tappa.lat, tappa.lng], 16);
+          selectTappa(idx);
         }
       });
     });
