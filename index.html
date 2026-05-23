@@ -1191,7 +1191,14 @@
       const t = tappe[selIdx];
       setSheetContent(t);
       map.setView([t.lat, t.lng], 16);
-      updateSheetState(openFull ? 'full' : 'half');
+
+      if (openFull) {
+        toggleFullscreen(true);
+        updateSheetState('full');
+      } else {
+        updateSheetState('half');
+      }
+
       updateTappaHash(t.id);
     }
 
@@ -1322,7 +1329,6 @@
       }
     }
 
-    openTappaFromHash();
     openTappaFromHash();
 
     // Buttons handlers
