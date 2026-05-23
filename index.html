@@ -548,7 +548,7 @@
       left: 0;
       width: 100%;
       height: var(--window-height);
-      max-height: var(--window-height);
+      max-height: calc(var(--window-height) + 24px);
       background: white;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
@@ -613,7 +613,7 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
-  padding-bottom: calc(48px + env(safe-area-inset-bottom, 16px));
+  padding-bottom: calc(96px + env(safe-area-inset-bottom, 16px));
   overflow-y: auto;
   flex: 1;
 }
@@ -1070,7 +1070,7 @@
     const mapContainer = document.getElementById('mapContainer');
 
     function updateWindowHeight() {
-      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
+      document.documentElement.style.setProperty('--window-height', `${window.innerHeight + 24}px`);
     }
 
     window.addEventListener('resize', updateWindowHeight);
@@ -1141,6 +1141,28 @@
       }
     }
 
+    function getMapCenterOffset() {
+      if (currentStatus === 'hidden' || currentStatus === 'full') {
+        return 0;
+      }
+      if (currentStatus === 'closed') {
+        return 120;
+      }
+      if (currentStatus === 'half') {
+        return Math.round(window.innerHeight * 0.22);
+      }
+      return 0;
+    }
+
+    function focusMapOnTappa(t) {
+      if (!t) return;
+      map.setView([t.lat, t.lng], 16);
+      const offset = getMapCenterOffset();
+      if (offset > 0) {
+        map.panBy([0, -offset], { animate: false });
+      }
+    }
+
     function setSheetContent(t) {
       currentTappa = t;
       infoStep.innerText = `Tappa ${t.id}`;
@@ -1192,7 +1214,6 @@
       selIdx = index;
       const t = tappe[selIdx];
       setSheetContent(t);
-      map.setView([t.lat, t.lng], 16);
 
       if (openFull) {
         toggleFullscreen(true);
@@ -1201,6 +1222,7 @@
         updateSheetState('half');
       }
 
+      focusMapOnTappa(t);
       updateTappaHash(t.id);
     }
 
