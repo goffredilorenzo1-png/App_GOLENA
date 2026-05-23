@@ -554,6 +554,8 @@
       border-top-right-radius: 20px;
       box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
       z-index: 10001;
+      box-sizing: border-box;
+      padding-bottom: env(safe-area-inset-bottom, 16px);
   
       /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
       transform: translateY(100%);
@@ -611,6 +613,7 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 16px));
   overflow-y: auto;
   flex: 1;
 }
