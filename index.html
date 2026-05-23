@@ -547,14 +547,17 @@
       bottom: 0;
       left: 0;
       width: 100%;
+      /* Height matches the visible viewport (set from JS) */
       height: var(--window-height);
-      max-height: calc(var(--window-height) + 24px);
+      max-height: var(--window-height);
       background: white;
       border-top-left-radius: 20px;
       border-top-right-radius: 20px;
       box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
       z-index: 10001;
       box-sizing: border-box;
+      /* Reserve space for mobile safe area (browser/toolbars) */
+      padding-bottom: env(safe-area-inset-bottom, 0px);
   
       /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
       transform: translateY(100%);
@@ -1079,9 +1082,19 @@
     const mapContainer = document.getElementById('mapContainer');
 
     function updateWindowHeight() {
-      document.documentElement.style.setProperty('--window-height', `${window.innerHeight + 24}px`);
+      // Use visualViewport when available to get the visible area excluding
+      // browser UI (address/search bars). Fallback to window.innerHeight.
+      const vh = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
+      document.documentElement.style.setProperty('--window-height', `${vh}px`);
+
+      // Let Leaflet recalculate sizes shortly after viewport changes
+      setTimeout(() => { try { if (map && typeof map.invalidateSize === 'function') map.invalidateSize(); } catch (e) {} }, 220);
     }
 
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateWindowHeight);
+      window.visualViewport.addEventListener('scroll', updateWindowHeight);
+    }
     window.addEventListener('resize', updateWindowHeight);
     window.addEventListener('orientationchange', updateWindowHeight);
     updateWindowHeight();
