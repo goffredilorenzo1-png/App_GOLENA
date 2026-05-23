@@ -544,7 +544,7 @@
     /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
     .bottom-sheet {
       position: fixed;
-      top: 0;
+      bottom: 0;
       left: 0;
       width: 100%;
       height: var(--window-height);
@@ -613,7 +613,7 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
-  padding-bottom: calc(20px + env(safe-area-inset-bottom, 16px));
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 16px));
   overflow-y: auto;
   flex: 1;
 }
