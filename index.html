@@ -1128,13 +1128,9 @@
 
       document.documentElement.style.setProperty('--window-width', `${vw}px`);
       document.documentElement.style.setProperty('--window-height', `${vh}px`);
-      if (bottomSheet) bottomSheet.style.height = `${vh}px`;
+      if (bottomSheet) bottomSheet.style.setProperty('height', `${vh}px`);
 
-      // Re-apply the current sheet state so pixel offsets are recalculated
-      // for the new viewport height (handles Chrome toolbar appearing/disappearing)
-      if (typeof currentStatus !== 'undefined' && currentStatus !== 'hidden') {
-        updateSheetState(currentStatus);
-      }
+      console.log(`Visual viewport: ${vw} x ${vh}`);
 
       // Let Leaflet recalculate sizes shortly after viewport changes
       setTimeout(() => { try { if (map && typeof map.invalidateSize === 'function') map.invalidateSize(); } catch (e) {} }, 220);
@@ -1227,18 +1223,18 @@
 
     function getMapCenterOffset() {
       // Returns pixels to panBy(Y) — positive = shift marker UP into visible zone
-      const vh = getViewportHeight();
+      const mapHeight = window.innerHeight;
       if (currentStatus === 'hidden' || currentStatus === 'full') {
         return 0;
       }
       if (currentStatus === 'closed') {
-        // Sheet peeks 240px from the bottom; centre marker in the visible region above it
+        // Sheet covers 240px from bottom; visible area height = mapHeight - 240
+        // To center marker in visible area, shift map down by 120px (marker moves up)
         return 120;
       }
       if (currentStatus === 'half') {
-        // Sheet top is at 35% of viewport; visible map = 35% of vh
-        // Pan down by half that so the marker sits in the middle of the visible map
-        return Math.round(vh * 0.175);
+        // Sheet covers 50% of screen
+        return Math.round(mapHeight * 0.25);
       }
       return 0;
     }
