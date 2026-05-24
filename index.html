@@ -1189,10 +1189,10 @@
     }
 
     function getHalfTranslateY(vh) {
-      if (Math.abs(vh - 852) <= 30) {
-        return Math.round(vh * 0.35);
+      if (Math.abs(vh - 852) <= 50) {
+        return Math.round(vh * 0.37);
       }
-      if (Math.abs(vh - 668) <= 30) {
+      if (Math.abs(vh - 668) <= 50) {
         return Math.round(vh * 0.33);
       }
       return vh >= 760 ? Math.round(vh * 0.35) : Math.round(vh * 0.33);
@@ -1215,7 +1215,7 @@
         fullText.classList.remove('visible');
       } else if (state === 'closed') {
         // Show only a small peek (~240px) from the bottom
-        bottomSheet.style.transform = `translateY(${vh - 240}px)`;
+        bottomSheet.style.transform = `translateY(${vh - 0}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
