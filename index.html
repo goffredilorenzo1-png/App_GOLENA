@@ -556,6 +556,7 @@
 
     :root {
       --window-height: 100vh;
+      --window-width: 100vw;
     }
 
     /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
@@ -563,7 +564,7 @@
       position: fixed;
       bottom: 0;
       left: 0;
-      width: 100%;
+      width: var(--window-width);
       /* Height matches the visible viewport (set from JS) */
       height: var(--window-height);
       max-height: var(--window-height);
@@ -1118,12 +1119,18 @@
     // Gestione bottone Fullscreen
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const mapContainer = document.getElementById('mapContainer');
+    const bottomSheet = document.getElementById('bottomSheet');
 
     function updateWindowHeight() {
-      // Use visualViewport when available to get the visible area excluding
-      // browser UI (address/search bars). Fallback to window.innerHeight.
-      const vh = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
+      const viewport = window.visualViewport;
+      const vw = viewport ? viewport.width : window.innerWidth;
+      const vh = viewport ? viewport.height : window.innerHeight;
+
+      document.documentElement.style.setProperty('--window-width', `${vw}px`);
       document.documentElement.style.setProperty('--window-height', `${vh}px`);
+      if (bottomSheet) bottomSheet.style.setProperty('height', `${vh}px`);
+
+      console.log(`Visual viewport: ${vw} x ${vh}`);
 
       // Let Leaflet recalculate sizes shortly after viewport changes
       setTimeout(() => { try { if (map && typeof map.invalidateSize === 'function') map.invalidateSize(); } catch (e) {} }, 220);
@@ -1142,7 +1149,6 @@
       toggleFullscreen();
     });
 
-    const bottomSheet = document.getElementById('bottomSheet');
     const sheetHeader = document.getElementById('sheetHeader');
     const closeSheet = document.getElementById('closeSheet');
     const readMoreBtn = document.getElementById('readMoreBtn');
