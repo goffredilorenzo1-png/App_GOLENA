@@ -1192,10 +1192,9 @@
       if (Math.abs(vh - 852) <= 50) {
         return Math.round(vh * 0.37);
       }
-      if (Math.abs(vh - 668) <= 50) {
+      else {
         return Math.round(vh * 0.33);
       }
-      return vh >= 760 ? Math.round(vh * 0.35) : Math.round(vh * 0.33);
     }
 
     function updateSheetState(state) {
