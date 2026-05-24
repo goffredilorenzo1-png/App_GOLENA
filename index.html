@@ -183,49 +183,6 @@
       z-index: 999 !important;
     }
 
-    /* Bottone Fullscreen */
-    .expand-btn{
-      position:absolute;
-      top:12px;
-      right:12px;
-      width:38px;
-      height:38px;
-      border-radius:50%;
-      background:rgba(255, 255, 255, 0.9);
-      border:none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor:pointer;
-      box-shadow:0 4px 10px rgba(0,0,0,0.15);
-      z-index:10;
-      transition:0.2s;
-    }
-
-    .expand-btn:hover{
-      transform:scale(1.05);
-      background:#ffffff;
-    }
-
-    /* Stato Fullscreen Attivo */
-    .mapCard.fullscreen{
-      position:fixed;
-      inset:0;
-      margin:0;
-      width:100vw;
-      height:100vh;
-      border-radius:0;
-      z-index:9999;
-    }
-
-    .mapCard.fullscreen .map-card{
-      border-radius:0;
-    }
-
-    body.fullscreen{
-      overflow:hidden;
-    }
-
     /* Bottoni e riga */
     .row{
       display:flex;
@@ -507,10 +464,7 @@
         font-size: 18px;
       }
 
-      .expand-btn {
-        width: 34px;
-        height: 34px;
-      }
+
     }
 
     /* Dispositivi medi (tablet, 481px - 768px) */
@@ -978,9 +932,7 @@
     <div class="mapCard" id="mapContainer">
       <div class="map-card">
         <div id="map"></div>
-        <button class="expand-btn" id="fullscreenBtn" title="Fullscreen">
-          <i class="bi bi-arrows-angle-expand"></i>
-        </button>
+
       </div>
     </div>
 
@@ -1145,54 +1097,6 @@
 
     let selIdx = 0; // Indice della tappa correntemente selezionata
 
-    // Funzione centralizzata per attivare/disattivare il Fullscreen della mappa
-    function toggleFullscreen(forceState) {
-        const isCurrentlyFullscreen = mapContainer.classList.contains('fullscreen');
-        const targetState = (forceState !== undefined) ? forceState : !isCurrentlyFullscreen;
-        
-        if (targetState) {
-            document.body.classList.add('fullscreen');
-            mapContainer.classList.add('fullscreen');
-        updateFullscreenIcon();
-            setTimeout(() => { map.invalidateSize(); }, 300);
-        } else {
-            const closeFullscreen = () => {
-                document.body.classList.remove('fullscreen');
-                mapContainer.classList.remove('fullscreen');
-          updateFullscreenIcon();
-                map.closePopup();
-                setTimeout(() => { map.invalidateSize(); }, 300);
-            };
-
-            if (typeof currentStatus !== 'undefined' && currentStatus !== 'hidden') {
-                updateSheetState('hidden');
-                setTimeout(closeFullscreen, 360);
-            } else {
-                closeFullscreen();
-            }
-        }
-    }
-
-    // Gestione bottone Fullscreen
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const mapContainer = document.getElementById('mapContainer');
-
-    function updateFullscreenIcon() {
-      const btn = document.getElementById('fullscreenBtn');
-      if (!btn) return;
-      const icon = btn.querySelector('i');
-      if (!icon) return;
-      if (mapContainer && mapContainer.classList.contains('fullscreen')) {
-        icon.classList.remove('bi-arrows-angle-expand');
-        icon.classList.add('bi-arrows-angle-contract');
-        btn.title = 'Esci fullscreen';
-      } else {
-        icon.classList.remove('bi-arrows-angle-contract');
-        icon.classList.add('bi-arrows-angle-expand');
-        btn.title = 'Fullscreen';
-      }
-    }
-
     function updateWindowHeight() {
       document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
     }
@@ -1201,13 +1105,7 @@
     window.addEventListener('orientationchange', updateWindowHeight);
     updateWindowHeight();
 
-    fullscreenBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      toggleFullscreen();
-    });
-
-    // Imposta icona corretta all'avvio
-    updateFullscreenIcon();
+    const mapContainer = document.getElementById('mapContainer');
 
     const bottomSheet = document.getElementById('bottomSheet');
     const sheetHeader = document.getElementById('sheetHeader');
@@ -1383,19 +1281,9 @@
       const marker = L.marker([tappa.lat, tappa.lng], { icon: customIcon }).addTo(map);
 
       marker.on('click', function(e) {
-        const isFullscreen = mapContainer.classList.contains('fullscreen');
         selectTappa(idx);
         updateSheetState('half');
-
-        if (!isFullscreen) {
-          L.DomEvent.stopPropagation(e);
-          toggleFullscreen(true);
-          setTimeout(() => {
-            map.setView([tappa.lat, tappa.lng], 16);
-          }, 350);
-        } else {
-          map.setView([tappa.lat, tappa.lng], 16);
-        }
+        map.setView([tappa.lat, tappa.lng], 16);
       });
     });
 
