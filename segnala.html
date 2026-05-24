@@ -51,11 +51,11 @@
             transform: scale(0.98);
         }
 
-        /* Main Container */
+        /* Main Container (compact spacing) */
         .container { 
             max-width: 600px; 
             margin: 0 auto; 
-            padding: 16px; 
+            padding: 12px; 
             box-sizing: border-box;
         }
 
@@ -65,7 +65,7 @@
             background: var(--ios-segmented-bg); 
             padding: 2px; 
             border-radius: 9px; 
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
         .segmented-control button { 
             flex: 1; 
@@ -89,14 +89,14 @@
         .ios-group {
             background: var(--ios-card-bg);
             border-radius: 10px;
-            margin-bottom: 24px;
+            margin-bottom: 12px;
             overflow: hidden;
         }
         
         .ios-row {
             display: flex;
             align-items: center;
-            padding: 11px 16px;
+            padding: 10px 12px;
             min-height: 44px;
             box-sizing: border-box;
             position: relative;
@@ -106,15 +106,15 @@
             content: "";
             position: absolute;
             background-color: var(--ios-separator);
-            left: 16px;
+            left: 12px;
             right: 0;
             bottom: 0;
             height: 0.5px;
         }
 
         .ios-row label {
-            width: 110px;
-            font-size: 17px;
+            width: 100px;
+            font-size: 16px;
             color: var(--ios-text);
         }
 
@@ -124,7 +124,7 @@
             border: none;
             outline: none;
             font-family: inherit;
-            font-size: 17px;
+            font-size: 16px;
             color: var(--ios-text);
             background: transparent;
             padding: 0;
@@ -147,7 +147,7 @@
             width: 100%;
             align-items: center;
             cursor: pointer;
-            font-size: 17px;
+            font-size: 16px;
         }
         .file-label span.action {
             color: var(--ios-tint);
@@ -158,23 +158,23 @@
         .ios-footer-note {
             font-size: 13px;
             color: var(--ios-secondary-text);
-            padding: 0 16px;
-            margin-top: -16px;
-            margin-bottom: 24px;
+            padding: 0 12px;
+            margin-top: -12px;
+            margin-bottom: 12px;
         }
 
         /* iOS Button Standard */
         .ios-btn-container {
-            padding: 0 16px;
+            padding: 0 12px;
         }
         .ios-btn { 
             width: 100%; 
-            padding: 14px; 
+            padding: 12px; 
             border-radius: 12px; 
             border: none; 
             background: var(--ios-tint); 
             color: white; 
-            font-size: 17px; 
+            font-size: 16px; 
             font-weight: 600; 
             cursor: pointer;
             text-align: center;
@@ -363,7 +363,7 @@
 
                     const removeBtn = document.createElement('div');
                     removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '<i class="bi bi-x- Moran"></i>';
+                    removeBtn.innerHTML = '<i class="bi bi-x"></i>';
                     removeBtn.addEventListener('click', () => {
                         selectedFiles.splice(index, 1); // Rimuove il file dall'array
                         renderPreviews(); // Ridisegna le anteprime
