@@ -552,139 +552,7 @@
       --window-height: 100vh;
     }
 
-    /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
-    .bottom-sheet {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: var(--window-height);
-      max-height: var(--window-height);
-      background: white;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
-      z-index: 10001;
-  
-      /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  
-      display: flex;
-      flex-direction: column;
-    }
-
-/* Barra superiore per il trascinamento */
-.sheet-header {
-  height: 180px;
-  background-image: url('img/010.jpg');
-  background-size: cover;
-  background-position: center;
-  padding: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  cursor: grab;
-  user-select: none;
-  border-bottom: 1px solid #efeff4;
-}
-.sheet-header:active {
-  cursor: grabbing;
-}
-
-/* Trattino grigio per far capire il trascinamento */
-.drag-handle {
-  width: 40px;
-  height: 5px;
-  background-color: #c7c7cc;
-  border-radius: 3px;
-}
-
-/* Pulsante X di chiusura */
-.close-btn {
-  position: absolute;
-  right: 16px;
-  background: #e5e5ea;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #8e8e93;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Area del contenuto interno */
-.sheet-content {
-  padding: 20px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.sheet-hero {
-  width: 100%;
-  min-height: 180px;
-  overflow: hidden;
-  border-radius: 20px;
-  margin-bottom: 16px;
-}
-
-.exp-desc {
-  color: #444;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 16px;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 16px;
-}
-
-.preview-text {
-  display: inline;
-  margin-right: 4px;
-}
-
-.preview-text.hidden {
-  display: none;
-}
-
-.full-text {
-  display: none;
-}
-
-.full-text.visible {
-  display: inline;
-}
-
-.read-more-btn {
-  display: inline;
-  background: none;
-  border: none;
-  color: #007aff;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 0;
-  cursor: pointer;
-  white-space: nowrap;
-  text-decoration: none;
-  margin-right: 0;
-}
-
-.read-more-btn:hover {
-  text-decoration: underline;
-}
-
-.read-more-btn.hidden {
-  display: none;
-}
-
-
-    /* Two wide buttons aligned left and right */
+    /* Bottoni azione */
     .icon-row {
       display: flex;
       flex-direction: row;
@@ -696,13 +564,12 @@
     }
 
     .icon-btn {
-      width: 48%;
+      flex: 1;
       height: 48px;
       border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
       background: #ffffff;
       border: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -710,7 +577,7 @@
       color: #111;
       padding: 8px 12px;
       box-sizing: border-box;
-      gap: 10px;
+      gap: 8px;
     }
 
     .icon-btn i {
@@ -727,151 +594,7 @@
 
     .icon-btn:active { transform: translateY(1px); }
 
-    /* Align icons inside each button: first to left, second to right */
-    .icon-row .icon-btn:first-child { justify-content: center; padding-left: 14px; }
-    .icon-row .icon-btn:last-child { justify-content: center; padding-right: 14px; }
-
-
-
-.sheet-bottom-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.sheet-audio {
-  flex: 1 1 100%;
-  min-width: 220px;
-}
-
-.audio-player {
-  width: 100%;
-}
-
-.audio-progress-wrapper {
-  width: 100%;
-  height: 8px;
-  background: #e5e5ea;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.audio-progress-bar {
-  width: 0%;
-  height: 100%;
-  background: #007aff;
-  transition: width 0.1s linear;
-}
-
-.audio-times {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.sheet-nav.audio-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  margin-top: 4px;
-}
-
-.nav-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
-  border: none;
-  background: #f2f2f7;
-  color: #111;
-  font-size: 22px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.play-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  background: #007aff;
-  color: #fff;
-  font-size: 26px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-btn:hover,
-.play-btn:hover {
-  background: #e5e5ea;
-}
-
-#sheetAudio {
-  display: none;
-}
-
-.nav-btn:hover {
-  background: #e5e5ea;
-}
-
-.sheet-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  pointer-events: none;
-}
-
-.sheet-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-end;
-  margin-bottom: 14px;
-}
-
-.sheet-step {
-  font-size: 12px;
-  font-weight: 700;
-  color: #007aff;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-#infoTitle {
-  font-size: 1.25rem;
-  margin: 0;
-  line-height: 1.2;
-}
-
-/* Pulsante Leggi di più */
-.read-more-btn {
-  display: inline;
-  background: none;
-  border: none;
-  color: #34c759;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 0;
-  cursor: pointer;
-  margin: 0;
-  white-space: nowrap;
-  text-decoration: none;
-}
-
-.leaflet-touch .leaflet-bar a {
+    .leaflet-touch .leaflet-bar a {
     width: 30px;
     height: 30px;
     line-height: 30px;
@@ -932,52 +655,19 @@
     <div class="mapCard" id="mapContainer">
       <div class="map-card">
         <div id="map"></div>
-
+        <button class="expand-btn" id="fullscreenBtn" title="Apri mappa" onclick="window.location.href='mappa.html'">
+          <i class="bi bi-arrows-angle-expand"></i>
+        </button>
       </div>
     </div>
 
-    <div id="bottomSheet" class="bottom-sheet">
-      <div class="sheet-header" id="sheetHeader">
-        <div class="drag-handle"></div>
-        <button class="close-btn" id="closeSheet">&times;</button>
-      </div>
-      <div class="sheet-content">
-        <div class="sheet-meta">
-          <div class="sheet-step" id="infoStep">Tappa 1</div>
-          <h2 id="infoTitle">Titolo della Tappa</h2>
-        </div>
-        <p class="exp-desc">
-          <span class="preview-text" id="infoPreview">Parte della descrizione per invogliare a continuare a leggere...</span>
-          <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
-          <span class="full-text" id="infoDescription">Descrizione dettagliata del punto d'interesse...</span>
-        </p>
-        <div class="sheet-bottom-row">
-          <div class="sheet-audio">
-            <div class="audio-player">
-              <div class="audio-progress-wrapper">
-                <div class="audio-progress-bar" id="audioProgressBar"></div>
-              </div>
-              <div class="audio-times">
-                <span id="audioCurrentTime">00:00</span>
-                <span id="audioRemainingTime">-00:00</span>
-              </div>
-            </div>
-          </div>
-          <div class="sheet-nav audio-controls">
-            <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Ripeti o tappa precedente">‹</button>
-            <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
-            <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
-          </div>
-          <audio id="sheetAudio" preload="metadata"></audio>
-        </div>
-      </div>
-    </div>
 
     <div class="row icon-row" aria-label="Azioni">
       <button id="scannerBtn" class="icon-btn glass" title="Scansiona QR" aria-label="Scansiona QR">
         <i class="bi bi-qr-code-scan"></i>        
         <span>Scansiona</span>
       </button>
+
 
       <button id="feedbackBtn" class="icon-btn glass" title="Feedback" aria-label="Feedback">
         <i class="bi bi-chat-dots"></i>
@@ -1073,7 +763,7 @@
       map.fitBounds(e.target.getBounds());
     }).addTo(map);
 
-    // Array delle 18 tappe fornite
+    // Tappe: solo per i marker sulla mappa (click → mappa.html#tappaX)
     const tappe = [
       {id:1, title:"Introduzione", lat:44.99522, lng:10.40701, desc:"Gentili visitatori che avete scelto di addentrarvi in questo percorso naturalistico, lasciatevi guidare nel suggestivo space della golena del Po, dove le lento scorrere del grande fiume si unisce alla quiete della natura incontaminata. Attraversando sentieri ombreggiati, potrete immergervi in un paesaggio ricco di fascino, popolato da numerose specie di uccelli e caratterizzato dai colori mutevoli delle stagioni. Questo itinerario vi offrirà non soltanto l'occasione di conoscere più da vicino l'ambiente fluviale, ma anche di riscoprire un rapporto autentico con la natura, in un luogo in cui storia, equilibrio idraulico e biodiversità convivono armoniosamente."},
       {id:2, title:"Argine Maestro", lat:44.99496, lng:10.40724, desc:"Vi trovate ora sull'argine maestro del fiume. Quest'opera di fondamentale importanza è stata realizzata lungo le rive allo scopo di contenere le acque durante i periodi di piena e di prevenire le esondazioni. L'argine maestro costituisce una barriera artificiale che protegge i centri abitati, le campagne e le vie di comunicazione dai danni provocati dall'impetuosità del corso d'acqua. Oltre alla funzione di difesa, l'argine maestro svolge anche un ruolo di regolazione del flusso fluviale, contribuendo a mantenere più stabile il percorso del fiume e a limitare i fenomeni di erosione delle sponde. Fin dall'antichità, civiltà come quella romana attribuirono grande importanza alla costruzione degli argini, riconoscendo nel controllo delle acque una conditione essenziale per la sicurezza del territorio e per lo sviluppo dell'agricoltura e dei commerci."},
@@ -1095,198 +785,21 @@
       {id:18, title:"The End", lat:44.99436, lng:10.40529, desc:"La visita alla golena del Po permette di comprendere quanto questo ambiente sia ricco, complesso e delicato. Attraverso l'osservazione della vegetazione, delle lanche, dei boschi golenali e delle numerose specie animali che popolano il territorio, emerge il profondo legame tra il fiume e l'ecosistema che vi si sviluppa intorno. La golena non rappresenta soltanto uno spazio naturale di grande valore paesaggistico, ma anche un luogo fondamentale per la conservazione della biodiversità e per l'equilibrio ambientale della Pianura Padana. Tuttavia, questo patrimonio naturale è oggi minacciato dall'inquinamento, dall'espansione delle attività umane e dai cambiamenti climatici. Per questo motivo è necessario promuovere una maggiore tutela del territorio fluviale, affinché le future generazioni possano continuare a conoscere e apprezzare la straordinaria ricchezza ambientale del Po. La golena insegna infatti come uomo e natura siano profondamente legati e come il rispetto degli equilibri naturali sia indispensabile per la salvaguardia dell'ambiente."}
     ];
 
-    let selIdx = 0; // Indice della tappa correntemente selezionata
-
-    function updateWindowHeight() {
-      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
-    }
-
-    window.addEventListener('resize', updateWindowHeight);
-    window.addEventListener('orientationchange', updateWindowHeight);
-    updateWindowHeight();
-
-    const mapContainer = document.getElementById('mapContainer');
-
-    const bottomSheet = document.getElementById('bottomSheet');
-    const sheetHeader = document.getElementById('sheetHeader');
-    const closeSheet = document.getElementById('closeSheet');
-    const readMoreBtn = document.getElementById('readMoreBtn');
-    const infoStep = document.getElementById('infoStep');
-    const infoTitle = document.getElementById('infoTitle');
-    const infoPreview = document.getElementById('infoPreview');
-    const infoDescription = document.getElementById('infoDescription');
-    const sheetAudio = document.getElementById('sheetAudio');
-    const audioProgressBar = document.getElementById('audioProgressBar');
-    const audioCurrentTime = document.getElementById('audioCurrentTime');
-    const audioRemainingTime = document.getElementById('audioRemainingTime');
-    const sheetPrevBtn = document.getElementById('sheetPrevBtn');
-    const sheetNextBtn = document.getElementById('sheetNextBtn');
-    const sheetPlayPauseBtn = document.getElementById('sheetPlayPauseBtn');
-
-    let currentStatus = 'closed';
-    let currentTappa = null;
-
-    function getAudioPath(id) {
-      return encodeURI(`AUDIO/tappa ${id}.mp4`);
-    }
-
-    function getExcerpt(text, maxLength = 130) {
-      if (!text) return '';
-      if (text.length <= maxLength) return text;
-      const excerpt = text.slice(0, maxLength);
-      const lastSpace = excerpt.lastIndexOf(' ');
-      return `${excerpt.slice(0, lastSpace)}...`;
-    }
-
-    function updateSheetState(state) {
-      currentStatus = state;
-      const previewText = document.querySelector('.preview-text');
-      const fullText = document.querySelector('.full-text');
-
-      if (state === 'hidden') {
-        bottomSheet.style.transform = 'translateY(100%)';
-        readMoreBtn.classList.add('hidden');
-        previewText.classList.add('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'closed') {
-        bottomSheet.style.transform = 'translateY(calc(100% - 240px))';
-        readMoreBtn.classList.remove('hidden');
-        previewText.classList.remove('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'half') {
-        bottomSheet.style.transform = 'translateY(50%)';
-        readMoreBtn.classList.remove('hidden');
-        previewText.classList.remove('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'full') {
-        bottomSheet.style.transform = 'translateY(0%)';
-        readMoreBtn.classList.add('hidden');
-        previewText.classList.add('hidden');
-        fullText.classList.add('visible');
-      }
-    }
-
-    function setSheetContent(t) {
-      currentTappa = t;
-      infoStep.innerText = `Tappa ${t.id}`;
-      infoTitle.innerText = t.title;
-      const previewText = document.querySelector('.preview-text');
-      const fullText = document.querySelector('.full-text');
-      previewText.innerText = getExcerpt(t.desc, 140);
-      fullText.innerText = t.desc;
-      const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
-      sheetAudio.src = getAudioPath(t.id);
-      sheetAudio.load();
-      audioCurrentTime.innerText = '00:00';
-      audioRemainingTime.innerText = '-00:00';
-      audioProgressBar.style.width = '0%';
-      sheetPlayPauseBtn.textContent = '▶';
-      sheetAudio.pause();
-      sheetAudio.currentTime = 0;
-    }
-
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
-      return `${mins}:${secs}`;
-    }
-
-    function updateAudioProgress() {
-      const duration = sheetAudio.duration || 0;
-      const current = sheetAudio.currentTime || 0;
-      const percent = duration ? (current / duration) * 100 : 0;
-      audioProgressBar.style.width = `${percent}%`;
-      audioCurrentTime.innerText = formatTime(current);
-      audioRemainingTime.innerText = `-${formatTime(Math.max(0, duration - current))}`;
-    }
-
-    function updateTappaHash(id) {
-      const newHash = `#tappa${id}`;
-      if (window.location.hash !== newHash) {
-        history.replaceState(null, '', `${window.location.pathname}${window.location.search}${newHash}`);
-      }
-    }
-
-    function clearTappaHash() {
-      history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    }
-
-    function selectTappa(index, openFull = false) {
-      if (index < 0 || index >= tappe.length) return;
-      selIdx = index;
-      const t = tappe[selIdx];
-      setSheetContent(t);
-      map.setView([t.lat, t.lng], 16);
-      updateSheetState(openFull ? 'full' : 'half');
-      updateTappaHash(t.id);
-    }
-
-    readMoreBtn.addEventListener('click', () => {
-      if (currentStatus === 'half' || currentStatus === 'closed') {
-        updateSheetState('full');
-      } else if (currentStatus === 'full') {
-        updateSheetState('half');
-      }
-    });
-
-    sheetPrevBtn.addEventListener('click', () => {
-      const previous = (selIdx - 1 + tappe.length) % tappe.length;
-      selectTappa(previous);
-      updateSheetState('half');
-    });
-
-    sheetNextBtn.addEventListener('click', () => {
-      const next = (selIdx + 1) % tappe.length;
-      selectTappa(next);
-      updateSheetState('half');
-    });
-
-    sheetPlayPauseBtn.addEventListener('click', () => {
-      if (sheetAudio.paused) {
-        sheetAudio.play().catch(() => {});
-      } else {
-        sheetAudio.pause();
-      }
-    });
-
-    sheetAudio.addEventListener('loadedmetadata', () => {
-      updateAudioProgress();
-    });
-
-    sheetAudio.addEventListener('timeupdate', updateAudioProgress);
-    sheetAudio.addEventListener('play', () => {
-      sheetPlayPauseBtn.textContent = '❚❚';
-    });
-    sheetAudio.addEventListener('pause', () => {
-      sheetPlayPauseBtn.textContent = '▶';
-    });
-    sheetAudio.addEventListener('ended', () => {
-      sheetPlayPauseBtn.textContent = '▶';
-    });
-
-    closeSheet.addEventListener('click', () => {
-      updateSheetState('hidden');
-      clearTappaHash();
-    });
-
-    tappe.forEach((tappa, idx) => {
+    // Marker sulla mappa: click apre mappa.html con l'ancora della tappa
+    tappe.forEach((tappa) => {
       const customIcon = L.divIcon({
         className: 'custom-marker-icon',
         html: `<div>${tappa.id}</div>`,
         iconSize: [24, 24],
         iconAnchor: [12, 12]
       });
-
       const marker = L.marker([tappa.lat, tappa.lng], { icon: customIcon }).addTo(map);
-
-      marker.on('click', function(e) {
-        selectTappa(idx);
-        updateSheetState('half');
-        map.setView([tappa.lat, tappa.lng], 16);
+      marker.on('click', function() {
+        window.location.href = `mappa.html#tappa${tappa.id}`;
       });
     });
 
+    // Carosello foto
     const track = document.getElementById('carouselTrack');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -1327,65 +840,12 @@
 
     updateCarousel();
 
-    function openTappaFromHash() {
-      const hash = window.location.hash;
-      const match = hash.match(/^#tappa(\d{1,2})$/);
-      if (match) {
-        const id = Number(match[1]);
-        const index = tappe.findIndex((t) => t.id === id);
-        if (index !== -1) {
-          selectTappa(index, true);
-        }
-      }
-    }
-
-    openTappaFromHash();
-    openTappaFromHash();
-
-    // Buttons handlers
+    // Button handlers
     const feedbackBtnEl = document.getElementById('feedbackBtn');
     const scannerBtnEl = document.getElementById('scannerBtn');
 
     if (feedbackBtnEl) feedbackBtnEl.addEventListener('click', () => { window.location.href = 'segnala.html'; });
     if (scannerBtnEl) scannerBtnEl.addEventListener('click', () => { window.location.href = 'scanner.html'; });
-
-    let startY = 0;
-    let isDragging = false;
-
-    function onDragStart(e) {
-      startY = e.touches ? e.touches[0].clientY : e.clientY;
-      isDragging = true;
-    }
-
-    function onDragEnd(e) {
-      if (!isDragging) return;
-      isDragging = false;
-
-      const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-      const diffY = startY - endY;
-      const threshold = 50;
-
-      if (Math.abs(diffY) > threshold) {
-        if (diffY > 0) {
-          if (currentStatus === 'half') {
-            updateSheetState('full');
-          }
-        } else {
-          if (currentStatus === 'full') {
-            updateSheetState('half');
-          } else if (currentStatus === 'half') {
-            updateSheetState('closed');
-          }
-        }
-      }
-    }
-
-    if (sheetHeader) {
-      sheetHeader.addEventListener('touchstart', onDragStart, { passive: true });
-      sheetHeader.addEventListener('touchend', onDragEnd, { passive: true });
-      sheetHeader.addEventListener('mousedown', onDragStart);
-      sheetHeader.addEventListener('mouseup', onDragEnd);
-    }
   </script>
 </body>
 </html>
