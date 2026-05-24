@@ -1179,6 +1179,11 @@
       return `${excerpt.slice(0, lastSpace)}...`;
     }
 
+    function getHalfSheetOffset() {
+      const vh = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
+      return Math.round(vh * 0.35);
+    }
+
     function updateSheetState(state) {
       currentStatus = state;
       const previewText = document.querySelector('.preview-text');
@@ -1195,7 +1200,7 @@
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'half') {
-        bottomSheet.style.transform = 'translateY(35%)';
+        bottomSheet.style.transform = `translateY(${getHalfSheetOffset()}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
