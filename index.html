@@ -137,14 +137,14 @@
 
     /* Struttura Mappa */
     .mapCard{
-      border-radius:32px;
-      margin-bottom:10px;
+      border-radius:24px;
+      margin-bottom:14px;
       overflow:hidden;
       box-shadow:
-        0 2px 12px rgba(0,0,0,0.08),
+        0 2px 8px rgba(0,0,0,0.04),
         0 0 1px rgba(0,0,0,0.06);
-      min-height:220px;
-      height: min(34vh, 320px);
+      min-height:260px;
+      height: min(36vh, 340px);
       background:#ffffff;
       transition: all 0.3s ease;
     }
@@ -158,23 +158,6 @@
       background:#e7e7ea;
       border-radius:24px;
       overflow:hidden;
-    }
-
-    .leaflet-touch .leaflet-bar a:first-child {
-        border-top-left-radius: 24px;
-        border-top-right-radius: 24px;
-    }
-
-    .leaflet-touch .leaflet-bar a:last-child {
-        border-bottom-left-radius: 24px;
-        border-bottom-right-radius: 24px;
-    }
-
-
-    .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
-        border: 2px solid rgba(0, 0, 0, 0.2);
-        border-radius: 24px;
-        background-clip: padding-box;
     }
 
     #map{
@@ -294,6 +277,53 @@
       overflow: hidden;
     }
 
+    .partners-card {
+      background: #ffffff;
+    }
+
+    .partners-card .info-label {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b7280;
+    }
+
+    .photo-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    .photo-item {
+      flex: 1 1 0;
+      min-width: 0;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+
+    .photo-item + .photo-item {
+      border-left: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
+    .photo-item img {
+      max-width: 100%;
+      height: 75px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .partners-note {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #505050;
+      line-height: 1.5;
+    }
+
     .carousel-track {
       display: flex;
       width: 100%;
@@ -327,13 +357,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: bold;
+      font-size: 0;
       cursor: pointer;
       user-select: none;
       z-index: 10;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       transition: 0.2s;
+    }
+
+    .arrow i {
+      font-size: 12px;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
     }
 
     .arrow:hover {
@@ -365,7 +404,7 @@
     }
 
     .dot.active {
-      background: #007aff;
+      background: #ffffff;
       width: 18px;
       border-radius: 4px;
     }
@@ -396,6 +435,7 @@
     @media (max-width: 480px) {
       body {
         padding: 8px;
+        padding-bottom: 0px;
       }
 
       .title {
@@ -411,7 +451,7 @@
 
       .hero1, .carousel-wrapper {
         min-height: 150px;
-        height: 160px;
+        height: 200px;
       }
 
       .sheet-hero {
@@ -556,16 +596,14 @@
 
     :root {
       --window-height: 100vh;
-      --window-width: 100vw;
     }
 
     /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
     .bottom-sheet {
       position: fixed;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: var(--window-width);
-      /* Height matches the visible viewport (set from JS) */
+      width: 100%;
       height: var(--window-height);
       max-height: var(--window-height);
       background: white;
@@ -573,9 +611,6 @@
       border-top-right-radius: 20px;
       box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
       z-index: 10001;
-      box-sizing: border-box;
-      /* Reserve space for mobile safe area (browser/toolbars) */
-      padding-bottom: env(safe-area-inset-bottom, 0px);
   
       /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
       transform: translateY(100%);
@@ -588,7 +623,7 @@
 /* Barra superiore per il trascinamento */
 .sheet-header {
   height: 180px;
-  background-image: url('img/010.jpg');
+  background-image: url('IMG/010.jpg');
   background-size: cover;
   background-position: center;
   padding: 14px;
@@ -633,8 +668,8 @@
 /* Area del contenuto interno */
 .sheet-content {
   padding: 20px;
-  padding-bottom: 8px;
   overflow-y: auto;
+  flex: 1;
 }
 
 .sheet-hero {
@@ -649,7 +684,6 @@
   color: #444;
   font-size: 14px;
   line-height: 1.6;
-  text-align: justify;
   margin-bottom: 16px;
   margin: 0;
   padding: 0;
@@ -696,11 +730,11 @@
 }
 
 
-    /* Two wide buttons aligned left and right (compact) */
+    /* Two wide buttons aligned left and right */
     .icon-row {
       display: flex;
       flex-direction: row;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       justify-content: space-between;
       width: 100%;
@@ -708,56 +742,47 @@
     }
 
     .icon-btn {
-      flex: 1 1 0;
-      width: auto;
-      height: 50px;
-      border-radius: 12px;
-      display: inline-flex;
+      width: 48%;
+      height: 48px;
+      border-radius: 24px;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-size: 16px;
+      font-size: 18px;
       background: #ffffff;
       border: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       cursor: pointer;
       color: #111;
-      padding: 10px 14px;
+      padding: 8px 12px;
       box-sizing: border-box;
-      transition: transform 0.08s ease, box-shadow 0.12s ease;
+      gap: 10px;
     }
 
     .icon-btn i {
       line-height: 1;
       pointer-events: none;
-      font-size: 20px;
+      font-size: 18px;
+    }
+
+    .icon-btn span {
+      font-size: 12px;
+      font-weight: 200;
+      text-align: center;
     }
 
     .icon-btn:active { transform: translateY(1px); }
 
-    /* Primary scanner appearance */
-    .scanner-primary {
-      background: linear-gradient(90deg,#007aff,#005ecb);
-      color: #ffffff;
-      box-shadow: 0 10px 30px rgba(0,122,255,0.20);
-    }
-
-    .icon-btn .btn-label {
-      display: inline-block;
-      font-weight: 700;
-      font-size: 15px;
-      line-height: 1;
-    }
-
-    /* Align icons inside each button: left-aligned first, right-aligned last for small paddings */
-    .icon-row .icon-btn:first-child { justify-content: flex-start; padding-left: 12px; }
-    .icon-row .icon-btn:last-child { justify-content: flex-end; padding-right: 12px; }
+    /* Align icons inside each button: first to left, second to right */
+    .icon-row .icon-btn:first-child { justify-content: center; padding-left: 14px; }
+    .icon-row .icon-btn:last-child { justify-content: center; padding-right: 14px; }
 
 
 
 .sheet-bottom-row {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
   justify-content: space-between;
   margin-bottom: 16px;
 }
@@ -801,16 +826,6 @@
   gap: 12px;
   width: 100%;
   margin-top: 4px;
-}
-
-/* Audio bar anchored to bottom of sheet in flexbox layout */
-.sheet-audio-sticky {
-  flex-shrink: 0;
-  background: #ffffff;
-  padding: 12px 20px;
-  padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-  border-top: 1px solid #efeff4;
-  z-index: 10;
 }
 
 .nav-btn {
@@ -901,6 +916,31 @@
   white-space: nowrap;
   text-decoration: none;
 }
+
+.leaflet-touch .leaflet-bar a {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.leaflet-touch .leaflet-bar a:first-child {
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+}
+
+.leaflet-touch .leaflet-bar a:last-child {
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar {
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    background-clip: padding-box;
+    border-radius: 24px;
+}
   </style>
 </head>
 <body>
@@ -913,7 +953,7 @@
     </div>
 
       <div class="hero1">
-        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -939,9 +979,7 @@
       <div class="map-card">
         <div id="map"></div>
         <button class="expand-btn" id="fullscreenBtn" title="Fullscreen">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
-          </svg>
+          <i class="bi bi-arrows-angle-expand"></i>
         </button>
       </div>
     </div>
@@ -961,58 +999,62 @@
           <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
           <span class="full-text" id="infoDescription">Descrizione dettagliata del punto d'interesse...</span>
         </p>
-      </div>
-      <!-- Sticky audio bar: always visible above browser toolbar -->
-      <div class="sheet-audio-sticky">
-        <div class="sheet-audio">
-          <div class="audio-player">
-            <div class="audio-progress-wrapper">
-              <div class="audio-progress-bar" id="audioProgressBar"></div>
-            </div>
-            <div class="audio-times">
-              <span id="audioCurrentTime">00:00</span>
-              <span id="audioRemainingTime">-00:00</span>
+        <div class="sheet-bottom-row">
+          <div class="sheet-audio">
+            <div class="audio-player">
+              <div class="audio-progress-wrapper">
+                <div class="audio-progress-bar" id="audioProgressBar"></div>
+              </div>
+              <div class="audio-times">
+                <span id="audioCurrentTime">00:00</span>
+                <span id="audioRemainingTime">-00:00</span>
+              </div>
             </div>
           </div>
+          <div class="sheet-nav audio-controls">
+            <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Ripeti o tappa precedente">‹</button>
+            <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
+            <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
+          </div>
+          <audio id="sheetAudio" preload="metadata"></audio>
         </div>
-        <div class="sheet-nav audio-controls">
-          <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">‹</button>
-          <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
-          <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
-        </div>
-        <audio id="sheetAudio" preload="metadata"></audio>
       </div>
     </div>
 
     <div class="row icon-row" aria-label="Azioni">
-      <button id="scannerBtn" class="icon-btn glass scanner-primary" title="Scansiona QR" aria-label="Scansiona QR">
-        <i class="bi bi-upc-scan"></i>
-        <span class="btn-label">Scansiona</span>
+      <button id="scannerBtn" class="icon-btn glass" title="Scansiona QR" aria-label="Scansiona QR">
+        <i class="bi bi-qr-code-scan"></i>        
+        <span>Scansiona</span>
       </button>
 
       <button id="feedbackBtn" class="icon-btn glass" title="Feedback" aria-label="Feedback">
         <i class="bi bi-chat-dots"></i>
-        <span class="btn-label">Segnala</span>
+        <span>Segnala</span>
       </button>
     </div>
 
+    
 
     <div class="carousel-card">
       <div class="carousel-wrapper">
-        <div class="arrow left" id="prevBtn">‹</div>
-        <div class="arrow right" id="nextBtn">›</div>
+        <div class="arrow left" id="prevBtn">
+          <i class="bi bi-chevron-left"></i>
+        </div>
+        <div class="arrow right" id="nextBtn">
+          <i class="bi bi-chevron-right"></i>
+        </div>
 
         <div class="carousel-track" id="carouselTrack">
-          <div class="carousel-slide"><img src="img\020.jpg" alt="Foto 1"></div>
-          <div class="carousel-slide"><img src="img\021.jpg" alt="Foto 2"></div>
-          <div class="carousel-slide"><img src="img\022.jpg" alt="Foto 3"></div>
-          <div class="carousel-slide"><img src="img\023.jpg" alt="Foto 4"></div>
-          <div class="carousel-slide"><img src="img\024.jpg" alt="Foto 5"></div>
-          <div class="carousel-slide"><img src="img\025.jpg" alt="Foto 6"></div>
-          <div class="carousel-slide"><img src="img\026.jpg" alt="Foto 7"></div>
-          <div class="carousel-slide"><img src="img\027.jpg" alt="Foto 8"></div>
-          <div class="carousel-slide"><img src="img\028.jpg" alt="Foto 9"></div>
-          <div class="carousel-slide"><img src="img\029.jpg" alt="Foto 10"></div>
+          <div class="carousel-slide"><img src="IMG/020.jpg" alt="Foto 1"></div>
+          <div class="carousel-slide"><img src="IMG/021.jpg" alt="Foto 2"></div>
+          <div class="carousel-slide"><img src="IMG/022.jpg" alt="Foto 3"></div>
+          <div class="carousel-slide"><img src="IMG/023.jpg" alt="Foto 4"></div>
+          <div class="carousel-slide"><img src="IMG/024.jpg" alt="Foto 5"></div>
+          <div class="carousel-slide"><img src="IMG/025.jpg" alt="Foto 6"></div>
+          <div class="carousel-slide"><img src="IMG/026.jpg" alt="Foto 7"></div>
+          <div class="carousel-slide"><img src="IMG/027.jpg" alt="Foto 8"></div>
+          <div class="carousel-slide"><img src="IMG/028.jpg" alt="Foto 9"></div>
+          <div class="carousel-slide"><img src="IMG/029.jpg" alt="Foto 10"></div>
         </div>
       </div>
 
@@ -1025,9 +1067,22 @@
       </div>
     </div>
 
-    <div class="card">
-      <p style="font-size: 13px; line-height: 1.4; color: #444;">Da un'idea di: <strong>IIS Polo Romani</strong> in collaborazione con Ass. Persona Ambiente, Legambiente Cremona "Vedo Verde", ASD Atletica Interflumina èPiù Pomì e Cammino del Po.</p>
+    <div class="card partners-card" style="margin-bottom: 0px; border-radius: 24px 24px 0 0;">
+      <p class="info-label" style="    text-align: center;">da un'idea di: </p>
+      <div class="photo-grid" aria-label="Loghi partner">
+        <div class="photo-item"><img src="IMG/5.png" alt="Logo partner 1" style="height: 55px;"></div>
+      </div>
+      <p class="info-label" style="    text-align: center;">in collaborazione con:</p>
+      <div class="photo-grid" aria-label="Loghi partner">
+        <div class="photo-item"><img src="IMG/1.png" alt="Logo partner 1"></div>
+        <div class="photo-item"><img src="IMG/2.png" alt="Logo partner 2"></div>
+        <div class="photo-item"><img src="IMG/3.png" alt="Logo partner 3"></div>
+        <div class="photo-item"><img src="IMG/4.png" alt="Logo partner 4"></div>
+      </div>
+      <p class="partners-note"><i>Audio e testi: 1° - 2° Liceo Classico</i></p>
+      <p class="partners-note" style="margin: 0px;"><i>A CREATION BY: © Lorenzo e Jacopo Goffredi - 06.2025 </i></p>
     </div>
+    
 
   </div>
 
@@ -1098,11 +1153,13 @@
         if (targetState) {
             document.body.classList.add('fullscreen');
             mapContainer.classList.add('fullscreen');
+        updateFullscreenIcon();
             setTimeout(() => { map.invalidateSize(); }, 300);
         } else {
             const closeFullscreen = () => {
                 document.body.classList.remove('fullscreen');
                 mapContainer.classList.remove('fullscreen');
+          updateFullscreenIcon();
                 map.closePopup();
                 setTimeout(() => { map.invalidateSize(); }, 300);
             };
@@ -1119,26 +1176,27 @@
     // Gestione bottone Fullscreen
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const mapContainer = document.getElementById('mapContainer');
-    const bottomSheet = document.getElementById('bottomSheet');
+
+    function updateFullscreenIcon() {
+      const btn = document.getElementById('fullscreenBtn');
+      if (!btn) return;
+      const icon = btn.querySelector('i');
+      if (!icon) return;
+      if (mapContainer && mapContainer.classList.contains('fullscreen')) {
+        icon.classList.remove('bi-arrows-angle-expand');
+        icon.classList.add('bi-arrows-angle-contract');
+        btn.title = 'Esci fullscreen';
+      } else {
+        icon.classList.remove('bi-arrows-angle-contract');
+        icon.classList.add('bi-arrows-angle-expand');
+        btn.title = 'Fullscreen';
+      }
+    }
 
     function updateWindowHeight() {
-      const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
-      const vh = getViewportHeight();
-
-      document.documentElement.style.setProperty('--window-width', `${vw}px`);
-      document.documentElement.style.setProperty('--window-height', `${vh}px`);
-      if (bottomSheet) bottomSheet.style.setProperty('height', `${vh}px`);
-
-      console.log(`Visual viewport: ${vw} x ${vh}`);
-
-      // Let Leaflet recalculate sizes shortly after viewport changes
-      setTimeout(() => { try { if (map && typeof map.invalidateSize === 'function') map.invalidateSize(); } catch (e) {} }, 220);
+      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
     }
 
-    if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', updateWindowHeight);
-      window.visualViewport.addEventListener('scroll', updateWindowHeight);
-    }
     window.addEventListener('resize', updateWindowHeight);
     window.addEventListener('orientationchange', updateWindowHeight);
     updateWindowHeight();
@@ -1148,6 +1206,10 @@
       toggleFullscreen();
     });
 
+    // Imposta icona corretta all'avvio
+    updateFullscreenIcon();
+
+    const bottomSheet = document.getElementById('bottomSheet');
     const sheetHeader = document.getElementById('sheetHeader');
     const closeSheet = document.getElementById('closeSheet');
     const readMoreBtn = document.getElementById('readMoreBtn');
@@ -1178,87 +1240,31 @@
       return `${excerpt.slice(0, lastSpace)}...`;
     }
 
-    function getViewportHeight() {
-      // Use visualViewport when available — it accounts for browser chrome
-      // (address bar, toolbars) on both Safari and Chrome for iOS/Android.
-      const visual = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : Infinity;
-      const inner = window.innerHeight || Infinity;
-      const client = document.documentElement.clientHeight || Infinity;
-      const vh = Math.min(visual, inner, client);
-      return vh > 0 ? vh : window.innerHeight;
-    }
-
-    function getHalfTranslateY(vh) {
-      if (Math.abs(vh - 852) <= 50) {
-        return Math.round(vh * 0.45);
-      }
-      else {
-        return Math.round(vh * 0.33);
-      }
-    }
-
     function updateSheetState(state) {
       currentStatus = state;
       const previewText = document.querySelector('.preview-text');
       const fullText = document.querySelector('.full-text');
 
-      // Sheet height equals the real viewport height (set in updateWindowHeight).
-      // We translate by pixel offsets so the visible portion is always correct
-      // regardless of browser chrome height (Safari vs Chrome behave differently).
-      const vh = getViewportHeight();
-
       if (state === 'hidden') {
-        bottomSheet.style.transform = `translateY(${vh}px)`;
+        bottomSheet.style.transform = 'translateY(100%)';
         readMoreBtn.classList.add('hidden');
         previewText.classList.add('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'closed') {
-        // Show only a small peek (~240px) from the bottom
-        bottomSheet.style.transform = `translateY(${vh - 0}px)`;
+        bottomSheet.style.transform = 'translateY(calc(100% - 240px))';
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'half') {
-        // Adjust half state based on the actual viewport height.
-        const halfOffset = getHalfTranslateY(vh);
-        bottomSheet.style.transform = `translateY(${halfOffset}px)`;
+        bottomSheet.style.transform = 'translateY(50%)';
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'full') {
-        bottomSheet.style.transform = 'translateY(0px)';
+        bottomSheet.style.transform = 'translateY(0%)';
         readMoreBtn.classList.add('hidden');
         previewText.classList.add('hidden');
         fullText.classList.add('visible');
-      }
-    }
-
-    function getMapCenterOffset() {
-      // Returns pixels to panBy(Y) — positive = shift marker UP into visible zone
-      const mapHeight = getViewportHeight();
-      if (currentStatus === 'hidden' || currentStatus === 'full') {
-        return 0;
-      }
-      if (currentStatus === 'closed') {
-        // Sheet covers 240px from bottom; visible area height = mapHeight - 240
-        // To center marker in visible area, shift map down by 120px (marker moves up)
-        return 120;
-      }
-      if (currentStatus === 'half') {
-        // Sheet covers ~65% of screen
-        return Math.round(mapHeight * 0.25);
-      }
-      return 0;
-    }
-
-    function focusMapOnTappa(t) {
-      if (!t) return;
-      const offset = getMapCenterOffset();
-      // First setView centers the marker at map center, then panBy shifts the
-      // map DOWN so the marker visually moves UP into the area above the sheet
-      map.setView([t.lat, t.lng], 16, { animate: false });
-      if (offset > 0) {
-        map.panBy([0, offset], { animate: true, duration: 0.4 });
       }
     }
 
@@ -1271,7 +1277,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
@@ -1313,15 +1319,8 @@
       selIdx = index;
       const t = tappe[selIdx];
       setSheetContent(t);
-
-      if (openFull) {
-        toggleFullscreen(true);
-        updateSheetState('full');
-      } else {
-        updateSheetState('half');
-      }
-
-      focusMapOnTappa(t);
+      map.setView([t.lat, t.lng], 16);
+      updateSheetState(openFull ? 'full' : 'half');
       updateTappaHash(t.id);
     }
 
@@ -1336,11 +1335,13 @@
     sheetPrevBtn.addEventListener('click', () => {
       const previous = (selIdx - 1 + tappe.length) % tappe.length;
       selectTappa(previous);
+      updateSheetState('half');
     });
 
     sheetNextBtn.addEventListener('click', () => {
       const next = (selIdx + 1) % tappe.length;
       selectTappa(next);
+      updateSheetState('half');
     });
 
     sheetPlayPauseBtn.addEventListener('click', () => {
@@ -1383,20 +1384,17 @@
 
       marker.on('click', function(e) {
         const isFullscreen = mapContainer.classList.contains('fullscreen');
+        selectTappa(idx);
+        updateSheetState('half');
 
         if (!isFullscreen) {
           L.DomEvent.stopPropagation(e);
           toggleFullscreen(true);
-          // Set content & state first, then focus after fullscreen animation
-          setSheetContent(tappa);
-          updateSheetState('half');
-          selIdx = idx;
-          updateTappaHash(tappa.id);
           setTimeout(() => {
-            focusMapOnTappa(tappa);
-          }, 380);
+            map.setView([tappa.lat, tappa.lng], 16);
+          }, 350);
         } else {
-          selectTappa(idx);
+          map.setView([tappa.lat, tappa.lng], 16);
         }
       });
     });
@@ -1453,6 +1451,7 @@
       }
     }
 
+    openTappaFromHash();
     openTappaFromHash();
 
     // Buttons handlers
