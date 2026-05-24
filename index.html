@@ -1128,9 +1128,13 @@
 
       document.documentElement.style.setProperty('--window-width', `${vw}px`);
       document.documentElement.style.setProperty('--window-height', `${vh}px`);
-      if (bottomSheet) bottomSheet.style.setProperty('height', `${vh}px`);
+      if (bottomSheet) bottomSheet.style.height = `${vh}px`;
 
-      console.log(`Visual viewport: ${vw} x ${vh}`);
+      // Re-apply the current sheet state so pixel offsets are recalculated
+      // for the new viewport height (handles Chrome toolbar appearing/disappearing)
+      if (typeof currentStatus !== 'undefined' && currentStatus !== 'hidden') {
+        updateSheetState(currentStatus);
+      }
 
       // Let Leaflet recalculate sizes shortly after viewport changes
       setTimeout(() => { try { if (map && typeof map.invalidateSize === 'function') map.invalidateSize(); } catch (e) {} }, 220);
@@ -1179,9 +1183,11 @@
       return `${excerpt.slice(0, lastSpace)}...`;
     }
 
-    function getHalfSheetOffset() {
-      const vh = (window.visualViewport && window.visualViewport.height) ? window.visualViewport.height : window.innerHeight;
-      return Math.round(vh * 0.35);
+    function getViewportHeight() {
+      // Use visualViewport when available — it accounts for browser chrome
+      // (address bar, toolbars) on both Safari and Chrome for iOS/Android.
+      if (window.visualViewport) return window.visualViewport.height;
+      return window.innerHeight;
     }
 
     function updateSheetState(state) {
@@ -1189,23 +1195,30 @@
       const previewText = document.querySelector('.preview-text');
       const fullText = document.querySelector('.full-text');
 
+      // Sheet height equals the real viewport height (set in updateWindowHeight).
+      // We translate by pixel offsets so the visible portion is always correct
+      // regardless of browser chrome height (Safari vs Chrome behave differently).
+      const vh = getViewportHeight();
+
       if (state === 'hidden') {
-        bottomSheet.style.transform = 'translateY(100%)';
+        bottomSheet.style.transform = `translateY(${vh}px)`;
         readMoreBtn.classList.add('hidden');
         previewText.classList.add('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'closed') {
-        bottomSheet.style.transform = 'translateY(calc(100% - 0px))';
+        // Show only a small peek (~240px) from the bottom
+        bottomSheet.style.transform = `translateY(${vh - 240}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'half') {
-        bottomSheet.style.transform = `translateY(${getHalfSheetOffset()}px)`;
+        // Show roughly the top 65% of the viewport
+        bottomSheet.style.transform = `translateY(${Math.round(vh * 0.35)}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'full') {
-        bottomSheet.style.transform = 'translateY(0%)';
+        bottomSheet.style.transform = 'translateY(0px)';
         readMoreBtn.classList.add('hidden');
         previewText.classList.add('hidden');
         fullText.classList.add('visible');
@@ -1214,18 +1227,18 @@
 
     function getMapCenterOffset() {
       // Returns pixels to panBy(Y) — positive = shift marker UP into visible zone
-      const mapHeight = window.innerHeight;
+      const vh = getViewportHeight();
       if (currentStatus === 'hidden' || currentStatus === 'full') {
         return 0;
       }
       if (currentStatus === 'closed') {
-        // Sheet covers 240px from bottom; visible area height = mapHeight - 240
-        // To center marker in visible area, shift map down by 120px (marker moves up)
+        // Sheet peeks 240px from the bottom; centre marker in the visible region above it
         return 120;
       }
       if (currentStatus === 'half') {
-        // Sheet covers 50% of screen
-        return Math.round(mapHeight * 0.25);
+        // Sheet top is at 35% of viewport; visible map = 35% of vh
+        // Pan down by half that so the marker sits in the middle of the visible map
+        return Math.round(vh * 0.175);
       }
       return 0;
     }
