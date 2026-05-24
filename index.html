@@ -1122,9 +1122,8 @@
     const bottomSheet = document.getElementById('bottomSheet');
 
     function updateWindowHeight() {
-      const viewport = window.visualViewport;
-      const vw = viewport ? viewport.width : window.innerWidth;
-      const vh = viewport ? viewport.height : window.innerHeight;
+      const vw = window.visualViewport ? window.visualViewport.width : window.innerWidth;
+      const vh = getViewportHeight();
 
       document.documentElement.style.setProperty('--window-width', `${vw}px`);
       document.documentElement.style.setProperty('--window-height', `${vh}px`);
@@ -1182,8 +1181,11 @@
     function getViewportHeight() {
       // Use visualViewport when available — it accounts for browser chrome
       // (address bar, toolbars) on both Safari and Chrome for iOS/Android.
-      if (window.visualViewport) return window.visualViewport.height;
-      return window.innerHeight;
+      const visual = window.visualViewport && window.visualViewport.height ? window.visualViewport.height : Infinity;
+      const inner = window.innerHeight || Infinity;
+      const client = document.documentElement.clientHeight || Infinity;
+      const vh = Math.min(visual, inner, client);
+      return vh > 0 ? vh : window.innerHeight;
     }
 
     function updateSheetState(state) {
@@ -1203,13 +1205,13 @@
         fullText.classList.remove('visible');
       } else if (state === 'closed') {
         // Show only a small peek (~240px) from the bottom
-        bottomSheet.style.transform = `translateY(${vh - 0}px)`;
+        bottomSheet.style.transform = `translateY(${vh - 240}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
       } else if (state === 'half') {
         // Show roughly the top 65% of the viewport
-        bottomSheet.style.transform = `translateY(${Math.round(vh * 0.33)}px)`;
+        bottomSheet.style.transform = `translateY(${Math.round(vh * 0.35)}px)`;
         readMoreBtn.classList.remove('hidden');
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
@@ -1223,7 +1225,7 @@
 
     function getMapCenterOffset() {
       // Returns pixels to panBy(Y) — positive = shift marker UP into visible zone
-      const mapHeight = window.innerHeight;
+      const mapHeight = getViewportHeight();
       if (currentStatus === 'hidden' || currentStatus === 'full') {
         return 0;
       }
@@ -1233,7 +1235,7 @@
         return 120;
       }
       if (currentStatus === 'half') {
-        // Sheet covers 50% of screen
+        // Sheet covers ~65% of screen
         return Math.round(mapHeight * 0.25);
       }
       return 0;
