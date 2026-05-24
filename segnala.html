@@ -27,15 +27,23 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        .top-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
         .top-actions {
             display: flex;
             justify-content: flex-start;
-            padding-bottom: 16px;
+            padding-bottom: 0;
+            margin: 0;
         }
         .back-btn {
             width: 44px;
             height: 44px;
-            border-radius: 14px;
+            border-radius: 50%;
             border: none;
             background: #ffffff;
             color: var(--ios-text);
@@ -47,56 +55,93 @@
             box-shadow: 0 6px 18px rgba(0,0,0,0.08);
             cursor: pointer;
         }
+        .segmented-control {
+            position: relative;
+            display: flex;
+            flex: 1;
+            min-width: 0;
+            background: var(--ios-segmented-bg);
+            padding: 2px;
+            border-radius: 24px;
+            margin-bottom: 0;
+            height: 44px;
+            overflow: hidden;
+        }
+        .segmented-control::before {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(50% - 4px);
+            height: calc(100% - 4px);
+            background: #ffffff;
+            border-radius: 22px;
+            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
+            transition: left 0.25s ease;
+            z-index: 0;
+        }
+        .segmented-control.active-segnala::before {
+            left: 2px;
+        }
+        .segmented-control.active-valuta::before {
+            left: calc(50% + 2px);
+        }
+        .segmented-control button {
+            flex: 1;
+            height: 100%;
+            padding: 0 12px;
+            border-radius: 24px;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--ios-text);
+            cursor: pointer;
+            transition: color 0.25s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .segmented-control button.active {
+            color: #111;
+            font-weight: 600;
+        }
         .back-btn:active {
             transform: scale(0.98);
         }
 
-        /* Main Container (compact spacing) */
+        .form-section {
+            opacity: 0;
+            transform: translateY(10px);
+            max-height: 0;
+            overflow: hidden;
+            transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.35s ease;
+        }
+        .form-section.active {
+            opacity: 1;
+            transform: translateY(0);
+            max-height: 2000px;
+        }
+
+        /* Main Container */
         .container { 
             max-width: 600px; 
             margin: 0 auto; 
-            padding: 12px; 
+            padding: 16px; 
             box-sizing: border-box;
-        }
-
-        /* iOS Segmented Control */
-        .segmented-control { 
-            display: flex; 
-            background: var(--ios-segmented-bg); 
-            padding: 2px; 
-            border-radius: 9px; 
-            margin-bottom: 18px;
-        }
-        .segmented-control button { 
-            flex: 1; 
-            padding: 6px 0; 
-            border-radius: 7px; 
-            border: none; 
-            background: transparent; 
-            font-size: 13px; 
-            font-weight: 500; 
-            color: var(--ios-text);
-            cursor: pointer; 
-            transition: all 0.2s ease;
-        }
-        .segmented-control button.active { 
-            background: #ffffff; 
-            box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.12), 0px 3px 1px rgba(0, 0, 0, 0.04);
-            font-weight: 600;
         }
 
         /* iOS Grouped List Layout (Form Cards) */
         .ios-group {
             background: var(--ios-card-bg);
             border-radius: 10px;
-            margin-bottom: 12px;
+            margin-bottom: 24px;
             overflow: hidden;
         }
         
         .ios-row {
             display: flex;
             align-items: center;
-            padding: 10px 12px;
+            padding: 11px 16px;
             min-height: 44px;
             box-sizing: border-box;
             position: relative;
@@ -106,15 +151,15 @@
             content: "";
             position: absolute;
             background-color: var(--ios-separator);
-            left: 12px;
+            left: 16px;
             right: 0;
             bottom: 0;
             height: 0.5px;
         }
 
         .ios-row label {
-            width: 100px;
-            font-size: 16px;
+            width: 110px;
+            font-size: 17px;
             color: var(--ios-text);
         }
 
@@ -124,7 +169,7 @@
             border: none;
             outline: none;
             font-family: inherit;
-            font-size: 16px;
+            font-size: 17px;
             color: var(--ios-text);
             background: transparent;
             padding: 0;
@@ -132,7 +177,6 @@
         .ios-row select {
             color: var(--ios-tint);
             text-align: right;
-            direction: rtl;
             cursor: pointer;
         }
         .ios-row textarea {
@@ -147,7 +191,7 @@
             width: 100%;
             align-items: center;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
         }
         .file-label span.action {
             color: var(--ios-tint);
@@ -158,23 +202,20 @@
         .ios-footer-note {
             font-size: 13px;
             color: var(--ios-secondary-text);
-            padding: 0 12px;
-            margin-top: -12px;
-            margin-bottom: 12px;
+            padding: 0 16px;
+            margin-top: -16px;
+            margin-bottom: 24px;
         }
 
         /* iOS Button Standard */
-        .ios-btn-container {
-            padding: 0 12px;
-        }
         .ios-btn { 
             width: 100%; 
-            padding: 12px; 
-            border-radius: 12px; 
+            padding: 14px; 
+            border-radius: 24px; 
             border: none; 
             background: var(--ios-tint); 
             color: white; 
-            font-size: 16px; 
+            font-size: 17px; 
             font-weight: 600; 
             cursor: pointer;
             text-align: center;
@@ -243,16 +284,18 @@
 <body>
 
     <div class="container">
-        <div class="top-actions">
-            <button class="back-btn" type="button" onclick="window.location.href='index.html'" aria-label="Torna a mappa">×</button>
+        <div class="top-bar">
+            <div class="top-actions">
+                <button class="back-btn" type="button" onclick="window.location.href='indexDef.html'" aria-label="Torna a mappa"><i class="bi bi-x"></i></button>
+            </div>
+
+            <div class="segmented-control active-segnala" role="tablist">
+                <button id="tabSegnala" class="active" onclick="showTab('segnala')">Segnalazione</button>
+                <button id="tabValuta" onclick="showTab('valuta')">Valutazione</button>
+            </div>
         </div>
 
-        <div class="segmented-control" role="tablist">
-            <button id="tabSegnala" class="active" onclick="showTab('segnala')">Segnalazione</button>
-            <button id="tabValuta" onclick="showTab('valuta')">Valutazione</button>
-        </div>
-
-        <div id="segnala" class="form-section">
+        <div id="segnala" class="form-section active">
             <form id="formSegnala" onsubmit="submitSegnalazione(event)">
                 <div class="ios-group">
                     <div class="ios-row">
@@ -277,7 +320,6 @@
                         <input id="photo" type="file" accept="image/*" multiple>
                     </div>
                 </div>
-                <div class="ios-footer-note">Puoi scattare foto in tempo reale o selezionare più immagini dalla tua galleria.</div>
 
                 <div id="previewContainer" class="photo-preview-container" style="display:none"></div>
 
@@ -287,7 +329,7 @@
             </form>
         </div>
 
-        <div id="valuta" class="form-section" style="display:none">
+        <div id="valuta" class="form-section">
             <form id="formValuta" onsubmit="submitValutazione(event)">
                 <div class="ios-group">
                     <div class="ios-row" style="flex-direction: column; align-items: center; padding: 16px 0;">
@@ -317,10 +359,17 @@
 
     <script>
         function showTab(name) {
-            document.getElementById('segnala').style.display = name === 'segnala' ? 'block' : 'none';
-            document.getElementById('valuta').style.display = name === 'valuta' ? 'block' : 'none';
-            document.getElementById('tabSegnala').classList.toggle('active', name === 'segnala');
-            document.getElementById('tabValuta').classList.toggle('active', name === 'valuta');
+            const segSection = document.getElementById('segnala');
+            const valSection = document.getElementById('valuta');
+            const control = document.querySelector('.segmented-control');
+            const isSegnala = name === 'segnala';
+
+            segSection.classList.toggle('active', isSegnala);
+            valSection.classList.toggle('active', !isSegnala);
+            document.getElementById('tabSegnala').classList.toggle('active', isSegnala);
+            document.getElementById('tabValuta').classList.toggle('active', !isSegnala);
+            control.classList.toggle('active-valuta', !isSegnala);
+            control.classList.toggle('active-segnala', isSegnala);
         }
 
         // Gestione file e anteprime multiple
@@ -363,7 +412,7 @@
 
                     const removeBtn = document.createElement('div');
                     removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+                    removeBtn.innerHTML = '<i class="bi bi-x- Moran"></i>';
                     removeBtn.addEventListener('click', () => {
                         selectedFiles.splice(index, 1); // Rimuove il file dall'array
                         renderPreviews(); // Ridisegna le anteprime
