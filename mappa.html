@@ -197,7 +197,7 @@
     .sheet-header {
       flex-shrink: 0;
       height: 180px;
-      background-image: url('IMG/010.jpg');
+      background-image: url('img/010.jpg');
       background-size: cover;
       background-position: center;
       border-top-left-radius: 22px;
@@ -710,7 +710,7 @@
       document.getElementById('infoDescription').innerText = t.desc;
 
       const num = String(t.id).padStart(3, '0');
-      document.getElementById('sheetHeader').style.backgroundImage = `url('IMG/${num}.jpg')`;
+      document.getElementById('sheetHeader').style.backgroundImage = `url('img/${num}.jpg')`;
 
       const audio = document.getElementById('sheetAudio');
       audio.src = encodeURI(`AUDIO/tappa ${t.id}.mp4`);

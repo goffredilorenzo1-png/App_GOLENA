@@ -632,7 +632,7 @@
 /* Barra superiore per il trascinamento */
 .sheet-header {
   height: 180px;
-  background-image: url('IMG/010.jpg');
+  background-image: url('img/010.jpg');
   background-size: cover;
   background-position: center;
   padding: 14px;
@@ -964,7 +964,7 @@
     </div>
 
       <div class="hero1">
-        <img src="IMG/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
+        <img src="img/010.jpg" alt="Copertina" onerror="this.src='https://picsum.photos/id/1015/390/220'">
       </div>
     
     <div class="hero2">
@@ -1056,16 +1056,16 @@
         </div>
 
         <div class="carousel-track" id="carouselTrack">
-          <div class="carousel-slide"><img src="IMG/020.jpg" alt="Foto 1"></div>
-          <div class="carousel-slide"><img src="IMG/021.jpg" alt="Foto 2"></div>
-          <div class="carousel-slide"><img src="IMG/022.jpg" alt="Foto 3"></div>
-          <div class="carousel-slide"><img src="IMG/023.jpg" alt="Foto 4"></div>
-          <div class="carousel-slide"><img src="IMG/024.jpg" alt="Foto 5"></div>
-          <div class="carousel-slide"><img src="IMG/025.jpg" alt="Foto 6"></div>
-          <div class="carousel-slide"><img src="IMG/026.jpg" alt="Foto 7"></div>
-          <div class="carousel-slide"><img src="IMG/027.jpg" alt="Foto 8"></div>
-          <div class="carousel-slide"><img src="IMG/028.jpg" alt="Foto 9"></div>
-          <div class="carousel-slide"><img src="IMG/029.jpg" alt="Foto 10"></div>
+          <div class="carousel-slide"><img src="img/020.jpg" alt="Foto 1"></div>
+          <div class="carousel-slide"><img src="img/021.jpg" alt="Foto 2"></div>
+          <div class="carousel-slide"><img src="img/022.jpg" alt="Foto 3"></div>
+          <div class="carousel-slide"><img src="img/023.jpg" alt="Foto 4"></div>
+          <div class="carousel-slide"><img src="img/024.jpg" alt="Foto 5"></div>
+          <div class="carousel-slide"><img src="img/025.jpg" alt="Foto 6"></div>
+          <div class="carousel-slide"><img src="img/026.jpg" alt="Foto 7"></div>
+          <div class="carousel-slide"><img src="img/027.jpg" alt="Foto 8"></div>
+          <div class="carousel-slide"><img src="img/028.jpg" alt="Foto 9"></div>
+          <div class="carousel-slide"><img src="img/029.jpg" alt="Foto 10"></div>
         </div>
       </div>
 
@@ -1083,7 +1083,7 @@
       <div class="photo-grid" aria-label="Logo partner principale">
         <div class="photo-item">
           <a href="https://poloromani.edu.it/" target="_blank" rel="noopener noreferrer" title="Vai al sito partner principale">
-            <img src="IMG/5.png" alt="Logo partner principale" style="height: 55px;">
+            <img src="img/logo_poloromani.jpeg" alt="Logo partner principale" style="height: 55px;">
           </a>
         </div>
       </div>
@@ -1091,22 +1091,22 @@
       <div class="photo-grid" aria-label="Loghi partner">
         <div class="photo-item">
           <a href="https://www.legambiente.it/?_gl=1*1ih58q7*_up*MQ..*_gs*MQ..*_gcl_aw*R0NMLjE3Nzk2NTA2MTguQ2owS0NRand3OHJRQmhEakFSSXNBRTQzS1BPNS1UR0dmdzAyYXBHdkFVUjBTOHRyWU51cFhKNzdabktLZUViVnBNRE4yZDJ5VmxJWi15a2FBbi1ERUFMd193Y0I.*_gcl_au*MTUyNjEyNDY0NS4xNzc5NjM4MTQ3*_ga*MTIxMjY4NDM1OS4xNzc5NjM4MTM0*_ga_LX7CNT6SDN*czE3Nzk2NTA1OTYkbzIkZzEkdDE3Nzk2NTA2MjAkajM2JGwwJGgw&gclid=Cj0KCQjww8rQBhDjARIsAE43KPO5-TGGfw02apGvAUR0S8trYNupXJ77ZnKKeEbVpMDN2d2yVlIZ-ykaAn-DEALw_wcB&gbraid=0AAAAABOf-8cSr2bb43WsZRXOgcshWzQyx" target="_blank" rel="noopener noreferrer" title="Vai al sito partner 1">
-            <img src="IMG/1.png" alt="Logo partner 1">
+            <img src="img/logo_legambiente.jpeg" alt="Logo partner 1">
           </a>
         </div>
         <div class="photo-item">
           <a href="https://www.camminodelpo.it/" target="_blank" rel="noopener noreferrer" title="Vai al sito partner 2">
-            <img src="IMG/2.png" alt="Logo partner 2">
+            <img src="img/logo_camminodelpo.jpeg" alt="Logo partner 2">
           </a>
         </div>
         <div class="photo-item">
           <a href="https://www.persona-ambiente.it/" target="_blank" rel="noopener noreferrer" title="Vai al sito partner 3">
-            <img src="IMG/3.png" alt="Logo partner 3">
+            <img src="img/logo_personaambiente.jpeg" alt="Logo partner 3">
           </a>
         </div>
         <div class="photo-item">
           <a href="http://www.interflumina.it/" target="_blank" rel="noopener noreferrer" title="Vai al sito partner 4">
-            <img src="IMG/4.png" alt="Logo partner 4">
+            <img src="img/logo_interflumina.jpeg" alt="Logo partner 4">
           </a>
         </div>
       </div>
@@ -1308,7 +1308,7 @@
       previewText.innerText = getExcerpt(t.desc, 140);
       fullText.innerText = t.desc;
       const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('IMG/${photoNum}.jpg')`;
+      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
       sheetAudio.src = getAudioPath(t.id);
       sheetAudio.load();
       audioCurrentTime.innerText = '00:00';
