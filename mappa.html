@@ -129,6 +129,171 @@
       margin-top: 1px;
     }
 
+    .white-container {
+      display: none;
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 430px;
+      background: var(--card);
+      border-top-left-radius: 22px;
+      border-top-right-radius: 22px;
+      box-shadow: 0 -6px 30px rgba(0,0,0,0.18);
+      z-index: 350;
+      overflow: hidden;
+    }
+
+    .white-container .container-content {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 18px 18px 32px;
+      gap: 12px;
+    }
+
+    .container-image {
+      flex-shrink: 0;
+      height: 180px;
+      border-radius: 18px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .container-step {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
+      margin-bottom: 4px;
+      width: 100%;
+    }
+
+    .container-title {
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text);
+      margin: 0 0 10px;
+    }
+
+    .container-desc {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #444;
+      margin: 0 0 18px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .container-desc.expanded {
+      display: block;
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+
+    .read-more-inline {
+      display: inline;
+      border: none;
+      background: none;
+      color: var(--blue);
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    .container-audio {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: auto;
+    }
+
+    .audio-play-btn {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      border: none;
+      background: var(--blue);
+      color: #fff;
+      font-size: 26px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,122,255,0.35);
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .audio-play-btn:hover {
+      background: #0066cc;
+    }
+
+    .audio-nav-group {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .nav-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: none;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .nav-btn:hover {
+      background: #e5e5ea;
+    }
+
+    .close-container-btn {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      z-index: 360;
+      width: 30px;
+      height: 30px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.9);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .close-container-btn:hover {
+      background: rgba(0,0,0,0.14);
+    }
+
+    body.white-open .leaflet-control-zoom {
+      bottom: calc(400px + 18px) !important;
+    }
+
     /* tappa-strip rimosso: chips style non necessari */
 
     /* ── CUSTOM MARKERS ─────────────────────────────────── */
@@ -151,243 +316,6 @@
       transform: scale(1.3);
       border-width: 3px;
     }
-
-    /* ── BOTTOM SHEET ───────────────────────────────────── */
-    .bottom-sheet {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: var(--window-height);
-      max-height: var(--window-height);
-      background: var(--card);
-      border-top-left-radius: 22px;
-      border-top-right-radius: 22px;
-      box-shadow: 0 -6px 30px rgba(0,0,0,0.18);
-      z-index: 200;
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Sheet states — translateY calcolato dinamicamente via JS */
-    .bottom-sheet.state-full    { transform: translateY(0%); }
-    .bottom-sheet.state-hidden  { transform: translateY(100%); }
-
-    /* ── SHEET HEADER (drag area + hero image) ─────────── */
-    .sheet-header {
-      flex-shrink: 0;
-      height: 180px;
-      background-image: url('img/010.jpg');
-      background-size: cover;
-      background-position: center;
-      border-top-left-radius: 22px;
-      border-top-right-radius: 22px;
-      position: relative;
-      cursor: grab;
-      user-select: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 12px;
-    }
-
-    .sheet-header::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 100%);
-      border-top-left-radius: 22px;
-      border-top-right-radius: 22px;
-      pointer-events: none;
-    }
-
-    .sheet-header:active { cursor: grabbing; }
-
-    .drag-handle {
-      width: 38px;
-      height: 5px;
-      background: rgba(255,255,255,0.7);
-      border-radius: 3px;
-      z-index: 1;
-      flex-shrink: 0;
-    }
-
-    .sheet-header-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 12px 16px;
-      z-index: 1;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      z-index: 2;
-      background: rgba(0,0,0,0.35);
-      border: none;
-      border-radius: 50%;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.9);
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-    }
-
-    /* ── SHEET CONTENT ──────────────────────────────────── */
-    .sheet-content {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px 18px 32px;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .sheet-meta {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 4px;
-      margin-bottom: 10px;
-    }
-
-    .sheet-step {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--blue);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      width: 100%;
-    }
-
-    .sheet-title {
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--text);
-      margin: 0;
-    }
-
-    /* Description */
-    .exp-desc {
-      font-size: 14px;
-      color: #444;
-      line-height: 1.65;
-      margin-bottom: 18px;
-    }
-
-    .preview-text {
-      display: inline;
-      margin-right: 4px;
-    }
-    .preview-text.hidden { display: none; }
-
-    .full-text { display: none; }
-    .full-text.visible { display: inline; }
-
-    .read-more-btn {
-      display: inline;
-      background: none;
-      border: none;
-      color: var(--blue);
-      font-weight: 700;
-      font-size: 14px;
-      padding: 0;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .read-more-btn.hidden { display: none; }
-    .read-more-btn:hover { text-decoration: underline; }
-
-    /* ── AUDIO PLAYER ───────────────────────────────────── */
-    .sheet-audio-block {
-      margin-bottom: 16px;
-    }
-
-    .audio-progress-wrapper {
-      width: 100%;
-      height: 8px;
-      background: #e5e5ea;
-      border-radius: 999px;
-      overflow: hidden;
-      cursor: pointer;
-    }
-
-    .audio-progress-bar {
-      width: 0%;
-      height: 100%;
-      background: var(--blue);
-      border-radius: 999px;
-      transition: width 0.1s linear;
-    }
-
-    .audio-times {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 6px;
-      font-size: 11px;
-      color: #8e8e93;
-    }
-
-    .audio-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .nav-btn {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      border: none;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 22px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.15s, transform 0.1s;
-    }
-
-    .nav-btn:hover { background: #e5e5ea; }
-    .nav-btn:active { transform: scale(0.93); }
-
-    .play-btn {
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      border: none;
-      background: var(--blue);
-      color: #fff;
-      font-size: 26px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,122,255,0.35);
-      transition: background 0.15s, transform 0.1s;
-    }
-
-    .play-btn:hover { background: #0066cc; }
-    .play-btn:active { transform: scale(0.93); }
-
-    #sheetAudio { display: none; }
 
     /* ── LEAFLET OVERRIDES ──────────────────────────────── */
     .leaflet-popup-content {
@@ -412,25 +340,9 @@
     /* ── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 480px) {
       .top-title h1 { font-size: 12px; }
-      .sheet-title { font-size: 18px; }
       .sheet-header { height: 150px; }
     }
 
-    @media (min-width: 769px) {
-      .bottom-sheet {
-        max-width: 520px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100%);
-        border-radius: 22px;
-      }
-      .bottom-sheet.state-hidden { transform: translateX(-50%) translateY(100%); }
-      .bottom-sheet.state-full   { transform: translateX(-50%) translateY(0%); }
-    }
-
-    /* Safe area bottom padding for sheet content */
-    @supports (padding-bottom: env(safe-area-inset-bottom)) {
-      .sheet-content { padding-bottom: calc(32px + env(safe-area-inset-bottom)); }
-    }
   </style>
 </head>
 <body>
@@ -452,46 +364,28 @@
     </div>
   </div>
 
-  <!-- tappa-strip rimosso -->
-
-  <!-- BOTTOM SHEET -->
-  <div class="bottom-sheet state-closed" id="bottomSheet">
-    <div class="sheet-header" id="sheetHeader">
-      <div class="drag-handle"></div>
-      <button class="close-btn" id="closeSheet" aria-label="Chiudi">&#x2715;</button>
-      <!-- Hero image changes via JS background-image on #sheetHeader -->
-    </div>
-
-    <div class="sheet-content">
-      <div class="sheet-meta">
-        <div class="sheet-step" id="infoStep">Tappa 1</div>
-        <h2 class="sheet-title" id="infoTitle">Titolo della Tappa</h2>
+  <!-- WHITE CONTAINER -->
+  <div class="white-container">
+    <button class="close-container-btn" id="closeContainerBtn" aria-label="Chiudi contenitore">×</button>
+    <div class="container-content">
+      <div class="container-image" id="containerImage"></div>
+      <div>
+        <div class="container-step" id="containerStep">Tappa 1</div>
+        <h2 class="container-title" id="containerTitle">Titolo tappa</h2>
+        <p class="container-desc" id="containerDesc"></p>
       </div>
-
-      <p class="exp-desc">
-        <span class="preview-text" id="infoPreview"></span>
-        <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
-        <span class="full-text" id="infoDescription"></span>
-      </p>
-
-      <!-- AUDIO -->
-      <div class="sheet-audio-block">
-        <div class="audio-progress-wrapper" id="audioProgressWrapper">
-          <div class="audio-progress-bar" id="audioProgressBar"></div>
+      <div class="container-audio">
+        <button class="audio-play-btn" id="containerPlayBtn" aria-label="Play/Pausa">&#x25B6;</button>
+        <div class="audio-nav-group">
+          <button class="nav-btn" id="containerPrevBtn" aria-label="Tappa precedente"><i class="bi bi-chevron-left"></i></button>
+          <button class="nav-btn" id="containerNextBtn" aria-label="Tappa successiva"><i class="bi bi-chevron-right"></i></button>
         </div>
-        <div class="audio-times">
-          <span id="audioCurrentTime">0:00</span>
-          <span id="audioRemainingTime">-0:00</span>
-        </div>
-        <div class="audio-controls">
-          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">&#x2039;</button>
-          <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">&#x25B6;</button>
-          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">&#x203A;</button>
-        </div>
-        <audio id="sheetAudio" preload="metadata"></audio>
       </div>
+      <audio id="containerAudio" preload="metadata"></audio>
     </div>
   </div>
+
+  <!-- tappa-strip rimosso -->
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
@@ -599,7 +493,9 @@
       const marker = L.marker([tappa.lat, tappa.lng], { icon }).addTo(map);
       markers.push(marker);
 
-      marker.on('click', () => {
+      marker.on('click', e => {
+        L.DomEvent.stopPropagation(e);
+        L.DomEvent.stopPropagation(e);
         selectTappa(idx);
       });
     });
@@ -617,94 +513,83 @@
       });
     }
 
-    // ── BOTTOM SHEET STATE ──────────────────────────────────────────────────
-    const sheet = document.getElementById('bottomSheet');
-    let currentState = 'closed';
     let currentTappaIdx = -1;
-    let isDragging = false;
-    let dragStartY = 0;
+    const WHITE_CONTAINER_HEIGHT = 430;
+    const whiteContainer = document.querySelector('.white-container');
 
-    function getHalfOffset() {
-      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      // Peek visibile calibrato su 695px @ 49%: 695 * 0.51 = 354px fissi
-      // translateY% = (vh - peekPx) / vh * 100
-      const peekPx = 354;
-      return Math.min(85, Math.max(20, ((vh - peekPx) / vh) * 100));
+    const containerImage = document.getElementById('containerImage');
+    const containerStep = document.getElementById('containerStep');
+    const containerTitle = document.getElementById('containerTitle');
+    const containerDesc = document.getElementById('containerDesc');
+    const containerAudio = document.getElementById('containerAudio');
+    const containerPlayBtn = document.getElementById('containerPlayBtn');
+    const containerPrevBtn = document.getElementById('containerPrevBtn');
+    const containerNextBtn = document.getElementById('containerNextBtn');
+    let isDescriptionExpanded = false;
+
+    function getPreviewText(text, maxChars = 160) {
+      if (!text) return '';
+      const trimmed = text.trim();
+      if (trimmed.length <= maxChars) return trimmed;
+      const cut = trimmed.slice(0, maxChars);
+      return cut.slice(0, cut.lastIndexOf(' ')) || cut;
     }
 
-    function applySheetTranslate(state) {
-      const isDesktop = window.innerWidth >= 769;
-      const x = isDesktop ? 'translateX(-50%) ' : '';
-      if (state === 'hidden') {
-        sheet.style.transform = `${x}translateY(100%)`;
-      } else if (state === 'full') {
-        sheet.style.transform = `${x}translateY(0%)`;
-      } else if (state === 'half') {
-        sheet.style.transform = `${x}translateY(${getHalfOffset()}%)`;
-      }
+    function setContainerContent(t) {
+      containerStep.textContent = `Tappa ${t.id}`;
+      containerTitle.textContent = t.title;
+      containerImage.style.backgroundImage = `url('img/${String(t.id).padStart(3, '0')}.jpg')`;
+      isDescriptionExpanded = false;
+      containerDesc.classList.remove('expanded');
+      containerDesc.innerHTML = `${getPreviewText(t.desc)}... <button class="read-more-inline" id="containerReadMoreBtn">leggi di più</button>`;
+      containerAudio.src = encodeURI(`AUDIO/tappa ${t.id}.mp4`);
+      containerAudio.load();
+      containerPlayBtn.innerHTML = '&#x25B6;';
     }
 
-    function setSheetState(state) {
-      currentState = state;
-      sheet.classList.remove('state-hidden', 'state-half', 'state-full');
-      sheet.classList.add(`state-${state}`);
-      applySheetTranslate(state);
+    function showWhiteContainer() {
+      whiteContainer.style.display = 'block';
+      document.body.classList.add('white-open');
+    }
 
-      const previewText = document.getElementById('infoPreview');
-      const fullText    = document.getElementById('infoDescription');
-      const readMoreBtn = document.getElementById('readMoreBtn');
+    function hideWhiteContainer() {
+      whiteContainer.style.display = 'none';
+      document.body.classList.remove('white-open');
+      updateMarkerStyles(-1);
+      currentTappaIdx = -1;
+      document.getElementById('topSubtitle').innerText = '18 tappe · 2,75 km · ~60 min';
+      history.replaceState(null, '', location.pathname + location.search);
+      if (!containerAudio.paused) containerAudio.pause();
+      containerPlayBtn.innerHTML = '&#x25B6;';
+    }
 
-      if (state === 'full') {
-        previewText.classList.add('hidden');
-        fullText.classList.add('visible');
-        readMoreBtn.classList.add('hidden');
+    function toggleDescription() {
+      const t = tappe[currentTappaIdx];
+      if (!t) return;
+      if (isDescriptionExpanded) {
+        containerDesc.classList.remove('expanded');
+        containerDesc.innerHTML = `${getPreviewText(t.desc)}... <button class="read-more-inline" id="containerReadMoreBtn">leggi di più</button>`;
       } else {
-        previewText.classList.remove('hidden');
-        fullText.classList.remove('visible');
-        readMoreBtn.classList.remove('hidden');
+        containerDesc.classList.add('expanded');
+        containerDesc.innerHTML = `${t.desc} <button class="read-more-inline" id="containerReadMoreBtn">mostra meno</button>`;
       }
+      isDescriptionExpanded = !isDescriptionExpanded;
+    }
+
+    function centerMapForMarker(latlng) {
+      const mapSize = map.getSize();
+      const centerPoint = mapSize.divideBy(2);
+      const desiredPoint = L.point(mapSize.x / 2, (mapSize.y - WHITE_CONTAINER_HEIGHT) / 2);
+      const targetPoint = map.latLngToContainerPoint(latlng);
+      const shift = targetPoint.subtract(desiredPoint);
+      const newCenterPoint = centerPoint.add(shift);
+      const newCenterLatLng = map.containerPointToLatLng(newCenterPoint);
+      map.setView(newCenterLatLng, map.getZoom(), { animate: true });
     }
 
     // Ricalcola la posizione se la finestra viene ridimensionata
     function onViewportChange() {
       updateViewportInfo();
-      if (currentState === 'half') applySheetTranslate('half');
-    }
-
-    // ── CONTENT ──────────────────────────────────────────────────────────────
-    function getExcerpt(text, max = 140) {
-      if (!text || text.length <= max) return text;
-      const cut = text.slice(0, max);
-      return cut.slice(0, cut.lastIndexOf(' ')) + '…';
-    }
-
-    function formatTime(s) {
-      const m = Math.floor(s / 60);
-      const sec = Math.floor(s % 60).toString().padStart(2, '0');
-      return `${m}:${sec}`;
-    }
-
-    function setSheetContent(t) {
-      document.getElementById('infoStep').innerText = `Tappa ${t.id}`;
-      document.getElementById('infoTitle').innerText = t.title;
-      document.getElementById('infoPreview').innerText = getExcerpt(t.desc, 140);
-      document.getElementById('infoDescription').innerText = t.desc;
-
-      const num = String(t.id).padStart(3, '0');
-      document.getElementById('sheetHeader').style.backgroundImage = `url('img/${num}.jpg')`;
-
-      const audio = document.getElementById('sheetAudio');
-      audio.src = encodeURI(`AUDIO/tappa ${t.id}.mp4`);
-      audio.load();
-      document.getElementById('audioProgressBar').style.width = '0%';
-      document.getElementById('audioCurrentTime').innerText = '0:00';
-      document.getElementById('audioRemainingTime').innerText = '-0:00';
-      document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;';
-      audio.pause();
-      audio.currentTime = 0;
-
-      // Update top subtitle
-      document.getElementById('topSubtitle').innerText = `Tappa ${t.id} di ${tappe.length} · ${t.title}`;
     }
 
     // ── SELECT TAPPA ─────────────────────────────────────────────────────────
@@ -712,31 +597,22 @@
       if (idx < 0 || idx >= tappe.length) return;
       currentTappaIdx = idx;
       const t = tappe[idx];
-      setSheetContent(t);
-      setSheetState('half');
       updateMarkerStyles(idx);
-
-      // Highlight strip chip
-      // tappa-strip rimosso: non ci sono chip da aggiornare
-
-      map.setView([t.lat, t.lng], 16, { animate: true });
-
-      // Update hash
+      setContainerContent(t);
+      showWhiteContainer();
+      centerMapForMarker([t.lat, t.lng]);
+      document.getElementById('topSubtitle').innerText = `Tappa ${t.id} di ${tappe.length} · ${t.title}`;
       history.replaceState(null, '', `${location.pathname}${location.search}#tappa${t.id}`);
     }
 
-    // tappa-strip rimosso: non costruisco più le chip
-
     // ── DEEP LINK: ?tappa= oppure #tappa ─────────────────────────────────────
     function openFromUrl() {
-      // Priorità al query param ?tappa=14
       const param = new URLSearchParams(location.search).get('tappa');
       if (param) {
         const id  = Number(param);
         const idx = tappe.findIndex(t => t.id === id);
         if (idx !== -1) { selectTappa(idx); return; }
       }
-      // Fallback all'hash #tappa14
       const match = location.hash.match(/^#tappa(\d{1,2})$/);
       if (match) {
         const id  = Number(match[1]);
@@ -746,100 +622,56 @@
     }
     openFromUrl();
 
+    map.on('click', () => {
+      hideWhiteContainer();
+    });
+
+    document.getElementById('closeContainerBtn').addEventListener('click', hideWhiteContainer);
+
+    containerPlayBtn.addEventListener('click', () => {
+      if (containerAudio.paused) {
+        containerAudio.play().catch(() => {});
+      } else {
+        containerAudio.pause();
+      }
+    });
+
+    containerAudio.addEventListener('play', () => {
+      containerPlayBtn.innerHTML = '&#x23F8;';
+    });
+    containerAudio.addEventListener('pause', () => {
+      containerPlayBtn.innerHTML = '&#x25B6;';
+    });
+
+    containerPrevBtn.addEventListener('click', () => {
+      if (currentTappaIdx < 0) return;
+      selectTappa((currentTappaIdx - 1 + tappe.length) % tappe.length);
+    });
+    containerNextBtn.addEventListener('click', () => {
+      if (currentTappaIdx < 0) return;
+      selectTappa((currentTappaIdx + 1) % tappe.length);
+    });
+
+    document.body.addEventListener('click', e => {
+      if (e.target && e.target.id === 'containerReadMoreBtn') {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleDescription();
+      }
+    });
+
     // ── BUTTONS ──────────────────────────────────────────────────────────────
     document.getElementById('backBtn').addEventListener('click', () => {
       history.replaceState(null, '', location.pathname + location.search);
       window.location.href = 'index.html';
     });
 
-    document.getElementById('closeSheet').addEventListener('click', () => {
-      document.getElementById('sheetAudio').pause();
-      setSheetState('hidden');
-      updateMarkerStyles(-1);
-      document.getElementById('topSubtitle').innerText = `18 tappe · 2,75 km · ~60 min`;
-      history.replaceState(null, '', location.pathname + location.search);
-    });
-
-    document.getElementById('readMoreBtn').addEventListener('click', () => {
-      setSheetState(currentState === 'full' ? 'half' : 'full');
-    });
-
-    document.getElementById('sheetPrevBtn').addEventListener('click', () => {
-      selectTappa((currentTappaIdx - 1 + tappe.length) % tappe.length);
-    });
-
-    document.getElementById('sheetNextBtn').addEventListener('click', () => {
-      selectTappa((currentTappaIdx + 1) % tappe.length);
-    });
-
-    // ── AUDIO ─────────────────────────────────────────────────────────────────
-    const audio = document.getElementById('sheetAudio');
-    const progressBar = document.getElementById('audioProgressBar');
-
-    audio.addEventListener('timeupdate', () => {
-      const d = audio.duration || 0;
-      const c = audio.currentTime || 0;
-      progressBar.style.width = `${d ? (c / d) * 100 : 0}%`;
-      document.getElementById('audioCurrentTime').innerText = formatTime(c);
-      document.getElementById('audioRemainingTime').innerText = `-${formatTime(Math.max(0, d - c))}`;
-    });
-    audio.addEventListener('play',  () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x23F8;'; });
-    audio.addEventListener('pause', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;'; });
-    audio.addEventListener('ended', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;'; });
-
-    document.getElementById('sheetPlayPauseBtn').addEventListener('click', () => {
-      audio.paused ? audio.play().catch(() => {}) : audio.pause();
-    });
-
-    // Seek on progress bar click
-    document.getElementById('audioProgressWrapper').addEventListener('click', e => {
-      if (!audio.duration) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const ratio = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = ratio * audio.duration;
-    });
-
-
-    // ── DRAG TO DISMISS / EXPAND ──────────────────────────────────────────────
-    let dragStartState = '';
-
-    function onDragStart(e) {
-      dragStartY = e.touches ? e.touches[0].clientY : e.clientY;
-      dragStartState = currentState;
-      isDragging = true;
-    }
-
-    function onDragEnd(e) {
-      if (!isDragging) return;
-      isDragging = false;
-      const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-      const diff = dragStartY - endY; // positive = swipe up
-
-      if (Math.abs(diff) < 40) return;
-
-      if (diff > 0) {
-        // swipe up → expand
-        if (currentState === 'closed') setSheetState('half');
-        else if (currentState === 'half') setSheetState('full');
-      } else {
-        // swipe down → collapse
-        if (currentState === 'full') setSheetState('half');
-        else if (currentState === 'half') setSheetState('closed');
-      }
-    }
-
-    const sheetHeader = document.getElementById('sheetHeader');
-    sheetHeader.addEventListener('touchstart', onDragStart, { passive: true });
-    sheetHeader.addEventListener('touchend',   onDragEnd,   { passive: true });
-    sheetHeader.addEventListener('mousedown',  onDragStart);
-    sheetHeader.addEventListener('mouseup',    onDragEnd);
-
     // ── KEYBOARD NAV ─────────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
       if (currentTappaIdx < 0) return;
       if (e.key === 'ArrowRight') selectTappa((currentTappaIdx + 1) % tappe.length);
       if (e.key === 'ArrowLeft')  selectTappa((currentTappaIdx - 1 + tappe.length) % tappe.length);
-      if (e.key === 'Escape') document.getElementById('closeSheet').click();
+      if (e.key === 'Escape') history.replaceState(null, '', location.pathname + location.search);
     });
   </script>
 </body>
