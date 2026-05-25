@@ -409,7 +409,6 @@
     .leaflet-touch .leaflet-control-layers,
     .leaflet-touch .leaflet-bar { border: none; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
 
-    .leaflet-control-zoom{bottom: 450px;}
     /* ── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 480px) {
       .top-title h1 { font-size: 12px; }
@@ -655,8 +654,8 @@
         contentNeeded = vh * 0.51;
       }
 
-      // 12px di margine di sicurezza dal bordo inferiore
-      const visibleNeeded = contentNeeded + 0;
+      // -8px (pannello sale di ulteriori 10px)
+      const visibleNeeded = contentNeeded - 8;
 
       // translateY = quanto deve scendere lo sheet
       const pct = ((vh - visibleNeeded) / vh) * 100;
