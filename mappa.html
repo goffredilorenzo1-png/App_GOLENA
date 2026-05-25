@@ -353,11 +353,11 @@
     .nav-btn {
       width: 46px;
       height: 46px;
-      border-radius: 50%;
+      border-radius: 14px;
       border: none;
       background: var(--bg);
       color: var(--text);
-      font-size: 16px;
+      font-size: 22px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -424,8 +424,6 @@
         border-radius: 22px;
       }
       .bottom-sheet.state-hidden { transform: translateX(-50%) translateY(100%); }
-      .bottom-sheet.state-closed { transform: translateX(-50%) translateY(calc(100% - 230px)); }
-      .bottom-sheet.state-half   { transform: translateX(-50%) translateY(50%); }
       .bottom-sheet.state-full   { transform: translateX(-50%) translateY(0%); }
     }
 
@@ -460,7 +458,7 @@
   <div class="bottom-sheet state-closed" id="bottomSheet">
     <div class="sheet-header" id="sheetHeader">
       <div class="drag-handle"></div>
-      <button class="close-btn" id="closeSheet" aria-label="Chiudi"><i class="bi bi-x"></i></button>
+      <button class="close-btn" id="closeSheet" aria-label="Chiudi">&#x2715;</button>
       <!-- Hero image changes via JS background-image on #sheetHeader -->
     </div>
 
@@ -486,9 +484,9 @@
           <span id="audioRemainingTime">-0:00</span>
         </div>
         <div class="audio-controls">
-          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente"><i class="bi bi-chevron-left"></i></button>
+          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">&#x2039;</button>
           <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">&#x25B6;</button>
-          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva"><i class="bi bi-chevron-right"></i></button>
+          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">&#x203A;</button>
         </div>
         <audio id="sheetAudio" preload="metadata"></audio>
       </div>
@@ -628,17 +626,19 @@
 
     function getHalfOffset() {
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      // Rapporto: 844px → 49% — scala linearmente con la viewport
-      return (49 / 844) * vh;
+      // Rapporto calibrato: 695px → 49%
+      return (49 / 695) * vh;
     }
 
     function applySheetTranslate(state) {
+      const isDesktop = window.innerWidth >= 769;
+      const x = isDesktop ? 'translateX(-50%) ' : '';
       if (state === 'hidden') {
-        sheet.style.transform = 'translateY(100%)';
+        sheet.style.transform = `${x}translateY(100%)`;
       } else if (state === 'full') {
-        sheet.style.transform = 'translateY(0%)';
+        sheet.style.transform = `${x}translateY(0%)`;
       } else if (state === 'half') {
-        sheet.style.transform = `translateY(${getHalfOffset()}%)`;
+        sheet.style.transform = `${x}translateY(${getHalfOffset()}%)`;
       }
     }
 
