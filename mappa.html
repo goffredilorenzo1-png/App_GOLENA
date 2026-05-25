@@ -626,8 +626,10 @@
 
     function getHalfOffset() {
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      // Rapporto calibrato: 695px → 49%
-      return (49 / 695) * vh;
+      // Peek visibile calibrato su 695px @ 49%: 695 * 0.51 = 354px fissi
+      // translateY% = (vh - peekPx) / vh * 100
+      const peekPx = 354;
+      return Math.min(85, Math.max(20, ((vh - peekPx) / vh) * 100));
     }
 
     function applySheetTranslate(state) {
