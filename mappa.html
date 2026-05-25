@@ -357,7 +357,7 @@
       border: none;
       background: var(--bg);
       color: var(--text);
-      font-size: 22px;
+      font-size: 16px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -460,7 +460,7 @@
   <div class="bottom-sheet state-closed" id="bottomSheet">
     <div class="sheet-header" id="sheetHeader">
       <div class="drag-handle"></div>
-      <button class="close-btn" id="closeSheet" aria-label="Chiudi">&#x2715;</button>
+      <button class="close-btn" id="closeSheet" aria-label="Chiudi"><i class="bi bi-x"></i></button>
       <!-- Hero image changes via JS background-image on #sheetHeader -->
     </div>
 
@@ -486,9 +486,9 @@
           <span id="audioRemainingTime">-0:00</span>
         </div>
         <div class="audio-controls">
-          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">&#x2039;</button>
-          <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">&#x25B6;</button> 
-          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">&#x203A;</button>
+          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente"><i class="bi bi-chevron-left"></i></button>
+          <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">&#x25B6;</button>
+          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva"><i class="bi bi-chevron-right"></i></button>
         </div>
         <audio id="sheetAudio" preload="metadata"></audio>
       </div>
