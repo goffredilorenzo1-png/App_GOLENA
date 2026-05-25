@@ -989,8 +989,8 @@
     <div class="mapCard" id="mapContainer">
       <div class="map-card">
         <div id="map"></div>
-        <button class="expand-btn" id="fullscreenBtn" title="Fullscreen">
-          <i class="bi bi-arrows-angle-expand"></i>
+        <button class="expand-btn" id="fullscreenBtn" title="Vai alla mappa">
+          <i class="bi bi-map"></i>
         </button>
       </div>
     </div>
@@ -1111,7 +1111,7 @@
         </div>
       </div>
       <p class="partners-note" style="font-size: 10px; text-align: center"><i>Audio e testi: 1° - 2° Liceo Classico</i></p>
-      <p class="partners-note" style="margin: 0px; font-size: 10px; text-align: center;"><i>A CREATION BY: © Lorenzo e Jacopo Goffredi - 06.2025</i></p>
+      <p class="partners-note" style="margin: 0px; font-size: 10px; text-align: center;"><i>A CREATION BY: © Lorenzo e Jacopo Goffredi - 06.2026</i></p>
     </div>
     
 
@@ -1234,7 +1234,7 @@
 
     fullscreenBtn.addEventListener('click', function(e) {
       e.stopPropagation();
-      toggleFullscreen();
+      window.location.href = 'mappa.html';
     });
 
     // Imposta icona corretta all'avvio

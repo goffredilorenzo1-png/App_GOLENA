@@ -25,15 +25,34 @@
       --text: #111;
       --muted: #8e8e93;
       --border: #efeff4;
+      --window-width: 100vw;
       --window-height: 100dvh;
     }
 
     html, body {
+      width: 100%;
       height: 100%;
       overflow: hidden;
       font-family: 'Inter', sans-serif;
       background: #000;
       color: var(--text);
+    }
+
+    #info {
+      position: fixed;
+      top: max(env(safe-area-inset-top), 12px);
+      right: 14px;
+      z-index: 300;
+      background: rgba(0, 0, 0, 0.52);
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 14px;
+      font-size: 11px;
+      line-height: 1.4;
+      text-align: right;
+      pointer-events: none;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     /* ── MAP LAYER ─────────────────────────────────────── */
@@ -110,6 +129,7 @@
       margin-top: 1px;
     }
 
+    /* tappa-strip rimosso: chips style non necessari */
 
     /* ── CUSTOM MARKERS ─────────────────────────────────── */
     .custom-marker-icon {
@@ -156,42 +176,6 @@
     .bottom-sheet.state-half    { transform: translateY(50%); }
     .bottom-sheet.state-full    { transform: translateY(0%); }
     .bottom-sheet.state-hidden  { transform: translateY(100%); }
-
-    /* ── ZOOM CONTROLS ──────────────────────────────────── */
-    .zoom-controls {
-      position: fixed;
-      right: 14px;
-      bottom: 24px;
-      z-index: 190;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      transition: bottom 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-
-    .zoom-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 300;
-      color: var(--text);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.18);
-      transition: background 0.15s, transform 0.1s;
-      line-height: 1;
-      user-select: none;
-    }
-
-    .zoom-btn:hover  { background: #fff; }
-    .zoom-btn:active { transform: scale(0.93); }
 
     /* ── SHEET HEADER (drag area + hero image) ─────────── */
     .sheet-header {
@@ -406,33 +390,6 @@
 
     #sheetAudio { display: none; }
 
-    /* ── ACTION BUTTONS ─────────────────────────────────── */
-    .sheet-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .action-btn {
-      flex: 1;
-      height: 46px;
-      border-radius: 14px;
-      border: none;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.15s, transform 0.1s;
-    }
-
-    .action-btn:hover { background: #e5e5ea; }
-    .action-btn:active { transform: scale(0.96); }
-    .action-btn i { font-size: 16px; }
-
     /* ── LEAFLET OVERRIDES ──────────────────────────────── */
     .leaflet-popup-content {
       font-family: 'Inter', sans-serif;
@@ -453,28 +410,6 @@
     .leaflet-touch .leaflet-control-layers,
     .leaflet-touch .leaflet-bar { border: none; border-radius: 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
 
-    /* ── PROGRESS INDICATOR (top) ───────────────────────── */
-    .tappa-counter {
-      position: fixed;
-      bottom: 240px; /* approx above closed sheet */
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 500;
-      padding: 6px 14px;
-      border-radius: 20px;
-      pointer-events: none;
-      z-index: 150;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .tappa-counter.visible { opacity: 1; }
-
     /* ── RESPONSIVE ──────────────────────────────────────── */
     @media (max-width: 480px) {
       .top-title h1 { font-size: 12px; }
@@ -490,6 +425,7 @@
         border-radius: 22px;
       }
       .bottom-sheet.state-hidden { transform: translateX(-50%) translateY(100%); }
+      .bottom-sheet.state-closed { transform: translateX(-50%) translateY(calc(100% - 230px)); }
       .bottom-sheet.state-half   { transform: translateX(-50%) translateY(50%); }
       .bottom-sheet.state-full   { transform: translateX(-50%) translateY(0%); }
     }
@@ -505,6 +441,9 @@
   <!-- MAP CONTAINER -->
   <div id="map"></div>
 
+  <!-- Viewport info -->
+  <div id="info"></div>
+
   <!-- TOP BAR -->
   <div class="top-bar" id="topBar">
     <button class="back-btn" id="backBtn" title="Torna all'home" aria-label="Indietro">
@@ -516,18 +455,10 @@
     </div>
   </div>
 
-
-  <!-- TAPPA COUNTER PILL -->
-  <div class="tappa-counter" id="tappaCounter"></div>
-
-  <!-- ZOOM CONTROLS -->
-  <div class="zoom-controls" id="zoomControls">
-    <button class="zoom-btn" id="zoomInBtn" aria-label="Zoom in">+</button>
-    <button class="zoom-btn" id="zoomOutBtn" aria-label="Zoom out">−</button>
-  </div>
+  <!-- tappa-strip rimosso -->
 
   <!-- BOTTOM SHEET -->
-  <div class="bottom-sheet state-hidden" id="bottomSheet">
+  <div class="bottom-sheet state-closed" id="bottomSheet">
     <div class="sheet-header" id="sheetHeader">
       <div class="drag-handle"></div>
       <button class="close-btn" id="closeSheet" aria-label="Chiudi">&#x2715;</button>
@@ -583,21 +514,46 @@
       {id:10, title:"Gli Olmi",                  lat:44.98981, lng:10.40711, desc:"Anche l'olmo è una pianta tipica degli ambienti golenali, apprezzata per la sua imponenza e la capacità di adattarsi ai terreni fertili vicini ai corsi d'acqua. Il suo fusto è solido e robusto, spesso molto alto, con una chioma ampia e arrotondata che offre ombra e riparo a numerose specie animali. La corteccia dell'olmo, liscia negli alberi giovani, con il passare degli anni diventa spessa, scura e profondamente solcata da fenditure verticali. Negli ultimi decenni, molti olmi sono stati colpiti dalla grafiosi, una grave malattia causata da un fungo trasportato da insetti parassiti chiamati scolitidi."},
       {id:11, title:"I Salici",                  lat:44.99011, lng:10.40419, desc:"Anche il salice è un tipico arbusto della zona. Nello specifico è possibile incontrarne di due tipi. Il salice piangente è un albero ornamentale facilmente riconoscibile per i suoi lunghi rami sottili e pendenti, che ricadono verso il basso fino a sfiorare il terreno o l'acqua. Il salice da fiume, invece, ha una struttura meno ornamentale e più resistente, con rami flessibili capaci di sopportare le piene e la forza dell'acqua. Le sue radici contribuiscono a consolidare il terreno e a limitare l'erosione delle sponde."},
       {id:12, title:"La Lanca",                  lat:44.99030, lng:10.40352, desc:"Durante il percorso, prima di arrivare al ponticello avete sicuramente notato una torretta di avvistamento attualmente chiusa al pubblico. Da lì è possibile osservare una lanca, tipico elemento paesaggistico delle golene. Le lanche derivano dall'evoluzione naturale dei meandri, cioè delle grandi curve del fiume che in pianura cambia spesso il suo corso a causa di erosione, trasporto e sedimentazione. Nasce così la lanca, uno specchio d'acqua fermo, spesso a forma di ferro di cavallo."},
-      {id:13, title:"La Lanca - Pt. 2",          lat:44.99039, lng:10.40339, desc:"Le lanche fluviali rappresentano ambienti di grande importanza per la fauna ittica, poiché le loro acque calme e ricche di vegetazione offrono condizioni ideali per la vita e la riproduzione di numerose specie di pesci. Si trovano la carpa e la tinca, pesci resistenti che prediligono acque lente e ricche di sostanze nutritive. Sono presenti anche il luccio, importante predatore degli ambienti fluviali, il persico reale e il pesce gatto. Le lanche costituiscono vere e proprie aree di riproduzione e crescita per molte specie ittiche, contribuendo alla biodiversità dell'ecosistema fluviale."},
+      {id:13, title:"La Lanca – Pt. 2",          lat:44.99039, lng:10.40339, desc:"Le lanche fluviali rappresentano ambienti di grande importanza per la fauna ittica, poiché le loro acque calme e ricche di vegetazione offrono condizioni ideali per la vita e la riproduzione di numerose specie di pesci. Si trovano la carpa e la tinca, pesci resistenti che prediligono acque lente e ricche di sostanze nutritive. Sono presenti anche il luccio, importante predatore degli ambienti fluviali, il persico reale e il pesce gatto. Le lanche costituiscono vere e proprie aree di riproduzione e crescita per molte specie ittiche, contribuendo alla biodiversità dell'ecosistema fluviale."},
       {id:14, title:"La Fauna Golenale",         lat:44.99014, lng:10.40456, desc:"Durante il tragitto è possibile imbattersi nella fauna golenale, molto ricca e diversificata. In questi ambienti vivono numerose specie di uccelli, alcune strettamente legate all'acqua, altre tipiche dei boschi golenali e dei campi coltivati circostanti. La grande varietà di habitat rende il medio corso del Po un ecosistema di straordinaria importanza naturalistica, tanto che il 19 giugno 2019 questo territorio è stato riconosciuto come Riserva della Biosfera UNESCO MaB – Po Grande."},
-      {id:15, title:"La Fauna Golenale - Pt. 2", lat:44.99012, lng:10.40630, desc:"Nei boschi golenali trovano rifugio e luoghi adatti alla nidificazione molte specie di piccoli uccelli e rapaci. Tuttavia, anche questi ambienti sono oggi minacciati dalle attività umane. I passeri, ad esempio, hanno subito una drastica diminuzione, stimata intorno al sessanta per cento, principalmente a causa dell'inquinamento, dell'agricoltura intensiva e della presenza di numerosi predatori."},
-      {id:16, title:"La Fauna Golenale - Pt. 3", lat:44.99225, lng:10.40757, desc:"La presenza di boschi, corsi d'acqua, radure e vegetazione fitta offre condizioni favorevoli per la vita di molti mammiferi. Tra gli animali più diffusi vi sono i cinghiali, particolarmente adatti agli ambienti umidi e boscati. In queste aree vivono anche i caprioli, animali eleganti e molto schivi, che frequentano soprattutto le aree più tranquille dei boschi golenali. Tra i predatori più comuni vi è invece la volpe, animale molto intelligente e adattabile."},
+      {id:15, title:"La Fauna Golenale – Pt. 2", lat:44.99012, lng:10.40630, desc:"Nei boschi golenali trovano rifugio e luoghi adatti alla nidificazione molte specie di piccoli uccelli e rapaci. Tuttavia, anche questi ambienti sono oggi minacciati dalle attività umane. I passeri, ad esempio, hanno subito una drastica diminuzione, stimata intorno al sessanta per cento, principalmente a causa dell'inquinamento, dell'agricoltura intensiva e della presenza di numerosi predatori."},
+      {id:16, title:"La Fauna Golenale – Pt. 3", lat:44.99225, lng:10.40757, desc:"La presenza di boschi, corsi d'acqua, radure e vegetazione fitta offre condizioni favorevoli per la vita di molti mammiferi. Tra gli animali più diffusi vi sono i cinghiali, particolarmente adatti agli ambienti umidi e boscati. In queste aree vivono anche i caprioli, animali eleganti e molto schivi, che frequentano soprattutto le aree più tranquille dei boschi golenali. Tra i predatori più comuni vi è invece la volpe, animale molto intelligente e adattabile."},
       {id:17, title:"L'Area Golenale",           lat:44.99277, lng:10.40601, desc:"Lungo le rive del fiume è inoltre diffusa la nutria, roditore originario del Sud America introdotto artificialmente nel secolo scorso. Questo animale si è rapidamente diffuso nelle zone umide italiane, causando però danni agli argini fluviali a causa delle gallerie che scava nel terreno. L'ambiente golenale appare quindi come un ecosistema prezioso ma fragile, in cui la conservazione della biodiversità dipende sempre più dalla capacità dell'uomo di proteggere e rispettare gli equilibri naturali del territorio fluviale."},
       {id:18, title:"The End",                   lat:44.99436, lng:10.40529, desc:"La visita alla golena del Po permette di comprendere quanto questo ambiente sia ricco, complesso e delicato. Attraverso l'osservazione della vegetazione, delle lanche, dei boschi golenali e delle numerose specie animali che popolano il territorio, emerge il profondo legame tra il fiume e l'ecosistema che vi si sviluppa intorno. La golena non rappresenta soltanto uno spazio naturale di grande valore paesaggistico, ma anche un luogo fondamentale per la conservazione della biodiversità e per l'equilibrio ambientale della Pianura Padana."}
     ];
 
-    // ── WINDOW HEIGHT MANAGEMENT ────────────────────────────────────────────
-    function updateWindowHeight() {
-      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
+    // ── VIEWPORT SIZE MANAGEMENT ───────────────────────────────────────────
+    function getViewportSize() {
+      return {
+        width: window.visualViewport
+          ? Math.round(window.visualViewport.width)
+          : window.innerWidth,
+        height: window.visualViewport
+          ? Math.round(window.visualViewport.height)
+          : window.innerHeight
+      };
     }
-    window.addEventListener('resize', updateWindowHeight);
-    window.addEventListener('orientationchange', updateWindowHeight);
-    updateWindowHeight();
+
+    function updateViewportInfo() {
+      const size = getViewportSize();
+      document.body.style.width = `${size.width}px`;
+      document.body.style.height = `${size.height}px`;
+      document.documentElement.style.setProperty('--window-width', `${size.width}px`);
+      document.documentElement.style.setProperty('--window-height', `${size.height}px`);
+
+      const info = document.getElementById('info');
+      if (info) {
+        info.innerHTML = `Larghezza: ${size.width}px<br>Altezza: ${size.height}px`;
+      }
+    }
+
+    window.addEventListener('resize', updateViewportInfo);
+    window.addEventListener('orientationchange', updateViewportInfo);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', updateViewportInfo);
+      window.visualViewport.addEventListener('scroll', updateViewportInfo);
+    }
+    updateViewportInfo();
 
     // ── LEAFLET MAP ─────────────────────────────────────────────────────────
     const map = L.map('map', {
@@ -611,6 +567,9 @@
       maxZoom: 19,
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
+
+    // Sposto il controllo zoom in basso a destra
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // GPX track
     new L.GPX('golena.gpx', {
@@ -663,13 +622,14 @@
 
     // ── BOTTOM SHEET STATE ──────────────────────────────────────────────────
     const sheet = document.getElementById('bottomSheet');
-    let currentState = 'hidden';
+    let currentState = 'closed';
     let currentTappaIdx = -1;
+    let isDragging = false;
     let dragStartY = 0;
 
     function setSheetState(state) {
       currentState = state;
-      sheet.classList.remove('state-hidden', 'state-half', 'state-full');
+      sheet.classList.remove('state-hidden', 'state-closed', 'state-half', 'state-full');
       sheet.classList.add(`state-${state}`);
 
       const previewText = document.getElementById('infoPreview');
@@ -685,9 +645,6 @@
         fullText.classList.remove('visible');
         readMoreBtn.classList.remove('hidden');
       }
-
-      // Update zoom controls position based on sheet state
-      updateZoomPosition();
     }
 
     // ── CONTENT ──────────────────────────────────────────────────────────────
@@ -735,18 +692,16 @@
       setSheetState('half');
       updateMarkerStyles(idx);
 
-      map.setView([t.lat, t.lng], 16, { animate: true });
+      // Highlight strip chip
+      // tappa-strip rimosso: non ci sono chip da aggiornare
 
-      // Show counter
-      const counter = document.getElementById('tappaCounter');
-      counter.innerText = `${idx + 1} / ${tappe.length}`;
-      counter.classList.add('visible');
-      clearTimeout(counter._timer);
-      counter._timer = setTimeout(() => counter.classList.remove('visible'), 2500);
+      map.setView([t.lat, t.lng], 16, { animate: true });
 
       // Update hash
       history.replaceState(null, '', `${location.pathname}${location.search}#tappa${t.id}`);
     }
+
+    // tappa-strip rimosso: non costruisco più le chip
 
     // ── HASH-BASED DEEP LINK ─────────────────────────────────────────────────
     function openFromHash() {
@@ -812,82 +767,40 @@
       audio.currentTime = ratio * audio.duration;
     });
 
-    // ── ACTION BUTTONS ────────────────────────────────────────────────────────
-    document.getElementById('navigateBtn').addEventListener('click', () => {
-      if (currentTappaIdx < 0) return;
-      const t = tappe[currentTappaIdx];
-      window.open(`https://maps.google.com/?daddr=${t.lat},${t.lng}`, '_blank');
-    });
-
-    document.getElementById('shareBtn').addEventListener('click', async () => {
-      if (currentTappaIdx < 0) return;
-      const t = tappe[currentTappaIdx];
-      const url = `${location.origin}${location.pathname}#tappa${t.id}`;
-      if (navigator.share) {
-        try { await navigator.share({ title: t.title, url }); } catch (_) {}
-      } else {
-        await navigator.clipboard.writeText(url).catch(() => {});
-        alert('Link copiato!');
-      }
-    });
 
     // ── DRAG TO DISMISS / EXPAND ──────────────────────────────────────────────
-    let startY = 0;
-    let isDragging = false;
-    let allowContentDrag = false;
-
-    const sheetContent = sheet.querySelector('.sheet-content');
+    let dragStartState = '';
 
     function onDragStart(e) {
-      startY = e.touches ? e.touches[0].clientY : e.clientY;
+      dragStartY = e.touches ? e.touches[0].clientY : e.clientY;
+      dragStartState = currentState;
       isDragging = true;
-    }
-
-    function onContentTouchStart(e) {
-      // allow drag from content only when scrolled to top
-      if (sheetContent.scrollTop === 0) {
-        allowContentDrag = true;
-        startY = e.touches ? e.touches[0].clientY : e.clientY;
-        isDragging = true;
-      } else {
-        allowContentDrag = false;
-      }
     }
 
     function onDragEnd(e) {
       if (!isDragging) return;
       isDragging = false;
-      allowContentDrag = false;
-
       const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-      const diffY = startY - endY;
-      const threshold = 50;
+      const diff = dragStartY - endY; // positive = swipe up
 
-      if (Math.abs(diffY) > threshold) {
-        if (diffY > 0) {
-          // swipe up
-          if (currentState === 'half') setSheetState('full');
-        } else {
-          // swipe down
-          if (currentState === 'full') setSheetState('half');
-          else if (currentState === 'half') setSheetState('hidden');
-        }
+      if (Math.abs(diff) < 40) return;
+
+      if (diff > 0) {
+        // swipe up → expand
+        if (currentState === 'closed') setSheetState('half');
+        else if (currentState === 'half') setSheetState('full');
+      } else {
+        // swipe down → collapse
+        if (currentState === 'full') setSheetState('half');
+        else if (currentState === 'half') setSheetState('closed');
       }
     }
 
     const sheetHeader = document.getElementById('sheetHeader');
     sheetHeader.addEventListener('touchstart', onDragStart, { passive: true });
-    sheetHeader.addEventListener('touchend', onDragEnd, { passive: true });
-    sheetHeader.addEventListener('mousedown', onDragStart);
-    sheetHeader.addEventListener('mouseup', onDragEnd);
-
-    // allow dragging when starting from content area if scrollTop === 0
-    if (sheetContent) {
-      sheetContent.addEventListener('touchstart', onContentTouchStart, { passive: true });
-      sheetContent.addEventListener('touchend', onDragEnd, { passive: true });
-      sheetContent.addEventListener('mousedown', function(e){ if (sheetContent.scrollTop === 0) onDragStart(e); });
-      sheetContent.addEventListener('mouseup', onDragEnd);
-    }
+    sheetHeader.addEventListener('touchend',   onDragEnd,   { passive: true });
+    sheetHeader.addEventListener('mousedown',  onDragStart);
+    sheetHeader.addEventListener('mouseup',    onDragEnd);
 
     // ── KEYBOARD NAV ─────────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
@@ -896,25 +809,6 @@
       if (e.key === 'ArrowLeft')  selectTappa((currentTappaIdx - 1 + tappe.length) % tappe.length);
       if (e.key === 'Escape') document.getElementById('closeSheet').click();
     });
-
-    // ── ZOOM CONTROLS ────────────────────────────────────────────────────────
-    document.getElementById('zoomInBtn').addEventListener('click', () => map.zoomIn());
-    document.getElementById('zoomOutBtn').addEventListener('click', () => map.zoomOut());
-
-    function updateZoomPosition() {
-      const zoomEl = document.getElementById('zoomControls');
-      const winH = window.innerHeight;
-      let offsetPx = 24;
-      if (currentState === 'half') {
-        offsetPx = winH * 0.5 + 16;
-      } else if (currentState === 'full') {
-        offsetPx = winH + 16; // push off-screen when full
-      }
-      zoomEl.style.bottom = `${offsetPx}px`;
-    }
-
-    window.addEventListener('resize', updateZoomPosition);
-    updateZoomPosition();
   </script>
 </body>
 </html>
