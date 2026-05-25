@@ -183,7 +183,7 @@
       z-index: 999 !important;
     }
 
-    /* Bottone Fullscreen */
+    /* Bottone Mappa */
     .expand-btn{
       position:absolute;
       top:12px;
@@ -205,25 +205,6 @@
     .expand-btn:hover{
       transform:scale(1.05);
       background:#ffffff;
-    }
-
-    /* Stato Fullscreen Attivo */
-    .mapCard.fullscreen{
-      position:fixed;
-      inset:0;
-      margin:0;
-      width:100vw;
-      height:100vh;
-      border-radius:0;
-      z-index:9999;
-    }
-
-    .mapCard.fullscreen .map-card{
-      border-radius:0;
-    }
-
-    body.fullscreen{
-      overflow:hidden;
     }
 
     /* Bottoni e riga */
@@ -463,11 +444,7 @@
         height: 200px;
       }
 
-      .sheet-hero {
-        height: 120px;
-      }
-
-      .hero2 p, .exp-desc {
+      .hero2 p {
         font-size: 13px;
       }
 
@@ -493,21 +470,6 @@
 
       .row {
         flex-direction: column;
-      }
-
-      .small-card {
-        width: 100%;
-        min-width: auto;
-        height: 80px;
-        border-radius: 14px;
-      }
-
-      .sheet-title {
-        font-size: 18px;
-      }
-
-      .sheet-header, .sheet-body {
-        padding: 12px;
       }
 
       .arrow {
@@ -541,16 +503,8 @@
         height: 200px;
       }
 
-      .sheet-hero {
-        height: 140px;
-      }
-
       .info-data {
         font-size: 14px;
-      }
-
-      .small-card {
-        height: 85px;
       }
     }
 
@@ -566,10 +520,6 @@
 
       .hero1, .carousel-wrapper {
         height: 240px;
-      }
-
-      .sheet-hero {
-        height: 180px;
       }
     }
 
@@ -597,147 +547,7 @@
       .card, .card1, .carousel-card {
         margin-bottom: 8px;
       }
-
-      .sheet-hero {
-        height: 100px;
-      }
     }
-
-    :root {
-      --window-height: 100vh;
-    }
-
-    /* --- NUOVI STILI PER IL BOTTOM SHEET A TRE STATI --- */
-    .bottom-sheet {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: var(--window-height);
-      max-height: var(--window-height);
-      background: white;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.15);
-      z-index: 10001;
-  
-      /* Stato iniziale: Completamente Chiuso (nascosto in basso) */
-      transform: translateY(100%);
-      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  
-      display: flex;
-      flex-direction: column;
-    }
-
-/* Barra superiore per il trascinamento */
-.sheet-header {
-  height: 180px;
-  background-image: url('img/010.jpg');
-  background-size: cover;
-  background-position: center;
-  padding: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  cursor: grab;
-  user-select: none;
-  border-bottom: 1px solid #efeff4;
-}
-.sheet-header:active {
-  cursor: grabbing;
-}
-
-/* Trattino grigio per far capire il trascinamento */
-.drag-handle {
-  width: 40px;
-  height: 5px;
-  background-color: #c7c7cc;
-  border-radius: 3px;
-}
-
-/* Pulsante X di chiusura */
-.close-btn {
-  position: absolute;
-  right: 16px;
-  background: #e5e5ea;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #8e8e93;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Area del contenuto interno */
-.sheet-content {
-  padding: 20px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.sheet-hero {
-  width: 100%;
-  min-height: 180px;
-  overflow: hidden;
-  border-radius: 20px;
-  margin-bottom: 16px;
-}
-
-.exp-desc {
-  color: #444;
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 16px;
-  margin: 0;
-  padding: 0;
-  padding-bottom: 16px;
-}
-
-.preview-text {
-  display: inline;
-  margin-right: 4px;
-}
-
-.preview-text.hidden {
-  display: none;
-}
-
-.full-text {
-  display: none;
-}
-
-.full-text.visible {
-  display: inline;
-}
-
-.read-more-btn {
-  display: inline;
-  background: none;
-  border: none;
-  color: #007aff;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 0;
-  cursor: pointer;
-  white-space: nowrap;
-  text-decoration: none;
-  margin-right: 0;
-}
-
-.read-more-btn:hover {
-  text-decoration: underline;
-}
-
-.read-more-btn.hidden {
-  display: none;
-}
-
 
     /* Two wide buttons aligned left and right */
     .icon-row {
@@ -785,146 +595,6 @@
     /* Align icons inside each button: first to left, second to right */
     .icon-row .icon-btn:first-child { justify-content: center; padding-left: 14px; }
     .icon-row .icon-btn:last-child { justify-content: center; padding-right: 14px; }
-
-
-
-.sheet-bottom-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  justify-content: space-between;
-  margin-bottom: 16px;
-}
-
-.sheet-audio {
-  flex: 1 1 100%;
-  min-width: 220px;
-}
-
-.audio-player {
-  width: 100%;
-}
-
-.audio-progress-wrapper {
-  width: 100%;
-  height: 8px;
-  background: #e5e5ea;
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.audio-progress-bar {
-  width: 0%;
-  height: 100%;
-  background: #007aff;
-  transition: width 0.1s linear;
-}
-
-.audio-times {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 12px;
-  color: #6b7280;
-}
-
-.sheet-nav.audio-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  width: 100%;
-  margin-top: 4px;
-}
-
-.nav-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
-  border: none;
-  background: #f2f2f7;
-  color: #111;
-  font-size: 22px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.play-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: none;
-  background: #007aff;
-  color: #fff;
-  font-size: 26px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-btn:hover,
-.play-btn:hover {
-  background: #e5e5ea;
-}
-
-#sheetAudio {
-  display: none;
-}
-
-.nav-btn:hover {
-  background: #e5e5ea;
-}
-
-.sheet-hero img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: none;
-  pointer-events: none;
-}
-
-.sheet-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: flex-end;
-  margin-bottom: 14px;
-}
-
-.sheet-step {
-  font-size: 12px;
-  font-weight: 700;
-  color: #007aff;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-#infoTitle {
-  font-size: 1.25rem;
-  margin: 0;
-  line-height: 1.2;
-}
-
-/* Pulsante Leggi di più */
-.read-more-btn {
-  display: inline;
-  background: none;
-  border: none;
-  color: #34c759;
-  font-weight: 700;
-  font-size: 14px;
-  padding: 0;
-  cursor: pointer;
-  margin: 0;
-  white-space: nowrap;
-  text-decoration: none;
-}
 
 .leaflet-touch .leaflet-bar a {
     width: 30px;
@@ -992,43 +662,6 @@
         <button class="expand-btn" id="fullscreenBtn" title="Vai alla mappa">
           <i class="bi bi-map"></i>
         </button>
-      </div>
-    </div>
-
-    <div id="bottomSheet" class="bottom-sheet">
-      <div class="sheet-header" id="sheetHeader">
-        <div class="drag-handle"></div>
-        <button class="close-btn" id="closeSheet">&times;</button>
-      </div>
-      <div class="sheet-content">
-        <div class="sheet-meta">
-          <div class="sheet-step" id="infoStep">Tappa 1</div>
-          <h2 id="infoTitle">Titolo della Tappa</h2>
-        </div>
-        <p class="exp-desc">
-          <span class="preview-text" id="infoPreview">Parte della descrizione per invogliare a continuare a leggere...</span>
-          <button class="read-more-btn" id="readMoreBtn">Leggi di più</button>
-          <span class="full-text" id="infoDescription">Descrizione dettagliata del punto d'interesse...</span>
-        </p>
-        <div class="sheet-bottom-row">
-          <div class="sheet-audio">
-            <div class="audio-player">
-              <div class="audio-progress-wrapper">
-                <div class="audio-progress-bar" id="audioProgressBar"></div>
-              </div>
-              <div class="audio-times">
-                <span id="audioCurrentTime">00:00</span>
-                <span id="audioRemainingTime">-00:00</span>
-              </div>
-            </div>
-          </div>
-          <div class="sheet-nav audio-controls">
-            <button type="button" class="nav-btn" id="sheetPrevBtn" aria-label="Ripeti o tappa precedente">‹</button>
-            <button type="button" class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">▶</button>
-            <button type="button" class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">›</button>
-          </div>
-          <audio id="sheetAudio" preload="metadata"></audio>
-        </div>
       </div>
     </div>
 
@@ -1121,12 +754,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
 
   <script>
-    // Inizializzazione mappa
-    const map = L.map('map', {
-      center: [44.9925, 10.4060],
-      zoom: 15,
-      scrollWheelZoom: false
-    });
+    // Mappa
+    const map = L.map('map', { center: [44.9925, 10.4060], zoom: 15, scrollWheelZoom: false });
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
@@ -1174,361 +803,62 @@
       {id:18, title:"The End", lat:44.99436, lng:10.40529, desc:"La visita alla golena del Po permette di comprendere quanto questo ambiente sia ricco, complesso e delicato. Attraverso l'osservazione della vegetazione, delle lanche, dei boschi golenali e delle numerose specie animali che popolano il territorio, emerge il profondo legame tra il fiume e l'ecosistema che vi si sviluppa intorno. La golena non rappresenta soltanto uno spazio naturale di grande valore paesaggistico, ma anche un luogo fondamentale per la conservazione della biodiversità e per l'equilibrio ambientale della Pianura Padana. Tuttavia, questo patrimonio naturale è oggi minacciato dall'inquinamento, dall'espansione delle attività umane e dai cambiamenti climatici. Per questo motivo è necessario promuovere una maggiore tutela del territorio fluviale, affinché le future generazioni possano continuare a conoscere e apprezzare la straordinaria ricchezza ambientale del Po. La golena insegna infatti come uomo e natura siano profondamente legati e come il rispetto degli equilibri naturali sia indispensabile per la salvaguardia dell'ambiente."}
     ];
 
-    let selIdx = 0; // Indice della tappa correntemente selezionata
-
-    // Funzione centralizzata per attivare/disattivare il Fullscreen della mappa
-    function toggleFullscreen(forceState) {
-        const isCurrentlyFullscreen = mapContainer.classList.contains('fullscreen');
-        const targetState = (forceState !== undefined) ? forceState : !isCurrentlyFullscreen;
-        
-        if (targetState) {
-            document.body.classList.add('fullscreen');
-            mapContainer.classList.add('fullscreen');
-        updateFullscreenIcon();
-            setTimeout(() => { map.invalidateSize(); }, 300);
-        } else {
-            const closeFullscreen = () => {
-                document.body.classList.remove('fullscreen');
-                mapContainer.classList.remove('fullscreen');
-          updateFullscreenIcon();
-                map.closePopup();
-                setTimeout(() => { map.invalidateSize(); }, 300);
-            };
-
-            if (typeof currentStatus !== 'undefined' && currentStatus !== 'hidden') {
-                updateSheetState('hidden');
-                setTimeout(closeFullscreen, 360);
-            } else {
-                closeFullscreen();
-            }
-        }
-    }
-
-    // Gestione bottone Fullscreen
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const mapContainer = document.getElementById('mapContainer');
-
-    function updateFullscreenIcon() {
-      const btn = document.getElementById('fullscreenBtn');
-      if (!btn) return;
-      const icon = btn.querySelector('i');
-      if (!icon) return;
-      if (mapContainer && mapContainer.classList.contains('fullscreen')) {
-        icon.classList.remove('bi-arrows-angle-expand');
-        icon.classList.add('bi-arrows-angle-contract');
-        btn.title = 'Esci fullscreen';
-      } else {
-        icon.classList.remove('bi-arrows-angle-contract');
-        icon.classList.add('bi-arrows-angle-expand');
-        btn.title = 'Fullscreen';
-      }
-    }
-
-    function updateWindowHeight() {
-      document.documentElement.style.setProperty('--window-height', `${window.innerHeight}px`);
-    }
-
-    window.addEventListener('resize', updateWindowHeight);
-    window.addEventListener('orientationchange', updateWindowHeight);
-    updateWindowHeight();
-
-    fullscreenBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      window.location.href = 'mappa.html';
-    });
-
-    // Imposta icona corretta all'avvio
-    updateFullscreenIcon();
-
-    const bottomSheet = document.getElementById('bottomSheet');
-    const sheetHeader = document.getElementById('sheetHeader');
-    const closeSheet = document.getElementById('closeSheet');
-    const readMoreBtn = document.getElementById('readMoreBtn');
-    const infoStep = document.getElementById('infoStep');
-    const infoTitle = document.getElementById('infoTitle');
-    const infoPreview = document.getElementById('infoPreview');
-    const infoDescription = document.getElementById('infoDescription');
-    const sheetAudio = document.getElementById('sheetAudio');
-    const audioProgressBar = document.getElementById('audioProgressBar');
-    const audioCurrentTime = document.getElementById('audioCurrentTime');
-    const audioRemainingTime = document.getElementById('audioRemainingTime');
-    const sheetPrevBtn = document.getElementById('sheetPrevBtn');
-    const sheetNextBtn = document.getElementById('sheetNextBtn');
-    const sheetPlayPauseBtn = document.getElementById('sheetPlayPauseBtn');
-
-    let currentStatus = 'closed';
-    let currentTappa = null;
-
-    function getAudioPath(id) {
-      return encodeURI(`AUDIO/tappa ${id}.mp4`);
-    }
-
-    function getExcerpt(text, maxLength = 130) {
-      if (!text) return '';
-      if (text.length <= maxLength) return text;
-      const excerpt = text.slice(0, maxLength);
-      const lastSpace = excerpt.lastIndexOf(' ');
-      return `${excerpt.slice(0, lastSpace)}...`;
-    }
-
-    function updateSheetState(state) {
-      currentStatus = state;
-      const previewText = document.querySelector('.preview-text');
-      const fullText = document.querySelector('.full-text');
-
-      if (state === 'hidden') {
-        bottomSheet.style.transform = 'translateY(100%)';
-        readMoreBtn.classList.add('hidden');
-        previewText.classList.add('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'closed') {
-        bottomSheet.style.transform = 'translateY(calc(100% - 240px))';
-        readMoreBtn.classList.remove('hidden');
-        previewText.classList.remove('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'half') {
-        bottomSheet.style.transform = 'translateY(50%)';
-        readMoreBtn.classList.remove('hidden');
-        previewText.classList.remove('hidden');
-        fullText.classList.remove('visible');
-      } else if (state === 'full') {
-        bottomSheet.style.transform = 'translateY(0%)';
-        readMoreBtn.classList.add('hidden');
-        previewText.classList.add('hidden');
-        fullText.classList.add('visible');
-      }
-    }
-
-    function setSheetContent(t) {
-      currentTappa = t;
-      infoStep.innerText = `Tappa ${t.id}`;
-      infoTitle.innerText = t.title;
-      const previewText = document.querySelector('.preview-text');
-      const fullText = document.querySelector('.full-text');
-      previewText.innerText = getExcerpt(t.desc, 140);
-      fullText.innerText = t.desc;
-      const photoNum = String(t.id).padStart(3, '0');
-      sheetHeader.style.backgroundImage = `url('img/${photoNum}.jpg')`;
-      sheetAudio.src = getAudioPath(t.id);
-      sheetAudio.load();
-      audioCurrentTime.innerText = '00:00';
-      audioRemainingTime.innerText = '-00:00';
-      audioProgressBar.style.width = '0%';
-      sheetPlayPauseBtn.textContent = '▶';
-      sheetAudio.pause();
-      sheetAudio.currentTime = 0;
-    }
-
-    function formatTime(seconds) {
-      const mins = Math.floor(seconds / 60);
-      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
-      return `${mins}:${secs}`;
-    }
-
-    function updateAudioProgress() {
-      const duration = sheetAudio.duration || 0;
-      const current = sheetAudio.currentTime || 0;
-      const percent = duration ? (current / duration) * 100 : 0;
-      audioProgressBar.style.width = `${percent}%`;
-      audioCurrentTime.innerText = formatTime(current);
-      audioRemainingTime.innerText = `-${formatTime(Math.max(0, duration - current))}`;
-    }
-
-    function updateTappaHash(id) {
-      const newHash = `#tappa${id}`;
-      if (window.location.hash !== newHash) {
-        history.replaceState(null, '', `${window.location.pathname}${window.location.search}${newHash}`);
-      }
-    }
-
-    function clearTappaHash() {
-      history.replaceState(null, '', `${window.location.pathname}${window.location.search}`);
-    }
-
-    function selectTappa(index, openFull = false) {
-      if (index < 0 || index >= tappe.length) return;
-      selIdx = index;
-      const t = tappe[selIdx];
-      setSheetContent(t);
-      map.setView([t.lat, t.lng], 16);
-      updateSheetState(openFull ? 'full' : 'half');
-      updateTappaHash(t.id);
-    }
-
-    readMoreBtn.addEventListener('click', () => {
-      if (currentStatus === 'half' || currentStatus === 'closed') {
-        updateSheetState('full');
-      } else if (currentStatus === 'full') {
-        updateSheetState('half');
-      }
-    });
-
-    sheetPrevBtn.addEventListener('click', () => {
-      const previous = (selIdx - 1 + tappe.length) % tappe.length;
-      selectTappa(previous);
-      updateSheetState('half');
-    });
-
-    sheetNextBtn.addEventListener('click', () => {
-      const next = (selIdx + 1) % tappe.length;
-      selectTappa(next);
-      updateSheetState('half');
-    });
-
-    sheetPlayPauseBtn.addEventListener('click', () => {
-      if (sheetAudio.paused) {
-        sheetAudio.play().catch(() => {});
-      } else {
-        sheetAudio.pause();
-      }
-    });
-
-    sheetAudio.addEventListener('loadedmetadata', () => {
-      updateAudioProgress();
-    });
-
-    sheetAudio.addEventListener('timeupdate', updateAudioProgress);
-    sheetAudio.addEventListener('play', () => {
-      sheetPlayPauseBtn.textContent = '❚❚';
-    });
-    sheetAudio.addEventListener('pause', () => {
-      sheetPlayPauseBtn.textContent = '▶';
-    });
-    sheetAudio.addEventListener('ended', () => {
-      sheetPlayPauseBtn.textContent = '▶';
-    });
-
-    closeSheet.addEventListener('click', () => {
-      updateSheetState('hidden');
-      clearTappaHash();
-    });
-
-    tappe.forEach((tappa, idx) => {
+    // Marker tappe → redirect a mappa.html
+    tappe.forEach((tappa) => {
       const customIcon = L.divIcon({
         className: 'custom-marker-icon',
         html: `<div>${tappa.id}</div>`,
         iconSize: [24, 24],
         iconAnchor: [12, 12]
       });
-
-      const marker = L.marker([tappa.lat, tappa.lng], { icon: customIcon }).addTo(map);
-
-      marker.on('click', function(e) {
-        const isFullscreen = mapContainer.classList.contains('fullscreen');
-        selectTappa(idx);
-        updateSheetState('half');
-
-        if (!isFullscreen) {
+      L.marker([tappa.lat, tappa.lng], { icon: customIcon })
+        .addTo(map)
+        .on('click', function(e) {
           L.DomEvent.stopPropagation(e);
-          toggleFullscreen(true);
-          setTimeout(() => {
-            map.setView([tappa.lat, tappa.lng], 16);
-          }, 350);
-        } else {
-          map.setView([tappa.lat, tappa.lng], 16);
-        }
-      });
+          window.location.href = `mappa.html?tappa=${tappa.id}`;
+        });
     });
 
-    const track = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const counter = document.getElementById('carouselCounter');
-    const dots = document.querySelectorAll('.dots-container .dot');
+    // Bottone mappa
+    document.getElementById('fullscreenBtn').addEventListener('click', function(e) {
+      e.stopPropagation();
+      window.location.href = 'mappa.html';
+    });
 
-    let currentIndex = 0;
-    const totalSlides = 10;
+    // Carosello
+    const track = document.getElementById('carouselTrack');
+    const dots  = document.querySelectorAll('.dots-container .dot');
+    const totalSlides  = 10;
     const slidesPerDot = totalSlides / dots.length;
+    let currentIndex = 0;
 
     function updateCarousel() {
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
-      if (counter) {
-        counter.innerText = `Foto ${currentIndex + 1} di ${totalSlides}`;
-      }
       const activeDotIndex = Math.floor(currentIndex / slidesPerDot);
-      dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === activeDotIndex);
-      });
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === activeDotIndex));
     }
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        currentIndex = Math.min(totalSlides - 1, Math.round(index * slidesPerDot));
-        updateCarousel();
-      });
-    });
-
-    nextBtn.addEventListener('click', () => {
+    document.getElementById('nextBtn').addEventListener('click', () => {
       currentIndex = (currentIndex + 1) % totalSlides;
       updateCarousel();
     });
-
-    prevBtn.addEventListener('click', () => {
+    document.getElementById('prevBtn').addEventListener('click', () => {
       currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
       updateCarousel();
     });
-
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        currentIndex = Math.min(totalSlides - 1, Math.round(i * slidesPerDot));
+        updateCarousel();
+      });
+    });
     updateCarousel();
 
-    function openTappaFromHash() {
-      const hash = window.location.hash;
-      const match = hash.match(/^#tappa(\d{1,2})$/);
-      if (match) {
-        const id = Number(match[1]);
-        const index = tappe.findIndex((t) => t.id === id);
-        if (index !== -1) {
-          selectTappa(index, true);
-        }
-      }
-    }
-
-    openTappaFromHash();
-    openTappaFromHash();
-
-    // Buttons handlers
+    // Bottoni navigazione
     const feedbackBtnEl = document.getElementById('feedbackBtn');
-    const scannerBtnEl = document.getElementById('scannerBtn');
-
+    const scannerBtnEl  = document.getElementById('scannerBtn');
     if (feedbackBtnEl) feedbackBtnEl.addEventListener('click', () => { window.location.href = 'segnala.html'; });
-    if (scannerBtnEl) scannerBtnEl.addEventListener('click', () => { window.location.href = 'scanner.html'; });
-
-    let startY = 0;
-    let isDragging = false;
-
-    function onDragStart(e) {
-      startY = e.touches ? e.touches[0].clientY : e.clientY;
-      isDragging = true;
-    }
-
-    function onDragEnd(e) {
-      if (!isDragging) return;
-      isDragging = false;
-
-      const endY = e.changedTouches ? e.changedTouches[0].clientY : e.clientY;
-      const diffY = startY - endY;
-      const threshold = 50;
-
-      if (Math.abs(diffY) > threshold) {
-        if (diffY > 0) {
-          if (currentStatus === 'half') {
-            updateSheetState('full');
-          }
-        } else {
-          if (currentStatus === 'full') {
-            updateSheetState('half');
-          } else if (currentStatus === 'half') {
-            updateSheetState('closed');
-          }
-        }
-      }
-    }
-
-    if (sheetHeader) {
-      sheetHeader.addEventListener('touchstart', onDragStart, { passive: true });
-      sheetHeader.addEventListener('touchend', onDragEnd, { passive: true });
-      sheetHeader.addEventListener('mousedown', onDragStart);
-      sheetHeader.addEventListener('mouseup', onDragEnd);
-    }
+    if (scannerBtnEl)  scannerBtnEl.addEventListener('click',  () => { window.location.href = 'scanner.html'; });
   </script>
 </body>
 </html>

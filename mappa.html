@@ -172,8 +172,7 @@
       overflow: hidden;
     }
 
-    /* Sheet states */
-    .bottom-sheet.state-half    { transform: translateY(50%); }
+    /* Sheet states — translateY calcolato dinamicamente via JS */
     .bottom-sheet.state-full    { transform: translateY(0%); }
     .bottom-sheet.state-hidden  { transform: translateY(100%); }
 
@@ -547,11 +546,11 @@
       }
     }
 
-    window.addEventListener('resize', updateViewportInfo);
-    window.addEventListener('orientationchange', updateViewportInfo);
+    window.addEventListener('resize', onViewportChange);
+    window.addEventListener('orientationchange', onViewportChange);
     if (window.visualViewport) {
-      window.visualViewport.addEventListener('resize', updateViewportInfo);
-      window.visualViewport.addEventListener('scroll', updateViewportInfo);
+      window.visualViewport.addEventListener('resize', onViewportChange);
+      window.visualViewport.addEventListener('scroll', onViewportChange);
     }
     updateViewportInfo();
 
@@ -627,10 +626,27 @@
     let isDragging = false;
     let dragStartY = 0;
 
+    function getHalfOffset() {
+      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      // Rapporto: 844px → 49% — scala linearmente con la viewport
+      return (49 / 844) * vh;
+    }
+
+    function applySheetTranslate(state) {
+      if (state === 'hidden') {
+        sheet.style.transform = 'translateY(100%)';
+      } else if (state === 'full') {
+        sheet.style.transform = 'translateY(0%)';
+      } else if (state === 'half') {
+        sheet.style.transform = `translateY(${getHalfOffset()}%)`;
+      }
+    }
+
     function setSheetState(state) {
       currentState = state;
-      sheet.classList.remove('state-hidden', 'state-closed', 'state-half', 'state-full');
+      sheet.classList.remove('state-hidden', 'state-half', 'state-full');
       sheet.classList.add(`state-${state}`);
+      applySheetTranslate(state);
 
       const previewText = document.getElementById('infoPreview');
       const fullText    = document.getElementById('infoDescription');
@@ -645,6 +661,12 @@
         fullText.classList.remove('visible');
         readMoreBtn.classList.remove('hidden');
       }
+    }
+
+    // Ricalcola la posizione se la finestra viene ridimensionata
+    function onViewportChange() {
+      updateViewportInfo();
+      if (currentState === 'half') applySheetTranslate('half');
     }
 
     // ── CONTENT ──────────────────────────────────────────────────────────────
@@ -703,8 +725,16 @@
 
     // tappa-strip rimosso: non costruisco più le chip
 
-    // ── HASH-BASED DEEP LINK ─────────────────────────────────────────────────
-    function openFromHash() {
+    // ── DEEP LINK: ?tappa= oppure #tappa ─────────────────────────────────────
+    function openFromUrl() {
+      // Priorità al query param ?tappa=14
+      const param = new URLSearchParams(location.search).get('tappa');
+      if (param) {
+        const id  = Number(param);
+        const idx = tappe.findIndex(t => t.id === id);
+        if (idx !== -1) { selectTappa(idx); return; }
+      }
+      // Fallback all'hash #tappa14
       const match = location.hash.match(/^#tappa(\d{1,2})$/);
       if (match) {
         const id  = Number(match[1]);
@@ -712,7 +742,7 @@
         if (idx !== -1) selectTappa(idx);
       }
     }
-    openFromHash();
+    openFromUrl();
 
     // ── BUTTONS ──────────────────────────────────────────────────────────────
     document.getElementById('backBtn').addEventListener('click', () => {
