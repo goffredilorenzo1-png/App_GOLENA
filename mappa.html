@@ -287,6 +287,7 @@
       color: #444;
       line-height: 1.65;
       margin-bottom: 18px;
+      text-align: justify;
     }
 
     .preview-text {
@@ -621,6 +622,24 @@
     let isDragging = false;
     let dragStartY = 0;
 
+    function centerMapForTappa(latlng) {
+      const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+      const halfOffset = getHalfOffset();
+      const sheetHeightPx = (halfOffset / 100) * vh;
+      
+      const mapSize = map.getSize();
+      const visibleHeight = mapSize.y - sheetHeightPx;
+      const centerY = visibleHeight / 2;
+      
+      const targetPoint = map.latLngToContainerPoint(latlng);
+      const shift = targetPoint.y - centerY;
+      const newCenterY = mapSize.y / 2 + shift;
+      const newCenterPoint = L.point(mapSize.x / 2, newCenterY);
+      const newCenter = map.containerPointToLatLng(newCenterPoint);
+      
+      map.setView(newCenter, map.getZoom(), { animate: true });
+    }
+
     function getHalfOffset() {
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
 
@@ -661,6 +680,43 @@
       return Math.min(80, Math.max(10, pct));
     }
 
+    function updateZoomControlPosition(state) {
+      const zoomControl = document.querySelector('.leaflet-control-zoom');
+      if (!zoomControl) return;
+
+      let bottomPx = 10; // default position
+
+      if (state === 'half' || state === 'full') {
+        const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        const header = document.getElementById('sheetHeader');
+        const content = document.querySelector('.sheet-content');
+
+        let contentNeeded = 0;
+        if (header && content) {
+          const headerH = header.getBoundingClientRect().height;
+          let childrenH = 0;
+          for (const child of content.children) {
+            const r = child.getBoundingClientRect();
+            const s = getComputedStyle(child);
+            childrenH += r.height
+              + parseFloat(s.marginTop || 0)
+              + parseFloat(s.marginBottom || 0);
+          }
+          const cs = getComputedStyle(content);
+          const paddingV = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
+          contentNeeded = headerH + childrenH + paddingV;
+        } else {
+          contentNeeded = vh * 0.51;
+        }
+
+        const visibleNeeded = contentNeeded - 50;
+        bottomPx = visibleNeeded + 10; // visibleNeeded + 10px margin
+      }
+
+      zoomControl.style.bottom = bottomPx + 'px';
+      zoomControl.style.right = '10px';
+    }
+
     function applySheetTranslate(state) {
       const isDesktop = window.innerWidth >= 769;
       const x = isDesktop ? 'translateX(-50%) ' : '';
@@ -671,6 +727,7 @@
       } else if (state === 'half') {
         sheet.style.transform = `${x}translateY(${getHalfOffset()}%)`;
       }
+      updateZoomControlPosition(state);
     }
 
     function setSheetState(state) {
@@ -703,7 +760,11 @@
     // Ricalcola la posizione se la finestra viene ridimensionata
     function onViewportChange() {
       updateViewportInfo();
-      if (currentState === 'half') applySheetTranslate('half');
+      if (currentState === 'half') {
+        applySheetTranslate('half');
+      } else if (currentState !== 'closed') {
+        updateZoomControlPosition(currentState);
+      }
     }
 
     // ── CONTENT ──────────────────────────────────────────────────────────────
@@ -751,10 +812,8 @@
       setSheetState('half');
       updateMarkerStyles(idx);
 
-      // Highlight strip chip
-      // tappa-strip rimosso: non ci sono chip da aggiornare
-
-      map.setView([t.lat, t.lng], 16, { animate: true });
+      // Centra la tappa nello spazio visibile della mappa
+      centerMapForTappa([t.lat, t.lng]);
 
       // Update hash
       history.replaceState(null, '', `${location.pathname}${location.search}#tappa${t.id}`);
