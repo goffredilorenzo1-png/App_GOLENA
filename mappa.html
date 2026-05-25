@@ -626,10 +626,42 @@
 
     function getHalfOffset() {
       const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-      // Peek visibile calibrato su 695px @ 49%: 695 * 0.51 = 354px fissi
-      // translateY% = (vh - peekPx) / vh * 100
-      const peekPx = 354;
-      return Math.min(85, Math.max(20, ((vh - peekPx) / vh) * 100));
+
+      // Misura il contenuto reale dello sheet in stato half
+      const header  = document.getElementById('sheetHeader');
+      const content = document.querySelector('.sheet-content');
+
+      let contentNeeded = 0;
+      if (header && content) {
+        const headerH = header.getBoundingClientRect().height;
+
+        // Somma altezze di tutti i figli di sheet-content + loro margini
+        let childrenH = 0;
+        for (const child of content.children) {
+          const r = child.getBoundingClientRect();
+          const s = getComputedStyle(child);
+          childrenH += r.height
+            + parseFloat(s.marginTop   || 0)
+            + parseFloat(s.marginBottom || 0);
+        }
+        // Padding verticale del container
+        const cs = getComputedStyle(content);
+        const paddingV = parseFloat(cs.paddingTop || 0) + parseFloat(cs.paddingBottom || 0);
+
+        contentNeeded = headerH + childrenH + paddingV;
+      } else {
+        // Fallback calibrato: 844px → 49%
+        contentNeeded = vh * 0.51;
+      }
+
+      // 12px di margine di sicurezza dal bordo inferiore
+      const visibleNeeded = contentNeeded + 12;
+
+      // translateY = quanto deve scendere lo sheet
+      const pct = ((vh - visibleNeeded) / vh) * 100;
+
+      // Clamp: min 10% (quasi pieno), max 80% (quasi nascosto)
+      return Math.min(80, Math.max(10, pct));
     }
 
     function applySheetTranslate(state) {
@@ -648,7 +680,6 @@
       currentState = state;
       sheet.classList.remove('state-hidden', 'state-half', 'state-full');
       sheet.classList.add(`state-${state}`);
-      applySheetTranslate(state);
 
       const previewText = document.getElementById('infoPreview');
       const fullText    = document.getElementById('infoDescription');
@@ -658,10 +689,17 @@
         previewText.classList.add('hidden');
         fullText.classList.add('visible');
         readMoreBtn.classList.add('hidden');
+        applySheetTranslate(state);
       } else {
         previewText.classList.remove('hidden');
         fullText.classList.remove('visible');
         readMoreBtn.classList.remove('hidden');
+        // Aspetta che il DOM sia renderizzato prima di misurare
+        if (state === 'half') {
+          requestAnimationFrame(() => applySheetTranslate('half'));
+        } else {
+          applySheetTranslate(state);
+        }
       }
     }
 
