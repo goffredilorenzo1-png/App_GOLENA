@@ -354,7 +354,7 @@
     .nav-btn {
       width: 46px;
       height: 46px;
-      border-radius: 14px;
+      border-radius: 50%;
       border: none;
       background: var(--bg);
       color: var(--text);
@@ -456,7 +456,7 @@
   <div class="bottom-sheet state-closed" id="bottomSheet">
     <div class="sheet-header" id="sheetHeader">
       <div class="drag-handle"></div>
-      <button class="close-btn" id="closeSheet" aria-label="Chiudi">&#x2715;</button>
+      <button class="close-btn" id="closeSheet" aria-label="Chiudi"><i class="bi bi-x"></i></button>
       <!-- Hero image changes via JS background-image on #sheetHeader -->
     </div>
 
@@ -482,9 +482,9 @@
           <span id="audioRemainingTime">-0:00</span>
         </div>
         <div class="audio-controls">
-          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente">&#x2039;</button>
-          <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa">&#x25B6;</button>
-          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva">&#x203A;</button>
+          <button class="nav-btn" id="sheetPrevBtn" aria-label="Tappa precedente"><i class="bi bi-chevron-left"></i></button>
+          <button class="play-btn" id="sheetPlayPauseBtn" aria-label="Play/Pausa"><i class="bi bi-play-fill"></i></button>
+          <button class="nav-btn" id="sheetNextBtn" aria-label="Tappa successiva"><i class="bi bi-chevron-right"></i></button>
         </div>
         <audio id="sheetAudio" preload="metadata"></audio>
       </div>
@@ -795,7 +795,7 @@
       document.getElementById('audioProgressBar').style.width = '0%';
       document.getElementById('audioCurrentTime').innerText = '0:00';
       document.getElementById('audioRemainingTime').innerText = '-0:00';
-      document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;';
+      document.getElementById('sheetPlayPauseBtn').innerHTML = '<i class="bi bi-play-fill"></i>';
       audio.pause();
       audio.currentTime = 0;
 
@@ -877,9 +877,9 @@
       document.getElementById('audioCurrentTime').innerText = formatTime(c);
       document.getElementById('audioRemainingTime').innerText = `-${formatTime(Math.max(0, d - c))}`;
     });
-    audio.addEventListener('play',  () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x23F8;'; });
-    audio.addEventListener('pause', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;'; });
-    audio.addEventListener('ended', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '&#x25B6;'; });
+    audio.addEventListener('play',  () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '<i class="bi bi-pause-fill"></i>'; });
+    audio.addEventListener('pause', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '<i class="bi bi-play-fill"></i>'; });
+    audio.addEventListener('ended', () => { document.getElementById('sheetPlayPauseBtn').innerHTML = '<i class="bi bi-play-fill"></i>'; });
 
     document.getElementById('sheetPlayPauseBtn').addEventListener('click', () => {
       audio.paused ? audio.play().catch(() => {}) : audio.pause();
