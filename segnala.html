@@ -358,66 +358,48 @@
     </div>
 
     <script>
-        function showTab(name) {
-            const segSection = document.getElementById('segnala');
-            const valSection = document.getElementById('valuta');
-            const control = document.querySelector('.segmented-control');
-            const isSegnala = name === 'segnala';
+        // ⚙️ URL del tuo Google Apps Script Web App
+        const GAS_URL = 'https://script.google.com/macros/s/AKfycbzZ3SsdVskC52nm0n7MJgAME2qzMVTGaatRFsHEz6K5UFeDsiakuGY-1scToWHN2Sgo/exec';
 
-            segSection.classList.toggle('active', isSegnala);
-            valSection.classList.toggle('active', !isSegnala);
+        // ─── Tab ────────────────────────────────────────────────────────────
+        function showTab(name) {
+            const isSegnala = name === 'segnala';
+            document.getElementById('segnala').classList.toggle('active', isSegnala);
+            document.getElementById('valuta').classList.toggle('active', !isSegnala);
             document.getElementById('tabSegnala').classList.toggle('active', isSegnala);
             document.getElementById('tabValuta').classList.toggle('active', !isSegnala);
+            const control = document.querySelector('.segmented-control');
             control.classList.toggle('active-valuta', !isSegnala);
             control.classList.toggle('active-segnala', isSegnala);
         }
 
-        // Gestione file e anteprime multiple
+        // ─── Foto ────────────────────────────────────────────────────────────
         const photoInput = document.getElementById('photo');
         const previewContainer = document.getElementById('previewContainer');
-        let selectedFiles = []; // Array globale per tracciare i file scelti
+        let selectedFiles = [];
 
         photoInput && photoInput.addEventListener('change', (e) => {
-            const files = Array.from(e.target.files);
-            
-            // Aggiunge i nuovi file selezionati a quelli già esistenti
-            files.forEach(file => {
-                selectedFiles.push(file);
-            });
-
+            Array.from(e.target.files).forEach(f => selectedFiles.push(f));
             renderPreviews();
-            // Resetta l'input per permettere di ricaricare lo stesso file se cancellato
-            photoInput.value = ''; 
+            photoInput.value = '';
         });
 
         function renderPreviews() {
             previewContainer.innerHTML = '';
-            
-            if (selectedFiles.length === 0) {
-                previewContainer.style.display = 'none';
-                return;
-            }
-            
+            if (selectedFiles.length === 0) { previewContainer.style.display = 'none'; return; }
             previewContainer.style.display = 'grid';
-
             selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = () => {
                     const wrapper = document.createElement('div');
                     wrapper.className = 'preview-wrapper';
-
                     const img = document.createElement('img');
                     img.className = 'photo-preview';
                     img.src = reader.result;
-
                     const removeBtn = document.createElement('div');
                     removeBtn.className = 'remove-btn';
-                    removeBtn.innerHTML = '<i class="bi bi-x- Moran"></i>';
-                    removeBtn.addEventListener('click', () => {
-                        selectedFiles.splice(index, 1); // Rimuove il file dall'array
-                        renderPreviews(); // Ridisegna le anteprime
-                    });
-
+                    removeBtn.innerHTML = '<i class="bi bi-x"></i>';
+                    removeBtn.addEventListener('click', () => { selectedFiles.splice(index, 1); renderPreviews(); });
                     wrapper.appendChild(img);
                     wrapper.appendChild(removeBtn);
                     previewContainer.appendChild(wrapper);
@@ -426,43 +408,135 @@
             });
         }
 
-        function submitSegnalazione(e) {
-            e.preventDefault();
-            const tipo = document.getElementById('tipo').value;
-            const desc = document.getElementById('descSeg').value;
-            
-            // Crea la lista dei nomi dei file inseriti
-            let elencoImmagini = selectedFiles.length > 0 
-                ? selectedFiles.map((f, idx) => `${idx + 1}) ${f.name}`).join('\n')
-                : 'Nessuna immagine allegata';
-
-            let body = `Segnalazione tipo: ${tipo}\n\nDescrizione:\n${desc}\n\nImmagini caricate nell'app:\n${elencoImmagini}\n\n[Nota]: Se le immagini non vengono incluse automaticamente dal client mail, ricordati di allegarle manualmente prima di premere invio.`;
-
-            openMail('Segnalazione percorso - Golena', body);
+        // ─── Converti File in Base64 puro (senza prefisso data:...) ──────────
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    // Rimuove il prefisso "data:image/...;base64,"
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
 
-        // Stelle valutazione
+        // ─── UI feedback ─────────────────────────────────────────────────────
+        function setBtnLoading(btn, loading) {
+            btn.disabled = loading;
+            btn.dataset.original = btn.dataset.original || btn.textContent;
+            btn.textContent = loading ? 'Invio in corso…' : btn.dataset.original;
+        }
+
+        function showToast(msg, ok = true) {
+            let toast = document.getElementById('toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast';
+                toast.style.cssText = `
+                    position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+                    padding: 12px 24px; border-radius: 20px; font-size: 15px; font-weight: 500;
+                    color: #fff; z-index: 9999; box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+                    transition: opacity 0.3s ease;
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.style.background = ok ? '#81c028' : '#ff3b30';
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            setTimeout(() => { toast.style.opacity = '0'; }, 3500);
+        }
+
+        // ─── Invia a Google Sheets via POST (body JSON, mode no-cors) ──────────
+        // Usiamo POST con body JSON invece di GET + query string:
+        // base64 contiene +, /, = che rompevano l'URL con ERR_INVALID_URL.
+        // Content-Type: text/plain evita il preflight OPTIONS bloccato dal CORS.
+        async function sendToSheets(params) {
+            await fetch(GAS_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(params)
+            });
+        }
+
+        // ─── Submit Segnalazione ─────────────────────────────────────────────
+        async function submitSegnalazione(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            setBtnLoading(btn, true);
+
+            try {
+                const tipo = document.getElementById('tipo').value;
+                const desc = document.getElementById('descSeg').value;
+
+                // Converte tutte le immagini in base64 e le unisce con "|"
+                let immaginiBase64 = '';
+                if (selectedFiles.length > 0) {
+                    const b64arr = await Promise.all(selectedFiles.map(fileToBase64));
+                    immaginiBase64 = b64arr.join('|');
+                }
+
+                await sendToSheets({
+                    azione: 'segnalazione',
+                    tipo: tipo,
+                    descrizione: desc,
+                    immaginiBase64: immaginiBase64
+                });
+
+                showToast('✓ Segnalazione inviata!');
+                e.target.reset();
+                selectedFiles = [];
+                renderPreviews();
+
+            } catch (err) {
+                console.error(err);
+                showToast('Errore durante l\'invio. Riprova.', false);
+            } finally {
+                setBtnLoading(btn, false);
+            }
+        }
+
+        // ─── Stelle valutazione ───────────────────────────────────────────────
         let rating = 0;
         document.querySelectorAll('#stars .star').forEach(st => {
             st.addEventListener('click', () => {
                 rating = parseInt(st.getAttribute('data-value'));
-                document.querySelectorAll('#stars .star').forEach(s => s.classList.toggle('selected', parseInt(s.getAttribute('data-value')) <= rating));
+                document.querySelectorAll('#stars .star').forEach(s =>
+                    s.classList.toggle('selected', parseInt(s.getAttribute('data-value')) <= rating)
+                );
             });
         });
 
-        function submitValutazione(e) {
+        // ─── Submit Valutazione ───────────────────────────────────────────────
+        async function submitValutazione(e) {
             e.preventDefault();
-            const comment = document.getElementById('descVal').value;
-            if (rating === 0) {
-                if (!confirm('Non hai selezionato alcuna stella. Vuoi inviare comunque la valutazione?')) return;
-            }
-            const body = `Valutazione: ${rating} stelle\n\nCommento:\n${comment}`;
-            openMail('Valutazione percorso - Golena', body);
-        }
+            if (rating === 0 && !confirm('Non hai selezionato alcuna stella. Vuoi inviare comunque?')) return;
 
-        function openMail(subject, body) {
-            const mailto = `mailto:info@example.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailto;
+            const btn = e.target.querySelector('button[type="submit"]');
+            setBtnLoading(btn, true);
+
+            try {
+                const comment = document.getElementById('descVal').value;
+
+                await sendToSheets({
+                    azione: 'valutazione',
+                    stelle: rating,
+                    commento: comment
+                });
+
+                showToast('✓ Valutazione inviata!');
+                e.target.reset();
+                rating = 0;
+                document.querySelectorAll('#stars .star').forEach(s => s.classList.remove('selected'));
+
+            } catch (err) {
+                console.error(err);
+                showToast('Errore durante l\'invio. Riprova.', false);
+            } finally {
+                setBtnLoading(btn, false);
+            }
         }
     </script>
 </body>
